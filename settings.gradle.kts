@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "DocScanner"
+rootProject.name = "Scanly"
 include(":app")

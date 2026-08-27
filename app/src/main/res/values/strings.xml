@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- App name -->
-    <string name="app_name">DocScanner</string>
+    <string name="app_name">Scanly</string>
 
     <!-- Navigation -->
     <string name="nav_home">Home</string>
@@ -11,7 +11,7 @@
     <string name="nav_scan">Scan</string>
 
     <!-- Home screen -->
-    <string name="home_title">DocScanner</string>
+    <string name="home_title">Scanly</string>
     <string name="home_search_hint">Search documents…</string>
     <string name="home_empty_title">No Documents Yet</string>
     <string name="home_empty_subtitle">Tap the scan button to capture your first document</string>
@@ -87,7 +87,7 @@
     <string name="search_no_results">No documents found for \"%1$s\"</string>
 
     <!-- Auth -->
-    <string name="auth_welcome">Welcome to DocScanner</string>
+    <string name="auth_welcome">Welcome to Scanly</string>
     <string name="auth_welcome_subtitle">Scan, enhance, and store your documents securely</string>
     <string name="auth_sign_in">Sign In</string>
     <string name="auth_sign_up">Create Account</string>
@@ -153,7 +153,7 @@
     <string name="trash_delete_confirm">Permanently delete \"%1$s\"? This cannot be undone.</string>
 
     <!-- Onboarding -->
-    <string name="onboarding_welcome_title">Welcome to DocScanner</string>
+    <string name="onboarding_welcome_title">Welcome to Scanly</string>
     <string name="onboarding_welcome_subtitle">Your free, powerful document scanner</string>
     <string name="onboarding_scan_title">Scan Documents</string>
     <string name="onboarding_scan_subtitle">Use your camera to scan documents with automatic edge detection and perspective correction</string>
@@ -166,10 +166,10 @@
     <string name="onboarding_skip">Skip</string>
 
     <!-- App Lock -->
-    <string name="app_lock_title">DocScanner is Locked</string>
+    <string name="app_lock_title">Scanly is Locked</string>
     <string name="app_lock_subtitle">Authenticate to access your documents</string>
     <string name="app_lock_unlock">Unlock</string>
-    <string name="app_lock_biometric_title">Unlock DocScanner</string>
+    <string name="app_lock_biometric_title">Unlock Scanly</string>
     <string name="app_lock_biometric_subtitle">Use fingerprint or face recognition</string>
 
     <!-- Common -->

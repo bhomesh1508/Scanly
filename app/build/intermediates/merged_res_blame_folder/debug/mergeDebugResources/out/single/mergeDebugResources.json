@@ -1,0 +1,6 @@
+[
+    {
+        "merged": "com.docscanner.app-debug-3:/xml_file_paths.xml.flat",
+        "source": "com.docscanner.app-main-5:/xml/file_paths.xml"
+    }
+]

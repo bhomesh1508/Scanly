@@ -1,0 +1,1 @@
+-keep,allowobfuscation,allowshrinking class com.docscanner.app.presentation.settings.SettingsViewModel

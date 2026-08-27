@@ -57,7 +57,7 @@ You can install the app directly by downloading the compiled APK, or build it yo
 
 1.  Clone the repository:
     ```bash
-    git clone https://github.com/bhomesh1508/docscanner_android.git
+    git clone https://github.com/bhomesh1508/Scanly.git
     ```
 2.  Open the project in **Android Studio (Koala or newer)**.
 3.  Let Gradle sync all dependencies.

@@ -72,7 +72,14 @@ fun ViewerScreen(
                 modifier = Modifier.weight(1f).fillMaxWidth()
             ) { pageIndex ->
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    Text("Page ${pageIndex + 1}") // Placeholder for zoomable image
+                    pages.getOrNull(pageIndex)?.let { page ->
+                        io.coil3.compose.AsyncImage(
+                            model = page.imagePath,
+                            contentDescription = "Document Page",
+                            modifier = Modifier.fillMaxSize().padding(16.dp),
+                            contentScale = androidx.compose.ui.layout.ContentScale.Fit
+                        )
+                    }
                 }
             }
             Text(

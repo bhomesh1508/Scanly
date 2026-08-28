@@ -7,7 +7,9 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.unit.dp
 import com.docscanner.app.presentation.editor.components.AdjustmentsPanel
 import com.docscanner.app.presentation.editor.components.FilterSelector
@@ -50,8 +52,22 @@ fun EditorScreen(
         }
     ) { padding ->
         Column(modifier = Modifier.padding(padding).fillMaxSize()) {
-            Box(modifier = Modifier.weight(1f).fillMaxWidth()) {
-                // Image preview would go here
+            Box(modifier = Modifier.weight(1f).fillMaxWidth(), contentAlignment = Alignment.Center) {
+                previewBitmap?.let { bitmap ->
+                    androidx.compose.foundation.Image(
+                        bitmap = bitmap.asImageBitmap(),
+                        contentDescription = "Document Preview",
+                        modifier = Modifier.fillMaxSize().padding(16.dp),
+                        contentScale = androidx.compose.ui.layout.ContentScale.Fit
+                    )
+                } ?: pages.getOrNull(selectedPageIndex)?.let { page ->
+                    io.coil3.compose.AsyncImage(
+                        model = page.imagePath,
+                        contentDescription = "Document Page",
+                        modifier = Modifier.fillMaxSize().padding(16.dp),
+                        contentScale = androidx.compose.ui.layout.ContentScale.Fit
+                    )
+                }
             }
 
             FilterSelector(

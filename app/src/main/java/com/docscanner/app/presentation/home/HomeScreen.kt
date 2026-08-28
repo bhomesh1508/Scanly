@@ -16,6 +16,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.docscanner.app.domain.model.Document
 
@@ -36,23 +38,27 @@ fun HomeScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
+            MediumTopAppBar(
                 title = {
                     if (isSearchExpanded) {
                         OutlinedTextField(
                             value = searchQuery,
                             onValueChange = viewModel::setSearchQuery,
-                            placeholder = { Text("Search...") },
+                            placeholder = { Text("Search documents...") },
                             modifier = Modifier.fillMaxWidth().padding(end = 8.dp),
-                            singleLine = true
+                            singleLine = true,
+                            shape = RoundedCornerShape(24.dp)
                         )
                     } else {
-                        Text(stringResource(id = com.docscanner.app.R.string.app_name))
+                        Text(
+                            text = stringResource(id = com.docscanner.app.R.string.app_name),
+                            style = MaterialTheme.typography.headlineMedium
+                        )
                     }
                 },
                 actions = {
                     IconButton(onClick = { isSearchExpanded = !isSearchExpanded }) {
-                        Icon(Icons.Default.Search, contentDescription = "Search")
+                        Icon(if (isSearchExpanded) Icons.Default.Close else Icons.Default.Search, contentDescription = "Search")
                     }
                     IconButton(onClick = { showSortMenu = true }) {
                         Icon(Icons.Default.Sort, contentDescription = "Sort")
@@ -74,28 +80,33 @@ fun HomeScreen(
                             contentDescription = "Toggle View"
                         )
                     }
-                }
+                },
+                colors = TopAppBarDefaults.mediumTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    titleContentColor = MaterialTheme.colorScheme.onSurface
+                )
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = onNavigateToScanner) {
-                Icon(Icons.Default.Add, contentDescription = "Scan Document")
-            }
+            ExtendedFloatingActionButton(
+                onClick = onNavigateToScanner,
+                icon = { Icon(Icons.Default.AddPhotoAlternate, contentDescription = "Scan Document") },
+                text = { Text("Scan") },
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+            )
         }
     ) { padding ->
         Box(modifier = Modifier.padding(padding).fillMaxSize()) {
             if (documents.isEmpty()) {
-                Text(
-                    text = "No documents found",
-                    modifier = Modifier.align(Alignment.Center)
-                )
+                EmptyState(Modifier.align(Alignment.Center))
             } else {
                 if (viewType == ViewType.GRID) {
                     LazyVerticalGrid(
-                        columns = GridCells.Fixed(2),
-                        contentPadding = PaddingValues(8.dp),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                        columns = GridCells.Adaptive(minSize = 160.dp),
+                        contentPadding = PaddingValues(16.dp),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
                         items(documents) { doc ->
                             DocumentCard(doc, onClick = { onNavigateToViewer(doc.id) })
@@ -103,8 +114,8 @@ fun HomeScreen(
                     }
                 } else {
                     LazyColumn(
-                        contentPadding = PaddingValues(8.dp),
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                        contentPadding = PaddingValues(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
                         items(documents) { doc ->
                             DocumentListCard(doc, onClick = { onNavigateToViewer(doc.id) })
@@ -117,8 +128,41 @@ fun HomeScreen(
 }
 
 @Composable
+fun EmptyState(modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier.padding(32.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Icon(
+            imageVector = Icons.Default.DocumentScanner,
+            contentDescription = null,
+            modifier = Modifier.size(100.dp),
+            tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            text = "No documents yet",
+            style = MaterialTheme.typography.titleLarge,
+            color = MaterialTheme.colorScheme.onSurface
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = "Tap the Scan button to digitize your first document.",
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            textAlign = TextAlign.Center
+        )
+    }
+}
+
+@Composable
 fun DocumentCard(document: Document, onClick: () -> Unit) {
-    Card(modifier = Modifier.fillMaxWidth().aspectRatio(0.7f).clickable(onClick = onClick)) {
+    ElevatedCard(
+        modifier = Modifier.fillMaxWidth().aspectRatio(0.75f).clickable(onClick = onClick),
+        shape = RoundedCornerShape(12.dp),
+        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 2.dp)
+    ) {
         Column {
             Box(modifier = Modifier.weight(1f).fillMaxWidth()) {
                 coil3.compose.AsyncImage(
@@ -128,9 +172,19 @@ fun DocumentCard(document: Document, onClick: () -> Unit) {
                     contentScale = androidx.compose.ui.layout.ContentScale.Crop
                 )
             }
-            Column(modifier = Modifier.padding(8.dp)) {
-                Text(document.title, style = MaterialTheme.typography.titleMedium, maxLines = 1)
-                Text("${document.pageCount} pages", style = MaterialTheme.typography.bodySmall)
+            Column(modifier = Modifier.padding(12.dp)) {
+                Text(
+                    text = document.title, 
+                    style = MaterialTheme.typography.titleMedium, 
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = "${document.pageCount} pages", 
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
             }
         }
     }
@@ -138,21 +192,40 @@ fun DocumentCard(document: Document, onClick: () -> Unit) {
 
 @Composable
 fun DocumentListCard(document: Document, onClick: () -> Unit) {
-    Card(modifier = Modifier.fillMaxWidth().clickable(onClick = onClick)) {
-        Row(modifier = Modifier.padding(8.dp).fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            RoundedCornerShape(4.dp).let { shape ->
+    ElevatedCard(
+        modifier = Modifier.fillMaxWidth().clickable(onClick = onClick),
+        shape = RoundedCornerShape(12.dp),
+        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 2.dp)
+    ) {
+        Row(modifier = Modifier.padding(12.dp).fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            RoundedCornerShape(8.dp).let { shape ->
                 coil3.compose.AsyncImage(
                     model = document.thumbnailPath,
                     contentDescription = "Thumbnail",
-                    modifier = Modifier.size(60.dp).clip(shape),
+                    modifier = Modifier.size(72.dp).clip(shape),
                     contentScale = androidx.compose.ui.layout.ContentScale.Crop
                 )
             }
             Spacer(modifier = Modifier.width(16.dp))
             Column(modifier = Modifier.weight(1f)) {
-                Text(document.title, style = MaterialTheme.typography.titleMedium, maxLines = 1)
-                Text("${document.pageCount} pages", style = MaterialTheme.typography.bodySmall)
+                Text(
+                    text = document.title, 
+                    style = MaterialTheme.typography.titleMedium, 
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = "${document.pageCount} pages", 
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
             }
+            Icon(
+                imageVector = Icons.Default.ChevronRight,
+                contentDescription = "Open",
+                tint = MaterialTheme.colorScheme.onSurfaceVariant
+            )
         }
     }
 }

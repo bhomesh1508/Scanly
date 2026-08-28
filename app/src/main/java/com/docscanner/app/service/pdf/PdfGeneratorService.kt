@@ -31,7 +31,8 @@ class PdfGeneratorService @Inject constructor() {
                     inSampleSize = sampleSize
                     inPreferredConfig = android.graphics.Bitmap.Config.RGB_565
                 }
-                val bitmap = BitmapFactory.decodeFile(page.processedImagePath, decodeOptions) ?: return@forEachIndexed
+                val imagePath = page.processedImagePath.ifBlank { page.originalImagePath }
+                val bitmap = BitmapFactory.decodeFile(imagePath, decodeOptions) ?: return@forEachIndexed
                 
                 try {
                     val (docWidth, docHeight) = getDimensions(options.pageSize, bitmap.width, bitmap.height)
@@ -84,7 +85,9 @@ class PdfGeneratorService @Inject constructor() {
             clipData = android.content.ClipData.newRawUri("", uri)
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         }
-        context.startActivity(Intent.createChooser(intent, "Share PDF"))
+        val chooser = Intent.createChooser(intent, "Share PDF")
+        chooser.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        context.startActivity(chooser)
     }
 
 

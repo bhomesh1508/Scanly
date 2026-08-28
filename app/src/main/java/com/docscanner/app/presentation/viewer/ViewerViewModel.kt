@@ -45,7 +45,16 @@ class ViewerViewModel @Inject constructor(
     val ocrLoading: StateFlow<Boolean> = _ocrLoading.asStateFlow()
 
     init {
-        // Mock load
+        viewModelScope.launch {
+            documentRepository.getDocumentById(documentId).collect {
+                _document.value = it
+            }
+        }
+        viewModelScope.launch {
+            documentRepository.getPages(documentId).collect {
+                _pages.value = it
+            }
+        }
     }
 
     fun setPage(index: Int) {

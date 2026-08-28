@@ -73,8 +73,8 @@ fun ViewerScreen(
             ) { pageIndex ->
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     pages.getOrNull(pageIndex)?.let { page ->
-                        io.coil3.compose.AsyncImage(
-                            model = page.imagePath,
+                        coil3.compose.AsyncImage(
+                            model = page.processedImagePath,
                             contentDescription = "Document Page",
                             modifier = Modifier.fillMaxSize().padding(16.dp),
                             contentScale = androidx.compose.ui.layout.ContentScale.Fit

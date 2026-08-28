@@ -13,6 +13,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.unit.dp
 import com.docscanner.app.domain.model.Document
 
@@ -44,7 +47,7 @@ fun HomeScreen(
                             singleLine = true
                         )
                     } else {
-                        Text("DocScanner")
+                        Text(stringResource(id = com.docscanner.app.R.string.app_name))
                     }
                 },
                 actions = {
@@ -116,10 +119,19 @@ fun HomeScreen(
 @Composable
 fun DocumentCard(document: Document, onClick: () -> Unit) {
     Card(modifier = Modifier.fillMaxWidth().aspectRatio(0.7f).clickable(onClick = onClick)) {
-        Column(modifier = Modifier.padding(8.dp)) {
-            Text(document.title, style = MaterialTheme.typography.titleMedium)
-            Spacer(modifier = Modifier.weight(1f))
-            Text("${document.pageCount} pages", style = MaterialTheme.typography.bodySmall)
+        Column {
+            Box(modifier = Modifier.weight(1f).fillMaxWidth()) {
+                coil3.compose.AsyncImage(
+                    model = document.thumbnailPath,
+                    contentDescription = "Thumbnail",
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = androidx.compose.ui.layout.ContentScale.Crop
+                )
+            }
+            Column(modifier = Modifier.padding(8.dp)) {
+                Text(document.title, style = MaterialTheme.typography.titleMedium, maxLines = 1)
+                Text("${document.pageCount} pages", style = MaterialTheme.typography.bodySmall)
+            }
         }
     }
 }
@@ -127,9 +139,18 @@ fun DocumentCard(document: Document, onClick: () -> Unit) {
 @Composable
 fun DocumentListCard(document: Document, onClick: () -> Unit) {
     Card(modifier = Modifier.fillMaxWidth().clickable(onClick = onClick)) {
-        Row(modifier = Modifier.padding(16.dp).fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+        Row(modifier = Modifier.padding(8.dp).fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            RoundedCornerShape(4.dp).let { shape ->
+                coil3.compose.AsyncImage(
+                    model = document.thumbnailPath,
+                    contentDescription = "Thumbnail",
+                    modifier = Modifier.size(60.dp).clip(shape),
+                    contentScale = androidx.compose.ui.layout.ContentScale.Crop
+                )
+            }
+            Spacer(modifier = Modifier.width(16.dp))
             Column(modifier = Modifier.weight(1f)) {
-                Text(document.title, style = MaterialTheme.typography.titleMedium)
+                Text(document.title, style = MaterialTheme.typography.titleMedium, maxLines = 1)
                 Text("${document.pageCount} pages", style = MaterialTheme.typography.bodySmall)
             }
         }

@@ -48,7 +48,16 @@ class EditorViewModel @Inject constructor(
     val previewBitmap: StateFlow<Bitmap?> = _previewBitmap.asStateFlow()
 
     init {
-        // Mock load
+        viewModelScope.launch {
+            documentRepository.getDocumentById(documentId).collect {
+                _document.value = it
+            }
+        }
+        viewModelScope.launch {
+            documentRepository.getPages(documentId).collect {
+                _pages.value = it
+            }
+        }
     }
 
     fun selectPage(index: Int) {

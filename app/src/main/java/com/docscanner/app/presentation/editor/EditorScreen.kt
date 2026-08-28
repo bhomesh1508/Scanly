@@ -61,8 +61,8 @@ fun EditorScreen(
                         contentScale = androidx.compose.ui.layout.ContentScale.Fit
                     )
                 } ?: pages.getOrNull(selectedPageIndex)?.let { page ->
-                    io.coil3.compose.AsyncImage(
-                        model = page.imagePath,
+                    coil3.compose.AsyncImage(
+                        model = page.processedImagePath,
                         contentDescription = "Document Page",
                         modifier = Modifier.fillMaxSize().padding(16.dp),
                         contentScale = androidx.compose.ui.layout.ContentScale.Fit

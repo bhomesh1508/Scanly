@@ -177,7 +177,7 @@ fun EditorScreen(
                     )
                 } ?: currentPage?.let { page ->
                     AsyncImage(
-                        model = page.processedImagePath.ifBlank { page.originalImagePath },
+                        model = java.io.File(page.processedImagePath.ifBlank { page.originalImagePath }),
                         contentDescription = "Document Page ${page.pageNumber}",
                         modifier = Modifier
                             .fillMaxSize()
@@ -345,7 +345,7 @@ private fun PagesOrganizePanel(
                         contentAlignment = Alignment.Center
                     ) {
                         AsyncImage(
-                            model = page.thumbnailPath.ifBlank { page.processedImagePath },
+                            model = java.io.File(page.thumbnailPath.ifBlank { page.processedImagePath }),
                             contentDescription = "Page ${index + 1}",
                             modifier = Modifier
                                 .fillMaxSize()

@@ -283,7 +283,7 @@ fun DocumentCard(
             ) {
                 if (document.thumbnailPath.isNotBlank()) {
                     AsyncImage(
-                        model = document.thumbnailPath,
+                        model = java.io.File(document.thumbnailPath),
                         contentDescription = stringResource(R.string.cd_document_thumbnail),
                         modifier = Modifier.fillMaxSize(),
                         contentScale = ContentScale.Crop
@@ -456,7 +456,7 @@ fun DocumentListCard(
             ) {
                 if (document.thumbnailPath.isNotBlank()) {
                     AsyncImage(
-                        model = document.thumbnailPath,
+                        model = java.io.File(document.thumbnailPath),
                         contentDescription = stringResource(R.string.cd_document_thumbnail),
                         modifier = Modifier.fillMaxSize(),
                         contentScale = ContentScale.Crop

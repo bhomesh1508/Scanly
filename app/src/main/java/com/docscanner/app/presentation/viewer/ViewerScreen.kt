@@ -365,7 +365,7 @@ private fun ZoomablePageItem(page: Page) {
         contentAlignment = Alignment.Center
     ) {
         AsyncImage(
-            model = page.processedImagePath.ifBlank { page.originalImagePath },
+            model = java.io.File(page.processedImagePath.ifBlank { page.originalImagePath }),
             contentDescription = "Document Page ${page.pageNumber}",
             modifier = Modifier
                 .fillMaxSize()

@@ -165,7 +165,7 @@ private fun SearchResultCard(
             ) {
                 if (document.thumbnailPath.isNotBlank()) {
                     AsyncImage(
-                        model = document.thumbnailPath,
+                        model = java.io.File(document.thumbnailPath),
                         contentDescription = stringResource(R.string.cd_document_thumbnail),
                         modifier = Modifier.fillMaxSize(),
                         contentScale = ContentScale.Crop

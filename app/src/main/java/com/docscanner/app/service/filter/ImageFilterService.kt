@@ -15,10 +15,10 @@ class ImageFilterService @Inject constructor() {
 
     fun applyFilter(bitmap: Bitmap, filterType: FilterType): Bitmap {
         if (filterType == FilterType.ORIGINAL) {
-            return bitmap.copy(bitmap.config ?: Bitmap.Config.ARGB_8888, true)
+            return bitmap.copy(Bitmap.Config.ARGB_8888, true)
         }
 
-        val result = Bitmap.createBitmap(bitmap.width, bitmap.height, bitmap.config ?: Bitmap.Config.ARGB_8888)
+        val result = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(result)
         val paint = Paint()
 
@@ -160,7 +160,7 @@ class ImageFilterService @Inject constructor() {
     }
 
     fun applyAdjustments(bitmap: Bitmap, brightness: Float, contrast: Float): Bitmap {
-        val result = Bitmap.createBitmap(bitmap.width, bitmap.height, bitmap.config ?: Bitmap.Config.ARGB_8888)
+        val result = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(result)
         
         val cm = ColorMatrix().apply {
@@ -183,7 +183,7 @@ class ImageFilterService @Inject constructor() {
         val width = bitmap.width
         val height = bitmap.height
         val ratio = maxSize.toFloat() / max(width, height)
-        if (ratio >= 1f) return bitmap.copy(bitmap.config ?: Bitmap.Config.ARGB_8888, true)
+        if (ratio >= 1f) return bitmap.copy(Bitmap.Config.ARGB_8888, true)
         
         val newWidth = (width * ratio).toInt()
         val newHeight = (height * ratio).toInt()

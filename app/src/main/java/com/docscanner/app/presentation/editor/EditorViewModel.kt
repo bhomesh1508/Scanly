@@ -103,17 +103,27 @@ class EditorViewModel @Inject constructor(
                 val page = pageList.getOrNull(index) ?: return@collectLatest
 
                 withContext(Dispatchers.Default) {
-                    if (originalPreviewBitmap == null || lastLoadedPageIndex != index) {
-                        val options = BitmapFactory.Options().apply { inSampleSize = 4 }
-                        originalPreviewBitmap = BitmapFactory.decodeFile(page.originalImagePath, options)
-                        lastLoadedPageIndex = index
-                    }
-                    originalPreviewBitmap?.let { orig ->
-                        var bmp = imageFilterService.applyFilter(orig, filter)
-                        if (brightness != 0f || contrast != 0f) {
-                            bmp = imageFilterService.applyAdjustments(bmp, brightness, contrast)
+                    try {
+                        if (originalPreviewBitmap == null || lastLoadedPageIndex != index) {
+                            val options = BitmapFactory.Options().apply {
+                                inSampleSize = 4
+                                inPreferredConfig = Bitmap.Config.ARGB_8888
+                                inMutable = true
+                            }
+                            originalPreviewBitmap = BitmapFactory.decodeFile(page.originalImagePath, options)
+                            lastLoadedPageIndex = index
                         }
-                        _previewBitmap.value = bmp
+                        originalPreviewBitmap?.let { orig ->
+                            var bmp = imageFilterService.applyFilter(orig, filter)
+                            if (brightness != 0f || contrast != 0f) {
+                                val temp = bmp
+                                bmp = imageFilterService.applyAdjustments(bmp, brightness, contrast)
+                                if (temp != orig) temp.recycle()
+                            }
+                            _previewBitmap.value = bmp
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                     }
                 }
             }
@@ -203,7 +213,11 @@ class EditorViewModel @Inject constructor(
                 // Apply to full-resolution image if filters or adjustments exist
                 val hasChanges = _currentFilter.value != FilterType.ORIGINAL || _brightness.value != 0f || _contrast.value != 0f
                 if (hasChanges) {
-                    val origBitmap = BitmapFactory.decodeFile(currentPage.originalImagePath)
+                    val options = BitmapFactory.Options().apply {
+                        inPreferredConfig = Bitmap.Config.ARGB_8888
+                        inMutable = true
+                    }
+                    val origBitmap = BitmapFactory.decodeFile(currentPage.originalImagePath, options)
                     if (origBitmap != null) {
                         var result = imageFilterService.applyFilter(origBitmap, _currentFilter.value)
                         if (_brightness.value != 0f || _contrast.value != 0f) {

@@ -70,12 +70,12 @@
 38        android:debuggable="true"
 39        android:extractNativeLibs="false"
 39-->INJECTED
-40        android:icon="@android:drawable/sym_def_app_icon"
-40-->C:\Users\DELL\.gemini\antigravity\scratch\docscanner_android\app\src\main\AndroidManifest.xml:17:9-58
+40        android:icon="@drawable/app_logo"
+40-->C:\Users\DELL\.gemini\antigravity\scratch\docscanner_android\app\src\main\AndroidManifest.xml:17:9-42
 41        android:label="@string/app_name"
 41-->C:\Users\DELL\.gemini\antigravity\scratch\docscanner_android\app\src\main\AndroidManifest.xml:18:9-41
-42        android:roundIcon="@android:drawable/sym_def_app_icon"
-42-->C:\Users\DELL\.gemini\antigravity\scratch\docscanner_android\app\src\main\AndroidManifest.xml:19:9-63
+42        android:roundIcon="@drawable/app_logo"
+42-->C:\Users\DELL\.gemini\antigravity\scratch\docscanner_android\app\src\main\AndroidManifest.xml:19:9-47
 43        android:supportsRtl="true"
 43-->C:\Users\DELL\.gemini\antigravity\scratch\docscanner_android\app\src\main\AndroidManifest.xml:20:9-35
 44        android:theme="@style/Theme.DocScanner" >

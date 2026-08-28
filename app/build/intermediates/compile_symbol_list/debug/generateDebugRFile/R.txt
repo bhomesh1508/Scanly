@@ -27,6 +27,8 @@ int color sync_local 0x0
 int color sync_synced 0x0
 int color sync_syncing 0x0
 int color tertiary 0x0
+int drawable app_logo 0x0
+int drawable ic_launcher_foreground 0x0
 int string app_lock_biometric_subtitle 0x0
 int string app_lock_biometric_title 0x0
 int string app_lock_subtitle 0x0

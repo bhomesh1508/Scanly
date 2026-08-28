@@ -2,6 +2,7 @@ package com.docscanner.app.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 
+// Light Color Tokens
 val md_theme_light_primary = Color(0xFF1A73E8)
 val md_theme_light_onPrimary = Color(0xFFFFFFFF)
 val md_theme_light_primaryContainer = Color(0xFFD4E3FF)
@@ -25,11 +26,21 @@ val md_theme_light_onSurface = Color(0xFF1A1C1E)
 val md_theme_light_surfaceVariant = Color(0xFFDFE2EB)
 val md_theme_light_onSurfaceVariant = Color(0xFF43474E)
 val md_theme_light_outline = Color(0xFF73777F)
-val md_theme_light_inverseOnSurface = Color(0xFFF1F0F4)
+val md_theme_light_outlineVariant = Color(0xFFC3C6CF)
+val md_theme_light_scrim = Color(0xFF000000)
 val md_theme_light_inverseSurface = Color(0xFF2F3033)
+val md_theme_light_inverseOnSurface = Color(0xFFF1F0F4)
 val md_theme_light_inversePrimary = Color(0xFFA5C8FF)
 val md_theme_light_surfaceTint = Color(0xFF1A73E8)
+val md_theme_light_surfaceDim = Color(0xFFDDD9E2)
+val md_theme_light_surfaceBright = Color(0xFFFDF8FD)
+val md_theme_light_surfaceContainerLowest = Color(0xFFFFFFFF)
+val md_theme_light_surfaceContainerLow = Color(0xFFF7F2FA)
+val md_theme_light_surfaceContainer = Color(0xFFF1ECF4)
+val md_theme_light_surfaceContainerHigh = Color(0xFFEBE6EE)
+val md_theme_light_surfaceContainerHighest = Color(0xFFE5E1E8)
 
+// Dark Color Tokens
 val md_theme_dark_primary = Color(0xFFA5C8FF)
 val md_theme_dark_onPrimary = Color(0xFF00315F)
 val md_theme_dark_primaryContainer = Color(0xFF004786)
@@ -53,7 +64,28 @@ val md_theme_dark_onSurface = Color(0xFFE2E2E6)
 val md_theme_dark_surfaceVariant = Color(0xFF43474E)
 val md_theme_dark_onSurfaceVariant = Color(0xFFC3C6CF)
 val md_theme_dark_outline = Color(0xFF8D9199)
-val md_theme_dark_inverseOnSurface = Color(0xFF1A1C1E)
+val md_theme_dark_outlineVariant = Color(0xFF43474E)
+val md_theme_dark_scrim = Color(0xFF000000)
 val md_theme_dark_inverseSurface = Color(0xFFE2E2E6)
+val md_theme_dark_inverseOnSurface = Color(0xFF1A1C1E)
 val md_theme_dark_inversePrimary = Color(0xFF1A73E8)
 val md_theme_dark_surfaceTint = Color(0xFFA5C8FF)
+val md_theme_dark_surfaceDim = Color(0xFF121316)
+val md_theme_dark_surfaceBright = Color(0xFF38393C)
+val md_theme_dark_surfaceContainerLowest = Color(0xFF0D0E11)
+val md_theme_dark_surfaceContainerLow = Color(0xFF1A1C1E)
+val md_theme_dark_surfaceContainer = Color(0xFF1E2022)
+val md_theme_dark_surfaceContainerHigh = Color(0xFF282A2D)
+val md_theme_dark_surfaceContainerHighest = Color(0xFF333538)
+
+// Folder Preset Colors (Hex Long values)
+val FolderColorPresets = listOf(
+    0xFF4285F4, // Google Blue
+    0xFF009688, // Teal
+    0xFF34A853, // Green
+    0xFFFF6D00, // Orange
+    0xFF9C27B0, // Purple
+    0xFFEA4335, // Red
+    0xFFFBBC04, // Yellow
+    0xFFE91E63  // Pink
+)

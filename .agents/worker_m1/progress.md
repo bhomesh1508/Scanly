@@ -1,14 +1,24 @@
-# Progress — Worker M1
+# Progress - Milestone 1: Security Hardening, Storage Safety & Core Architecture
 
-**Last visited**: 2026-08-27T12:06:00Z
-**Status**: COMPLETED
+Last visited: 2026-08-28T08:35:00Z
+Status: Complete
 
-## Steps:
-- [x] 1. Delete files: configuration files, remote package, repository/domain auth & sync classes, auth & storage UI packages, duplicate DocumentCard.
-- [x] 2. Adapt domain and entity models: Document, UserSettings, DocumentEntity, DocumentDao, Converters, EntityMappers, SettingsRepositoryImpl, DocumentRepositoryImpl.
-- [x] 3. Adapt navigation: Screen.kt, AppNavigation.kt.
-- [x] 4. Adapt presentation UI: SettingsScreen.kt, SettingsViewModel.kt, HomeViewModel.kt, OnboardingDialog.kt.
-- [x] 5. Adapt DI, Services, App & Utils: RepositoryModule.kt, DocScannerApp.kt, NotificationService.kt, Constants.kt.
-- [x] 6. Adapt resources: strings.xml.
-- [x] 7. Verify all files and ensure zero lingering references across all modules.
-- [x] 8. Generate changes.md and handoff.md.
+## Tasks
+- [x] Read ORIGINAL_REQUEST.md, PROJECT.md, survey_security_report.md, and survey_arch_report.md
+- [x] Implement F1: FileProvider Authority Normalization (Extensions.kt, Constants.kt)
+- [x] Implement F2: Singleton DataStore Resolution (AppModule.kt, SettingsRepositoryImpl.kt)
+- [x] Implement F3: Scanner Image Persistence Pipeline (ScannerViewModel.kt, DocumentRepositoryImpl.kt)
+- [x] Implement F4: Storage Leak & Physical Shredding (DocumentRepositoryImpl.kt)
+- [x] Implement F5: PDF Export Storage & Sanitation (ViewerViewModel.kt)
+- [x] Implement F6: OCR URI Resolution Fix (ViewerViewModel.kt)
+- [x] Implement F7: Biometric AppLock Integration (AppNavigation.kt)
+- [x] Implement F8: Manifest & Privacy Hardening (AndroidManifest.xml)
+- [x] Implement F9: Lockscreen Notification Privacy (NotificationService.kt)
+- [x] Implement F10: Clipboard Sensitivity Flagging (ViewerViewModel.kt)
+- [x] Implement F11: Encryption Check Heuristic Fix (EncryptionService.kt)
+- [x] Implement F12: Scoped FileProvider Paths (file_paths.xml)
+- [x] Implement F13: Memory-Safe PDF & Image Processing (PdfGeneratorService.kt, ImageFilterService.kt)
+- [x] Implement F14: Database Transaction Safety & Safe Unwraps (DocumentRepositoryImpl.kt, EditorViewModel.kt, FolderDetailScreen.kt)
+- [x] Implement F15: ProGuard Rules (proguard-rules.pro)
+- [x] Self-verification and code audit across all modified files
+- [x] Write worker report and handoff report

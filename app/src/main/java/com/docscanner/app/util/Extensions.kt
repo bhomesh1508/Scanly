@@ -49,11 +49,14 @@ fun Long.toRelativeTimeString(): String {
 }
 
 fun Context.shareFile(file: File, mimeType: String) {
-    val uri = FileProvider.getUriForFile(this, "$packageName.provider", file)
+    val authority = "${packageName}.fileprovider"
+    val uri = FileProvider.getUriForFile(this, authority, file)
     val intent = Intent(Intent.ACTION_SEND).apply {
         type = mimeType
         putExtra(Intent.EXTRA_STREAM, uri)
+        clipData = android.content.ClipData.newRawUri("", uri)
         addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
     }
     startActivity(Intent.createChooser(intent, "Share File"))
 }
+

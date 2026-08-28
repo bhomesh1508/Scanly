@@ -10,6 +10,7 @@ import com.docscanner.app.domain.model.MarginPreset
 import com.docscanner.app.domain.model.Page
 import com.docscanner.app.domain.model.PageSize
 import com.docscanner.app.domain.model.PdfExportOptions
+import com.docscanner.app.domain.model.QualityLevel
 import java.io.File
 import java.io.FileOutputStream
 import javax.inject.Inject
@@ -19,45 +20,59 @@ import javax.inject.Singleton
 class PdfGeneratorService @Inject constructor() {
 
     fun generatePdf(pages: List<Page>, options: PdfExportOptions, outputFile: File): Result<File> {
+        val document = PdfDocument()
         return try {
-            val document = PdfDocument()
-
             pages.forEachIndexed { index, page ->
-                val bitmap = BitmapFactory.decodeFile(page.processedImagePath) ?: return@forEachIndexed
+                val sampleSize = when (options.quality) {
+                    QualityLevel.COMPRESSED -> 2
+                    else -> 1
+                }
+                val decodeOptions = BitmapFactory.Options().apply {
+                    inSampleSize = sampleSize
+                    inPreferredConfig = android.graphics.Bitmap.Config.RGB_565
+                }
+                val bitmap = BitmapFactory.decodeFile(page.processedImagePath, decodeOptions) ?: return@forEachIndexed
                 
-                val (docWidth, docHeight) = getDimensions(options.pageSize, bitmap.width, bitmap.height)
-                val margin = getMarginPoints(options.margin)
+                try {
+                    val (docWidth, docHeight) = getDimensions(options.pageSize, bitmap.width, bitmap.height)
+                    val margin = getMarginPoints(options.margin)
 
-                val pageInfo = PdfDocument.PageInfo.Builder(docWidth, docHeight, index + 1).create()
-                val pdfPage = document.startPage(pageInfo)
-                val canvas = pdfPage.canvas
+                    val pageInfo = PdfDocument.PageInfo.Builder(docWidth, docHeight, index + 1).create()
+                    val pdfPage = document.startPage(pageInfo)
+                    val canvas = pdfPage.canvas
 
-                val availableWidth = docWidth - 2 * margin
-                val availableHeight = docHeight - 2 * margin
+                    val availableWidth = docWidth - 2 * margin
+                    val availableHeight = docHeight - 2 * margin
 
-                val scale = minOf(
-                    availableWidth.toFloat() / bitmap.width,
-                    availableHeight.toFloat() / bitmap.height
-                )
+                    val scale = minOf(
+                        availableWidth.toFloat() / bitmap.width,
+                        availableHeight.toFloat() / bitmap.height
+                    )
 
-                val scaledWidth = bitmap.width * scale
-                val scaledHeight = bitmap.height * scale
+                    val scaledWidth = bitmap.width * scale
+                    val scaledHeight = bitmap.height * scale
 
-                val left = margin + (availableWidth - scaledWidth) / 2
-                val top = margin + (availableHeight - scaledHeight) / 2
+                    val left = margin + (availableWidth - scaledWidth) / 2
+                    val top = margin + (availableHeight - scaledHeight) / 2
 
-                canvas.drawBitmap(bitmap, null, android.graphics.RectF(left, top, left + scaledWidth, top + scaledHeight), null)
-                document.finishPage(pdfPage)
+                    canvas.drawBitmap(bitmap, null, android.graphics.RectF(left, top, left + scaledWidth, top + scaledHeight), null)
+                    document.finishPage(pdfPage)
+                } finally {
+                    bitmap.recycle()
+                }
             }
 
             FileOutputStream(outputFile).use { fos ->
                 document.writeTo(fos)
             }
-            document.close()
 
             Result.success(outputFile)
         } catch (e: Exception) {
             Result.failure(e)
+        } finally {
+            try {
+                document.close()
+            } catch (_: Exception) {}
         }
     }
 
@@ -66,10 +81,12 @@ class PdfGeneratorService @Inject constructor() {
         val intent = Intent(Intent.ACTION_SEND).apply {
             type = "application/pdf"
             putExtra(Intent.EXTRA_STREAM, uri)
+            clipData = android.content.ClipData.newRawUri("", uri)
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         }
         context.startActivity(Intent.createChooser(intent, "Share PDF"))
     }
+
 
     fun printPdf(context: Context, file: File) {
         val printManager = context.getSystemService(Context.PRINT_SERVICE) as PrintManager

@@ -1,6 +1,14 @@
 [
     {
-        "merged": "com.docscanner.app-debug-3:/xml_file_paths.xml.flat",
-        "source": "com.docscanner.app-main-5:/xml/file_paths.xml"
+        "merged": "C:\\Users\\DELL\\.gradle\\daemon\\9.7.1\\com.docscanner.app-debug-3:\\drawable_ic_launcher_foreground.xml.flat",
+        "source": "C:\\Users\\DELL\\.gradle\\daemon\\9.7.1\\com.docscanner.app-main-5:\\drawable\\ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "C:\\Users\\DELL\\.gradle\\daemon\\9.7.1\\com.docscanner.app-debug-3:\\xml_file_paths.xml.flat",
+        "source": "C:\\Users\\DELL\\.gradle\\daemon\\9.7.1\\com.docscanner.app-main-5:\\xml\\file_paths.xml"
+    },
+    {
+        "merged": "com.docscanner.app-debug-3:/drawable_app_logo.jpg.flat",
+        "source": "com.docscanner.app-main-5:/drawable/app_logo.jpg"
     }
 ]

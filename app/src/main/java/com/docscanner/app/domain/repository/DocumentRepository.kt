@@ -75,6 +75,11 @@ interface DocumentRepository {
     suspend fun purgeOldTrash()
 
     /**
+     * Empties all documents currently in the trash, permanently deleting and shredding their files.
+     */
+    suspend fun emptyAllTrash()
+
+    /**
      * Merges multiple documents into a single document.
      */
     suspend fun mergeDocuments(docIds: List<String>, newTitle: String): Document

@@ -28,6 +28,8 @@ color sync_local
 color sync_synced
 color sync_syncing
 color tertiary
+drawable app_logo
+drawable ic_launcher_foreground
 string app_lock_biometric_subtitle
 string app_lock_biometric_title
 string app_lock_subtitle

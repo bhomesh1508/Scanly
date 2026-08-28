@@ -1,30 +1,25 @@
 package com.docscanner.app.data.repository
 
-import android.app.Application
-import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
 import com.docscanner.app.domain.model.FilterType
-import com.docscanner.app.domain.model.UserSettings.ThemeMode
-import com.docscanner.app.domain.model.UserSettings
+import com.docscanner.app.domain.model.MarginPreset
 import com.docscanner.app.domain.model.PageSize
 import com.docscanner.app.domain.model.QualityLevel
-import com.docscanner.app.domain.model.MarginPreset
+import com.docscanner.app.domain.model.UserSettings
+import com.docscanner.app.domain.model.UserSettings.ThemeMode
 import com.docscanner.app.domain.repository.SettingsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
-private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "user_settings")
-
 @Singleton
 class SettingsRepositoryImpl @Inject constructor(
-    private val context: Application
+    private val dataStore: DataStore<Preferences>
 ) : SettingsRepository {
 
     private object PreferencesKeys {
@@ -38,13 +33,33 @@ class SettingsRepositoryImpl @Inject constructor(
         val ENCRYPT_NEW_DOCUMENTS = booleanPreferencesKey("encrypt_new_documents")
     }
 
-    override val settings: Flow<UserSettings> = context.dataStore.data.map { preferences ->
+    override val settings: Flow<UserSettings> = dataStore.data.map { preferences ->
+        val themeMode = preferences[PreferencesKeys.THEME_MODE]?.let { raw ->
+            runCatching { ThemeMode.valueOf(raw) }.getOrDefault(ThemeMode.SYSTEM)
+        } ?: ThemeMode.SYSTEM
+
+        val defaultFilter = preferences[PreferencesKeys.DEFAULT_FILTER]?.let { raw ->
+            runCatching { FilterType.valueOf(raw) }.getOrDefault(FilterType.ORIGINAL)
+        } ?: FilterType.ORIGINAL
+
+        val defaultPageSize = preferences[PreferencesKeys.DEFAULT_PAGE_SIZE]?.let { raw ->
+            runCatching { PageSize.valueOf(raw) }.getOrDefault(PageSize.A4)
+        } ?: PageSize.A4
+
+        val defaultPdfQuality = preferences[PreferencesKeys.DEFAULT_PDF_QUALITY]?.let { raw ->
+            runCatching { QualityLevel.valueOf(raw) }.getOrDefault(QualityLevel.HIGH)
+        } ?: QualityLevel.HIGH
+
+        val defaultMargin = preferences[PreferencesKeys.DEFAULT_MARGIN]?.let { raw ->
+            runCatching { MarginPreset.valueOf(raw) }.getOrDefault(MarginPreset.NORMAL)
+        } ?: MarginPreset.NORMAL
+
         UserSettings(
-            theme = ThemeMode.valueOf(preferences[PreferencesKeys.THEME_MODE] ?: ThemeMode.SYSTEM.name),
-            defaultFilter = FilterType.valueOf(preferences[PreferencesKeys.DEFAULT_FILTER] ?: FilterType.ORIGINAL.name),
-            defaultPageSize = PageSize.valueOf(preferences[PreferencesKeys.DEFAULT_PAGE_SIZE] ?: "A4"),
-            defaultPdfQuality = QualityLevel.valueOf(preferences[PreferencesKeys.DEFAULT_PDF_QUALITY] ?: "HIGH"),
-            defaultMargin = MarginPreset.valueOf(preferences[PreferencesKeys.DEFAULT_MARGIN] ?: "NORMAL"),
+            theme = themeMode,
+            defaultFilter = defaultFilter,
+            defaultPageSize = defaultPageSize,
+            defaultPdfQuality = defaultPdfQuality,
+            defaultMargin = defaultMargin,
             appLockEnabled = preferences[PreferencesKeys.APP_LOCK_ENABLED] ?: false,
             hasSeenOnboarding = preferences[PreferencesKeys.HAS_SEEN_ONBOARDING] ?: false,
             encryptNewDocuments = preferences[PreferencesKeys.ENCRYPT_NEW_DOCUMENTS] ?: false
@@ -52,7 +67,7 @@ class SettingsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateSettings(settings: UserSettings) {
-        context.dataStore.edit { preferences ->
+        dataStore.edit { preferences ->
             preferences[PreferencesKeys.THEME_MODE] = settings.theme.name
             preferences[PreferencesKeys.DEFAULT_FILTER] = settings.defaultFilter.name
             preferences[PreferencesKeys.DEFAULT_PAGE_SIZE] = settings.defaultPageSize.name
@@ -65,14 +80,17 @@ class SettingsRepositoryImpl @Inject constructor(
     }
 
     override fun getTheme(): Flow<ThemeMode> {
-        return context.dataStore.data.map { preferences ->
-            ThemeMode.valueOf(preferences[PreferencesKeys.THEME_MODE] ?: ThemeMode.SYSTEM.name)
+        return dataStore.data.map { preferences ->
+            preferences[PreferencesKeys.THEME_MODE]?.let { raw ->
+                runCatching { ThemeMode.valueOf(raw) }.getOrDefault(ThemeMode.SYSTEM)
+            } ?: ThemeMode.SYSTEM
         }
     }
 
     override fun isAppLockEnabled(): Flow<Boolean> {
-        return context.dataStore.data.map { preferences ->
+        return dataStore.data.map { preferences ->
             preferences[PreferencesKeys.APP_LOCK_ENABLED] ?: false
         }
     }
 }
+

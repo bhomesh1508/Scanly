@@ -14,12 +14,16 @@ import kotlin.math.max
 class ImageFilterService @Inject constructor() {
 
     fun applyFilter(bitmap: Bitmap, filterType: FilterType): Bitmap {
+        if (filterType == FilterType.ORIGINAL) {
+            return bitmap.copy(bitmap.config ?: Bitmap.Config.ARGB_8888, true)
+        }
+
         val result = Bitmap.createBitmap(bitmap.width, bitmap.height, bitmap.config ?: Bitmap.Config.ARGB_8888)
         val canvas = Canvas(result)
         val paint = Paint()
 
         when (filterType) {
-            FilterType.ORIGINAL -> return bitmap.copy(bitmap.config ?: Bitmap.Config.ARGB_8888, true)
+            FilterType.ORIGINAL -> { /* Handled above */ }
             FilterType.AUTO_ENHANCE -> {
                 val cm = ColorMatrix().apply {
                     val scale = 1.1f
@@ -74,39 +78,57 @@ class ImageFilterService @Inject constructor() {
                 canvas.drawBitmap(bitmap, 0f, 0f, paint)
             }
             FilterType.SHARPEN -> {
-                val pixels = IntArray(bitmap.width * bitmap.height)
-                bitmap.getPixels(pixels, 0, bitmap.width, 0, 0, bitmap.width, bitmap.height)
                 val width = bitmap.width
                 val height = bitmap.height
-                val newPixels = IntArray(width * height)
-                
-                val kernel = floatArrayOf(
-                    0f, -1f, 0f,
-                    -1f, 5f, -1f,
-                    0f, -1f, 0f
-                )
-                
-                for (y in 1 until height - 1) {
-                    for (x in 1 until width - 1) {
-                        var r = 0f; var g = 0f; var b = 0f
-                        var k = 0
-                        for (ky in -1..1) {
-                            for (kx in -1..1) {
-                                val pixel = pixels[(y + ky) * width + (x + kx)]
-                                val weight = kernel[k++]
-                                r += ((pixel shr 16) and 0xFF) * weight
-                                g += ((pixel shr 8) and 0xFF) * weight
-                                b += (pixel and 0xFF) * weight
-                            }
-                        }
-                        val nr = r.toInt().coerceIn(0, 255)
-                        val ng = g.toInt().coerceIn(0, 255)
-                        val nb = b.toInt().coerceIn(0, 255)
-                        newPixels[y * width + x] = (0xFF shl 24) or (nr shl 16) or (ng shl 8) or nb
+                val totalPixels = width * height
+                if (totalPixels > 4_000_000) {
+                    // Safe color-matrix fallback for very large images to prevent 96MB+ heap spikes
+                    val cm = ColorMatrix().apply {
+                        val scale = 1.2f
+                        val translate = -10f
+                        set(floatArrayOf(
+                            scale, 0f, 0f, 0f, translate,
+                            0f, scale, 0f, 0f, translate,
+                            0f, 0f, scale, 0f, translate,
+                            0f, 0f, 0f, 1f, 0f
+                        ))
                     }
+                    paint.colorFilter = ColorMatrixColorFilter(cm)
+                    canvas.drawBitmap(bitmap, 0f, 0f, paint)
+                } else {
+                    val pixels = IntArray(totalPixels)
+                    bitmap.getPixels(pixels, 0, width, 0, 0, width, height)
+                    val newPixels = IntArray(totalPixels)
+                    
+                    val kernel = floatArrayOf(
+                        0f, -1f, 0f,
+                        -1f, 5f, -1f,
+                        0f, -1f, 0f
+                    )
+                    
+                    for (y in 1 until height - 1) {
+                        for (x in 1 until width - 1) {
+                            var r = 0f; var g = 0f; var b = 0f
+                            var k = 0
+                            for (ky in -1..1) {
+                                for (kx in -1..1) {
+                                    val pixel = pixels[(y + ky) * width + (x + kx)]
+                                    val weight = kernel[k++]
+                                    r += ((pixel shr 16) and 0xFF) * weight
+                                    g += ((pixel shr 8) and 0xFF) * weight
+                                    b += (pixel and 0xFF) * weight
+                                }
+                            }
+                            val nr = r.toInt().coerceIn(0, 255)
+                            val ng = g.toInt().coerceIn(0, 255)
+                            val nb = b.toInt().coerceIn(0, 255)
+                            newPixels[y * width + x] = (0xFF shl 24) or (nr shl 16) or (ng shl 8) or nb
+                        }
+                    }
+                    result.setPixels(newPixels, 0, width, 0, 0, width, height)
                 }
-                result.setPixels(newPixels, 0, width, 0, 0, width, height)
             }
+
             FilterType.LIGHTEN -> {
                 val cm = ColorMatrix().apply {
                     val translate = 30f

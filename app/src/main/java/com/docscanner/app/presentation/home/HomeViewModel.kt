@@ -3,7 +3,9 @@ package com.docscanner.app.presentation.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.docscanner.app.domain.model.Document
+import com.docscanner.app.domain.model.Folder
 import com.docscanner.app.domain.repository.DocumentRepository
+import com.docscanner.app.domain.repository.FolderRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -14,7 +16,8 @@ enum class ViewType { GRID, LIST }
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val documentRepository: DocumentRepository
+    private val documentRepository: DocumentRepository,
+    private val folderRepository: FolderRepository
 ) : ViewModel() {
 
     private val _documents = MutableStateFlow<List<Document>>(emptyList())
@@ -28,6 +31,9 @@ class HomeViewModel @Inject constructor(
 
     private val _viewType = MutableStateFlow(ViewType.GRID)
     val viewType: StateFlow<ViewType> = _viewType.asStateFlow()
+
+    val folders: StateFlow<List<Folder>> = folderRepository.getAllFolders()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     val filteredDocuments: StateFlow<List<Document>> = combine(
         documentRepository.getAllDocuments(),
@@ -70,6 +76,12 @@ class HomeViewModel @Inject constructor(
     fun renameDocument(docId: String, newTitle: String) {
         viewModelScope.launch {
             documentRepository.renameDocument(docId, newTitle)
+        }
+    }
+
+    fun moveToFolder(docId: String, folderId: String?) {
+        viewModelScope.launch {
+            documentRepository.moveToFolder(docId, folderId)
         }
     }
 }

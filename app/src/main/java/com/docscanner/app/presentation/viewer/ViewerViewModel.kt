@@ -1,6 +1,12 @@
 package com.docscanner.app.presentation.viewer
 
+import android.content.ClipData
+import android.content.ClipDescription
+import android.content.ClipboardManager
 import android.content.Context
+import android.net.Uri
+import android.os.Build
+import android.os.PersistableBundle
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,6 +15,8 @@ import com.docscanner.app.domain.model.Page
 import com.docscanner.app.domain.model.PdfExportOptions
 import com.docscanner.app.domain.repository.DocumentRepository
 import com.docscanner.app.service.pdf.PdfGeneratorService
+import com.docscanner.app.util.Constants
+import com.docscanner.app.util.toSafeFileName
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
@@ -24,7 +32,8 @@ import javax.inject.Inject
 class ViewerViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val documentRepository: DocumentRepository,
-    private val pdfGeneratorService: PdfGeneratorService
+    private val pdfGeneratorService: PdfGeneratorService,
+    private val context: Context
 ) : ViewModel() {
 
     val documentId: String = checkNotNull(savedStateHandle["documentId"])
@@ -66,22 +75,35 @@ class ViewerViewModel @Inject constructor(
         _ocrText.value = null
         val page = _pages.value.getOrNull(_currentPageIndex.value)
         if (page != null) {
+            val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
             try {
-                // Dummy uri loading
-                val uri = android.net.Uri.parse(page.processedImagePath)
-                val image = InputImage.fromFilePath(context, uri)
-                val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
+                val file = File(page.processedImagePath)
+                val image = if (file.exists()) {
+                    InputImage.fromFilePath(context, Uri.fromFile(file))
+                } else if (page.processedImagePath.startsWith("content://")) {
+                    InputImage.fromFilePath(context, Uri.parse(page.processedImagePath))
+                } else {
+                    _ocrText.value = "Error: Image file not found."
+                    _ocrLoading.value = false
+                    recognizer.close()
+                    return
+                }
+
                 recognizer.process(image)
                     .addOnSuccessListener { visionText ->
                         _ocrText.value = visionText.text
                         _ocrLoading.value = false
+                        recognizer.close()
                     }
                     .addOnFailureListener {
                         _ocrText.value = "Error extracting text."
                         _ocrLoading.value = false
+                        recognizer.close()
                     }
             } catch (e: Exception) {
+                _ocrText.value = "Error extracting text: ${e.localizedMessage ?: "Unknown error"}"
                 _ocrLoading.value = false
+                try { recognizer.close() } catch (_: Exception) {}
             }
         } else {
             _ocrLoading.value = false
@@ -90,15 +112,31 @@ class ViewerViewModel @Inject constructor(
 
     fun copyOcrText(context: Context) {
         val text = _ocrText.value ?: return
-        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
-        val clip = android.content.ClipData.newPlainText("OCR Text", text)
+        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip = ClipData.newPlainText("OCR Text", text).apply {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                description.extras = PersistableBundle().apply {
+                    putBoolean(ClipDescription.EXTRA_IS_SENSITIVE, true)
+                }
+            }
+        }
         clipboard.setPrimaryClip(clip)
     }
 
     fun exportPdf(options: PdfExportOptions): Result<File> {
-        val file = File("dummy.pdf")
-        pdfGeneratorService.generatePdf(_pages.value, options, file)
-        return Result.success(file)
+        return exportPdf(context, options)
+    }
+
+    fun exportPdf(ctx: Context, options: PdfExportOptions): Result<File> {
+        val currentDoc = _document.value
+        val title = (currentDoc?.title ?: "Document").toSafeFileName()
+        val exportDir = File(ctx.cacheDir, Constants.PDF_EXPORTS_DIR).apply { mkdirs() }
+        val outputFile = File(exportDir, "${title}_${System.currentTimeMillis()}.pdf")
+        val result = pdfGeneratorService.generatePdf(_pages.value, options, outputFile)
+        if (result.isSuccess) {
+            pdfGeneratorService.sharePdf(ctx, outputFile)
+        }
+        return result
     }
 
     fun sharePdf(context: Context, file: File) {
@@ -121,3 +159,4 @@ class ViewerViewModel @Inject constructor(
         }
     }
 }
+

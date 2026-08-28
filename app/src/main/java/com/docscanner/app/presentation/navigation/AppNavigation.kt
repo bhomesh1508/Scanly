@@ -1,12 +1,13 @@
 package com.docscanner.app.presentation.navigation
 
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DocumentScanner
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -37,10 +38,13 @@ import com.docscanner.app.presentation.viewer.ViewerScreen
 import com.docscanner.app.presentation.viewer.ViewerViewModel
 
 /**
- * Root navigation composable that wires all screens together with Hilt ViewModels.
+ * Root navigation composable that wires all screens together with Hilt ViewModels and M3 motion transitions.
  */
 @Composable
-fun AppNavigation() {
+fun AppNavigation(
+    settingsViewModel: SettingsViewModel = hiltViewModel()
+) {
+    val settings by settingsViewModel.settings.collectAsState()
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
@@ -52,7 +56,7 @@ fun AppNavigation() {
     )
     val shouldShowBottomBar = currentRoute !in hideBottomBarRoutes
 
-    AppLockGate(isEnabled = false) {
+    AppLockGate(isEnabled = settings.appLockEnabled) {
         Scaffold(
             bottomBar = {
                 if (shouldShowBottomBar) {
@@ -67,21 +71,36 @@ fun AppNavigation() {
                         }
                     )
                 }
-            },
-            floatingActionButton = {
-                if (shouldShowBottomBar) {
-                    FloatingActionButton(
-                        onClick = { navController.navigate(Screen.Scanner.route) }
-                    ) {
-                        Icon(Icons.Default.DocumentScanner, contentDescription = "Scan Document")
-                    }
-                }
             }
         ) { innerPadding ->
             NavHost(
                 navController = navController,
                 startDestination = Screen.Home.route,
-                modifier = Modifier.padding(innerPadding)
+                modifier = Modifier.padding(innerPadding),
+                enterTransition = {
+                    fadeIn(animationSpec = tween(300)) + slideIntoContainer(
+                        AnimatedContentTransitionScope.SlideDirection.Start,
+                        animationSpec = tween(300)
+                    )
+                },
+                exitTransition = {
+                    fadeOut(animationSpec = tween(200)) + slideOutOfContainer(
+                        AnimatedContentTransitionScope.SlideDirection.Start,
+                        animationSpec = tween(200)
+                    )
+                },
+                popEnterTransition = {
+                    fadeIn(animationSpec = tween(300)) + slideIntoContainer(
+                        AnimatedContentTransitionScope.SlideDirection.End,
+                        animationSpec = tween(300)
+                    )
+                },
+                popExitTransition = {
+                    fadeOut(animationSpec = tween(200)) + slideOutOfContainer(
+                        AnimatedContentTransitionScope.SlideDirection.End,
+                        animationSpec = tween(200)
+                    )
+                }
             ) {
                 // Home
                 composable(Screen.Home.route) {

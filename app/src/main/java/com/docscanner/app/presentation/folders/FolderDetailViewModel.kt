@@ -28,6 +28,9 @@ class FolderDetailViewModel @Inject constructor(
     private val _folderName = MutableStateFlow("")
     val folderName: StateFlow<String> = _folderName.asStateFlow()
 
+    private val _folderColor = MutableStateFlow(0xFF4285F4)
+    val folderColor: StateFlow<Long> = _folderColor.asStateFlow()
+
     init {
         viewModelScope.launch {
             documentRepository.getDocumentsByFolder(folderId).collect {
@@ -36,8 +39,29 @@ class FolderDetailViewModel @Inject constructor(
         }
         viewModelScope.launch {
             folderRepository.getFolderById(folderId).collect { folder ->
-                folder?.let { _folderName.value = it.name }
+                folder?.let {
+                    _folderName.value = it.name
+                    _folderColor.value = it.color
+                }
             }
+        }
+    }
+
+    fun moveToTrash(docId: String) {
+        viewModelScope.launch {
+            documentRepository.moveToTrash(docId)
+        }
+    }
+
+    fun renameDocument(docId: String, newTitle: String) {
+        viewModelScope.launch {
+            documentRepository.renameDocument(docId, newTitle)
+        }
+    }
+
+    fun removeFromFolder(docId: String) {
+        viewModelScope.launch {
+            documentRepository.moveToFolder(docId, null)
         }
     }
 }

@@ -214,11 +214,11 @@ MERGED from [com.google.android.odml:image:1.0.0-beta1] C:\Users\DELL\.gradle\ca
 	android:label
 		ADDED from C:\Users\DELL\.gemini\antigravity\scratch\docscanner_android\app\src\main\AndroidManifest.xml:18:9-41
 	android:roundIcon
-		ADDED from C:\Users\DELL\.gemini\antigravity\scratch\docscanner_android\app\src\main\AndroidManifest.xml:19:9-63
+		ADDED from C:\Users\DELL\.gemini\antigravity\scratch\docscanner_android\app\src\main\AndroidManifest.xml:19:9-47
 	tools:targetApi
 		ADDED from C:\Users\DELL\.gemini\antigravity\scratch\docscanner_android\app\src\main\AndroidManifest.xml:22:9-29
 	android:icon
-		ADDED from C:\Users\DELL\.gemini\antigravity\scratch\docscanner_android\app\src\main\AndroidManifest.xml:17:9-58
+		ADDED from C:\Users\DELL\.gemini\antigravity\scratch\docscanner_android\app\src\main\AndroidManifest.xml:17:9-42
 	android:allowBackup
 		ADDED from C:\Users\DELL\.gemini\antigravity\scratch\docscanner_android\app\src\main\AndroidManifest.xml:16:9-35
 	android:theme

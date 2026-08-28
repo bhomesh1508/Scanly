@@ -41,7 +41,7 @@ class TrashViewModel @Inject constructor(
 
     fun emptyTrash() {
         viewModelScope.launch {
-            documentRepository.purgeOldTrash() // Alternatively empty entirely
+            documentRepository.emptyAllTrash()
         }
     }
 }

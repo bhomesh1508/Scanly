@@ -49,6 +49,16 @@ interface DocumentDao {
     @Query("DELETE FROM documents WHERE id = :docId")
     suspend fun delete(docId: String)
 
+    @Query("SELECT * FROM documents WHERE isTrashed = 1 AND trashedAt < :cutoff")
+    suspend fun getOldTrashDocumentsSync(cutoff: Long): List<DocumentEntity>
+
     @Query("DELETE FROM documents WHERE isTrashed = 1 AND trashedAt < :cutoff")
     suspend fun purgeOldTrash(cutoff: Long)
+
+    @Query("SELECT * FROM documents WHERE isTrashed = 1")
+    suspend fun getTrashedDocumentsSync(): List<DocumentEntity>
+
+    @Query("DELETE FROM documents WHERE isTrashed = 1")
+    suspend fun deleteAllTrashed()
 }
+

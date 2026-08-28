@@ -57,13 +57,18 @@ class EncryptionService @Inject constructor(private val context: Application) {
     }
 
     fun isEncrypted(file: File): Boolean {
-        if (!file.exists()) return false
+        if (!file.exists() || file.length() == 0L) return false
         return try {
-            FileInputStream(file).use { fis ->
-                val header = ByteArray(4)
-                fis.read(header)
-                header.isNotEmpty()
+            val encryptedFile = EncryptedFile.Builder(
+                context,
+                file,
+                masterKey,
+                EncryptedFile.FileEncryptionScheme.AES256_GCM_HKDF_4KB
+            ).build()
+            encryptedFile.openFileInput().use { fis ->
+                fis.read()
             }
+            true
         } catch (e: Exception) {
             false
         }

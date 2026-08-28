@@ -5,7 +5,10 @@ object Constants {
     const val DATASTORE_NAME = "docscanner_settings"
     const val DOCUMENTS_DIR = "documents"
     const val THUMBNAILS_DIR = "thumbnails"
+    const val PDF_EXPORTS_DIR = "pdf_exports"
     const val TEMP_DIR = "temp"
+    
+    const val FILE_PROVIDER_AUTHORITY_SUFFIX = ".fileprovider"
     
     const val MAX_SCAN_PAGES = 50
     const val TRASH_RETENTION_DAYS = 30
@@ -14,3 +17,4 @@ object Constants {
     
     const val SCAN_CHANNEL_ID = "scan_channel"
 }
+

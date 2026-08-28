@@ -1,37 +1,38 @@
-# DISPATCH
+## 2026-08-28T08:26:46Z
+You are a Worker subagent assigned to implement Milestone 1: Security Hardening, Storage Safety & Core Architecture.
 
-## 2026-08-27T11:55:00Z
-Received assignment from Orchestrator:
-Execute Milestone 1: Remove all unused architecture, Kotlin classes, packages, mock implementations, and UI elements related to legacy Firebase / Cloud Sync.
+Your Working Directory: C:\Users\DELL\.gemini\antigravity\scratch\docscanner_android\.agents\worker_m1
+Project Root: C:\Users\DELL\.gemini\antigravity\scratch\docscanner_android
+Original User Request: C:\Users\DELL\.gemini\antigravity\scratch\docscanner_android\ORIGINAL_REQUEST.md (READ THIS FIRST)
+Project Plan: C:\Users\DELL\.gemini\antigravity\scratch\docscanner_android\PROJECT.md
+Security Survey Reference: C:\Users\DELL\.gemini\antigravity\scratch\docscanner_android\.agents\explorer_sec_survey\survey_security_report.md
+Architecture Survey Reference: C:\Users\DELL\.gemini\antigravity\scratch\docscanner_android\.agents\explorer_arch_survey\survey_arch_report.md
 
-Scope:
-1. Delete files:
-   - `firestore.rules`, `storage.rules`, `app/google-services.json`
-   - `app/src/main/java/com/docscanner/app/data/remote/` (delete entire directory: `FirebaseAuthService.kt`, `FirestoreService.kt`, `CloudStorageService.kt`, `DocumentSyncWorker.kt`, `SyncManager.kt`)
-   - `app/src/main/java/com/docscanner/app/data/repository/AuthRepositoryImpl.kt`
-   - `app/src/main/java/com/docscanner/app/data/repository/SyncRepositoryImpl.kt`
-   - `app/src/main/java/com/docscanner/app/domain/repository/AuthRepository.kt`
-   - `app/src/main/java/com/docscanner/app/domain/repository/SyncRepository.kt`
-   - `app/src/main/java/com/docscanner/app/domain/model/UserProfile.kt`
-   - `app/src/main/java/com/docscanner/app/presentation/auth/` (delete entire directory: `LoginScreen.kt`, `SignupScreen.kt`, `AuthViewModel.kt`)
-   - `app/src/main/java/com/docscanner/app/presentation/storage/` (delete entire directory: `StorageScreen.kt`, `StorageViewModel.kt`)
-   - `app/src/main/java/com/docscanner/app/presentation/common/DocumentCard.kt` (duplicate card; verify and retain `presentation/home/DocumentCard.kt`)
+MANDATORY INTEGRITY WARNING:
+DO NOT CHEAT. All implementations must be genuine. DO NOT hardcode test results, create dummy/facade implementations, or circumvent the intended task. A auditor will independently verify your work. Integrity violations WILL be detected and your work WILL be rejected.
 
-2. Adapt files cleanly:
-   - `presentation/navigation/Screen.kt`: Remove `Login`, `Signup`, `Storage` screen routes.
-   - `presentation/navigation/AppNavigation.kt`: Remove `Login`, `Signup`, `Storage` composables, navigation calls, and unused imports.
-   - `presentation/settings/SettingsScreen.kt`: Remove Account section (login/logout/profile) and Cloud section (auto-sync/storage usage).
-   - `presentation/settings/SettingsViewModel.kt`: Remove `AuthRepository` dependency, `currentUser`, `toggleAutoSync`, and `signOut()`.
-   - `presentation/home/HomeViewModel.kt`: Remove `SyncRepository` dependency and `syncAll()` method.
-   - `presentation/common/OnboardingDialog.kt`: Adapt the 4th onboarding page (replace "Cloud Backup" with "100% Offline & Private" or "Secure Local Storage").
-   - `di/RepositoryModule.kt`: Remove `@Binds` for `AuthRepository` and `SyncRepository`.
-   - `DocScannerApp.kt`: Remove unused Firebase imports.
-   - `service/notification/NotificationService.kt`: Remove sync notification channels and sync progress/complete notification methods.
-   - `util/Constants.kt`: Remove all cloud / sync constants (`FREE_STORAGE_LIMIT_BYTES`, `SYNC_WORK_NAME`, `SYNC_INTERVAL_HOURS`, `SYNC_CHANNEL_ID`, `FIREBASE_USERS_COLLECTION`, `FIREBASE_DOCUMENTS_COLLECTION`, `FIREBASE_STORAGE_DOCUMENTS`).
-   - `data/local/entity/DocumentEntity.kt`: Remove `cloudPdfUrl`, `syncStatus`, and `Index("syncStatus")`.
-   - `data/local/dao/DocumentDao.kt`: Remove `getUnsyncedDocuments()` and `updateSyncStatus()`.
-   - `domain/model/Document.kt`: Remove `cloudPdfUrl`, `syncStatus`, and `SyncStatus` enum.
-   - `domain/model/UserSettings.kt`: Remove `autoSyncEnabled`.
-   - `data/repository/SettingsRepositoryImpl.kt`: Remove `AUTO_SYNC_ENABLED` and `autoSyncEnabled` mapping.
-   - `data/mapper/EntityMappers.kt`: Remove `cloudPdfUrl` and `syncStatus` mapping.
-   - `app/src/main/res/values/strings.xml`: Remove unused auth strings, cloud settings strings, storage strings, and sync content descriptions.
+Milestone 1 Scope & Features to Implement:
+1. [F1] FileProvider Authority Normalization
+2. [F2] Singleton DataStore Resolution
+3. [F3] Scanner Image Persistence Pipeline
+4. [F4] Storage Leak & Physical Shredding
+5. [F5] PDF Export Storage & Sanitation
+6. [F6] OCR URI Resolution Fix
+7. [F7] Biometric AppLock Integration
+8. [F8] Manifest & Privacy Hardening
+9. [F9] Lockscreen Notification Privacy
+10. [F10] Clipboard Sensitivity Flagging
+11. [F11] Encryption Check Heuristic Fix
+12. [F12] Scoped FileProvider Paths
+13. [F13] Memory-Safe PDF & Image Processing
+14. [F14] Database Transaction Safety & Safe Unwraps
+15. [F15] ProGuard Rules
+
+Verification:
+- Run .\gradlew.bat assembleDebug to verify that the build succeeds with 0 errors.
+- Document all modified files and build verification command/output in your handoff.
+
+Outputs:
+- Save your report to C:\Users\DELL\.gemini\antigravity\scratch\docscanner_android\.agents\worker_m1\worker_report.md
+- Save your handoff to C:\Users\DELL\.gemini\antigravity\scratch\docscanner_android\.agents\worker_m1\handoff.md
+- Send completion message to parent with build status and summary.

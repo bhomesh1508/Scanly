@@ -164,8 +164,8 @@ class ImageFilterService @Inject constructor() {
         val canvas = Canvas(result)
         
         val cm = ColorMatrix().apply {
-            val scale = contrast
-            val translate = brightness + (-0.5f * scale + 0.5f) * 255f
+            val scale = contrast + 1f
+            val translate = (brightness * 255f) + (-0.5f * scale + 0.5f) * 255f
             set(floatArrayOf(
                 scale, 0f, 0f, 0f, translate,
                 0f, scale, 0f, 0f, translate,

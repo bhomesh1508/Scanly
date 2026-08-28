@@ -1,6 +1,7 @@
 package com.docscanner.app.presentation.editor
 
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -11,10 +12,12 @@ import com.docscanner.app.domain.model.Page
 import com.docscanner.app.domain.repository.DocumentRepository
 import com.docscanner.app.service.filter.ImageFilterService
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.File
+import java.io.FileOutputStream
 import javax.inject.Inject
 
 @HiltViewModel
@@ -53,6 +56,9 @@ class EditorViewModel @Inject constructor(
     private val _isSaving = MutableStateFlow(false)
     val isSaving: StateFlow<Boolean> = _isSaving.asStateFlow()
 
+    private var originalPreviewBitmap: Bitmap? = null
+    private var lastLoadedPageIndex: Int = -1
+
     init {
         viewModelScope.launch {
             documentRepository.getDocumentById(documentId).collect {
@@ -64,12 +70,51 @@ class EditorViewModel @Inject constructor(
                 _pages.value = pageList
                 if (pageList.isNotEmpty()) {
                     val safeIndex = _selectedPageIndex.value.coerceIn(0, pageList.size - 1)
-                    _selectedPageIndex.value = safeIndex
+                    if (_selectedPageIndex.value != safeIndex) {
+                        _selectedPageIndex.value = safeIndex
+                    }
                     val currentPage = pageList[safeIndex]
-                    _currentFilter.value = currentPage.filter
-                    _brightness.value = currentPage.brightness
-                    _contrast.value = currentPage.contrast
-                    _rotation.value = currentPage.rotation
+                    // Only update these if we are loading for the very first time
+                    if (lastLoadedPageIndex == -1) {
+                        _currentFilter.value = currentPage.filter
+                        _brightness.value = currentPage.brightness
+                        _contrast.value = currentPage.contrast
+                        _rotation.value = currentPage.rotation
+                    }
+                }
+            }
+        }
+
+        viewModelScope.launch {
+            combine(
+                _selectedPageIndex,
+                _currentFilter,
+                _brightness,
+                _contrast
+            ) { index, filter, brightness, contrast ->
+                listOf(index, filter, brightness, contrast)
+            }.collectLatest { args ->
+                val index = args[0] as Int
+                val filter = args[1] as FilterType
+                val brightness = args[2] as Float
+                val contrast = args[3] as Float
+
+                val pageList = _pages.value
+                val page = pageList.getOrNull(index) ?: return@collectLatest
+
+                withContext(Dispatchers.Default) {
+                    if (originalPreviewBitmap == null || lastLoadedPageIndex != index) {
+                        val options = BitmapFactory.Options().apply { inSampleSize = 4 }
+                        originalPreviewBitmap = BitmapFactory.decodeFile(page.originalImagePath, options)
+                        lastLoadedPageIndex = index
+                    }
+                    originalPreviewBitmap?.let { orig ->
+                        var bmp = imageFilterService.applyFilter(orig, filter)
+                        if (brightness != 0f || contrast != 0f) {
+                            bmp = imageFilterService.applyAdjustments(bmp, brightness, contrast)
+                        }
+                        _previewBitmap.value = bmp
+                    }
                 }
             }
         }
@@ -148,16 +193,45 @@ class EditorViewModel @Inject constructor(
     }
 
     fun saveChanges(onSaved: () -> Unit = {}) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             _isSaving.value = true
             val pageList = _pages.value
             val currentPage = pageList.getOrNull(_selectedPageIndex.value)
             if (currentPage != null) {
+                var processedPath = currentPage.processedImagePath
+
+                // Apply to full-resolution image if filters or adjustments exist
+                val hasChanges = _currentFilter.value != FilterType.ORIGINAL || _brightness.value != 0f || _contrast.value != 0f
+                if (hasChanges) {
+                    val origBitmap = BitmapFactory.decodeFile(currentPage.originalImagePath)
+                    if (origBitmap != null) {
+                        var result = imageFilterService.applyFilter(origBitmap, _currentFilter.value)
+                        if (_brightness.value != 0f || _contrast.value != 0f) {
+                            result = imageFilterService.applyAdjustments(result, _brightness.value, _contrast.value)
+                        }
+
+                        val origFile = File(currentPage.originalImagePath)
+                        val newFile = File(origFile.parentFile, "${currentPage.id}_processed_${System.currentTimeMillis()}.jpg")
+                        FileOutputStream(newFile).use { out ->
+                            result.compress(Bitmap.CompressFormat.JPEG, 95, out)
+                        }
+                        processedPath = newFile.absolutePath
+                        if (result != origBitmap) {
+                            result.recycle()
+                        }
+                        origBitmap.recycle()
+                    }
+                } else {
+                    processedPath = currentPage.originalImagePath
+                }
+
                 val updatedPage = currentPage.copy(
                     filter = _currentFilter.value,
                     brightness = _brightness.value,
                     contrast = _contrast.value,
-                    rotation = _rotation.value
+                    rotation = _rotation.value,
+                    processedImagePath = processedPath,
+                    thumbnailPath = processedPath // Also update thumbnail path for UI consistency
                 )
                 documentRepository.updatePage(updatedPage)
             }
@@ -165,7 +239,9 @@ class EditorViewModel @Inject constructor(
                 documentRepository.updateDocument(doc.copy(updatedAt = System.currentTimeMillis()))
             }
             _isSaving.value = false
-            onSaved()
+            withContext(Dispatchers.Main) {
+                onSaved()
+            }
         }
     }
 }

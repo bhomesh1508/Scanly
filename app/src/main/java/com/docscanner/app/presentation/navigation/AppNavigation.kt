@@ -7,7 +7,6 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -17,10 +16,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.docscanner.app.domain.model.UserSettings
-import com.docscanner.app.presentation.auth.AuthViewModel
-import com.docscanner.app.presentation.auth.LoginScreen
-import com.docscanner.app.presentation.auth.SignupScreen
 import com.docscanner.app.presentation.common.AppLockGate
 import com.docscanner.app.presentation.editor.EditorScreen
 import com.docscanner.app.presentation.editor.EditorViewModel
@@ -36,13 +31,10 @@ import com.docscanner.app.presentation.search.SearchScreen
 import com.docscanner.app.presentation.search.SearchViewModel
 import com.docscanner.app.presentation.settings.SettingsScreen
 import com.docscanner.app.presentation.settings.SettingsViewModel
-import com.docscanner.app.presentation.storage.StorageScreen
-import com.docscanner.app.presentation.storage.StorageViewModel
 import com.docscanner.app.presentation.trash.TrashScreen
 import com.docscanner.app.presentation.trash.TrashViewModel
 import com.docscanner.app.presentation.viewer.ViewerScreen
 import com.docscanner.app.presentation.viewer.ViewerViewModel
-import kotlinx.coroutines.flow.StateFlow
 
 /**
  * Root navigation composable that wires all screens together with Hilt ViewModels.
@@ -56,9 +48,7 @@ fun AppNavigation() {
     val hideBottomBarRoutes = listOf(
         Screen.Scanner.route,
         Screen.Editor.route,
-        Screen.Viewer.route,
-        Screen.Login.route,
-        Screen.Signup.route
+        Screen.Viewer.route
     )
     val shouldShowBottomBar = currentRoute !in hideBottomBarRoutes
 
@@ -195,18 +185,7 @@ fun AppNavigation() {
                     val viewModel: SettingsViewModel = hiltViewModel()
                     SettingsScreen(
                         viewModel = viewModel,
-                        onNavigateToStorage = { navController.navigate(Screen.Storage.route) },
-                        onNavigateToTrash = { navController.navigate(Screen.Trash.route) },
-                        onNavigateToLogin = { navController.navigate(Screen.Login.route) }
-                    )
-                }
-
-                // Storage
-                composable(Screen.Storage.route) {
-                    val viewModel: StorageViewModel = hiltViewModel()
-                    StorageScreen(
-                        viewModel = viewModel,
-                        onNavigateBack = { navController.popBackStack() }
+                        onNavigateToTrash = { navController.navigate(Screen.Trash.route) }
                     )
                 }
 
@@ -216,41 +195,6 @@ fun AppNavigation() {
                     TrashScreen(
                         viewModel = viewModel,
                         onNavigateBack = { navController.popBackStack() }
-                    )
-                }
-
-                // Login
-                composable(Screen.Login.route) {
-                    val viewModel: AuthViewModel = hiltViewModel()
-                    LoginScreen(
-                        viewModel = viewModel,
-                        onNavigateToSignup = {
-                            navController.navigate(Screen.Signup.route)
-                        },
-                        onNavigateToHome = {
-                            navController.navigate(Screen.Home.route) {
-                                popUpTo(Screen.Login.route) { inclusive = true }
-                            }
-                        },
-                        onSkip = {
-                            navController.navigate(Screen.Home.route) {
-                                popUpTo(Screen.Login.route) { inclusive = true }
-                            }
-                        }
-                    )
-                }
-
-                // Signup
-                composable(Screen.Signup.route) {
-                    val viewModel: AuthViewModel = hiltViewModel()
-                    SignupScreen(
-                        viewModel = viewModel,
-                        onNavigateToLogin = { navController.popBackStack() },
-                        onNavigateToHome = {
-                            navController.navigate(Screen.Home.route) {
-                                popUpTo(Screen.Signup.route) { inclusive = true }
-                            }
-                        }
                     )
                 }
             }

@@ -16,12 +16,9 @@ import com.docscanner.app.domain.model.UserSettings.ThemeMode
 @Composable
 fun SettingsScreen(
     viewModel: SettingsViewModel = hiltViewModel(),
-    onNavigateToStorage: () -> Unit,
-    onNavigateToTrash: () -> Unit,
-    onNavigateToLogin: () -> Unit
+    onNavigateToTrash: () -> Unit
 ) {
     val settings by viewModel.settings.collectAsState()
-    val currentUser by viewModel.currentUser.collectAsState()
     val context = LocalContext.current
 
     Scaffold(
@@ -33,27 +30,6 @@ fun SettingsScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(padding)
         ) {
-            // Account
-            Text("Account", style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(16.dp))
-            if (currentUser != null) {
-                ListItem(
-                    headlineContent = { Text(currentUser!!.displayName ?: "User") },
-                    supportingContent = { Text(currentUser!!.email ?: "") },
-                    trailingContent = { 
-                        TextButton(onClick = { 
-                            viewModel.signOut()
-                            onNavigateToLogin()
-                        }) { Text("Sign Out") }
-                    }
-                )
-            } else {
-                ListItem(
-                    headlineContent = { Text("Not signed in") },
-                    modifier = Modifier.clickable { onNavigateToLogin() }
-                )
-            }
-            Divider()
-
             // Appearance
             Text("Appearance", style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(16.dp))
             var showThemeMenu by remember { mutableStateOf(false) }
@@ -77,20 +53,6 @@ fun SettingsScreen(
                 trailingContent = {
                     Switch(checked = settings.encryptNewDocuments, onCheckedChange = { viewModel.toggleEncryption(it) })
                 }
-            )
-            Divider()
-
-            // Cloud
-            Text("Cloud", style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(16.dp))
-            ListItem(
-                headlineContent = { Text("Auto Sync") },
-                trailingContent = {
-                    Switch(checked = settings.autoSyncEnabled, onCheckedChange = { viewModel.toggleAutoSync(it) })
-                }
-            )
-            ListItem(
-                headlineContent = { Text("Storage Usage") },
-                modifier = Modifier.clickable { onNavigateToStorage() }
             )
             Divider()
 

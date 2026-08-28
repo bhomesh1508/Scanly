@@ -1,11 +1,8 @@
 package com.docscanner.app;
 
-import androidx.hilt.work.HiltWrapper_WorkerFactoryModule;
-import com.docscanner.app.data.remote.sync.DocumentSyncWorker_HiltModule;
 import com.docscanner.app.di.AppModule;
 import com.docscanner.app.di.DatabaseModule;
 import com.docscanner.app.di.RepositoryModule;
-import com.docscanner.app.presentation.auth.AuthViewModel_HiltModules;
 import com.docscanner.app.presentation.editor.EditorViewModel_HiltModules;
 import com.docscanner.app.presentation.folders.FolderDetailViewModel_HiltModules;
 import com.docscanner.app.presentation.folders.FoldersViewModel_HiltModules;
@@ -13,7 +10,6 @@ import com.docscanner.app.presentation.home.HomeViewModel_HiltModules;
 import com.docscanner.app.presentation.scanner.ScannerViewModel_HiltModules;
 import com.docscanner.app.presentation.search.SearchViewModel_HiltModules;
 import com.docscanner.app.presentation.settings.SettingsViewModel_HiltModules;
-import com.docscanner.app.presentation.storage.StorageViewModel_HiltModules;
 import com.docscanner.app.presentation.trash.TrashViewModel_HiltModules;
 import com.docscanner.app.presentation.viewer.ViewerViewModel_HiltModules;
 import dagger.Binds;
@@ -145,9 +141,7 @@ public final class DocScannerApp_HiltComponents {
           DatabaseModule.class,
           ActivityRetainedCBuilderModule.class,
           ServiceCBuilderModule.class,
-          DocumentSyncWorker_HiltModule.class,
           HiltWrapper_FragmentGetContextFix_FragmentGetContextFixModule.class,
-          HiltWrapper_WorkerFactoryModule.class,
           RepositoryModule.class
       }
   )
@@ -172,7 +166,6 @@ public final class DocScannerApp_HiltComponents {
 
   @Subcomponent(
       modules = {
-          AuthViewModel_HiltModules.KeyModule.class,
           ActivityCBuilderModule.class,
           ViewModelCBuilderModule.class,
           EditorViewModel_HiltModules.KeyModule.class,
@@ -184,7 +177,6 @@ public final class DocScannerApp_HiltComponents {
           ScannerViewModel_HiltModules.KeyModule.class,
           SearchViewModel_HiltModules.KeyModule.class,
           SettingsViewModel_HiltModules.KeyModule.class,
-          StorageViewModel_HiltModules.KeyModule.class,
           TrashViewModel_HiltModules.KeyModule.class,
           ViewerViewModel_HiltModules.KeyModule.class
       }
@@ -222,7 +214,6 @@ public final class DocScannerApp_HiltComponents {
 
   @Subcomponent(
       modules = {
-          AuthViewModel_HiltModules.BindsModule.class,
           EditorViewModel_HiltModules.BindsModule.class,
           FolderDetailViewModel_HiltModules.BindsModule.class,
           FoldersViewModel_HiltModules.BindsModule.class,
@@ -231,7 +222,6 @@ public final class DocScannerApp_HiltComponents {
           ScannerViewModel_HiltModules.BindsModule.class,
           SearchViewModel_HiltModules.BindsModule.class,
           SettingsViewModel_HiltModules.BindsModule.class,
-          StorageViewModel_HiltModules.BindsModule.class,
           TrashViewModel_HiltModules.BindsModule.class,
           ViewerViewModel_HiltModules.BindsModule.class
       }

@@ -27,8 +27,6 @@
     <string msgid="8875138169939072951" name="abc_shareactionprovider_share_with">"Төмөнкү менен бөлүшүү"</string>
     <string msgid="9055268688411532828" name="abc_shareactionprovider_share_with_application">"<ns1:g id="APPLICATION_NAME">%s</ns1:g> аркылуу бөлүшүү"</string>
     <string msgid="1656852541809559762" name="abc_toolbar_collapse_description">"Жыйыштыруу"</string>
-    <string msgid="8397015543330865059" name="android.credentials.TYPE_PASSWORD_CREDENTIAL">"Сырсөз"</string>
-    <string msgid="3929015085059320822" name="androidx.credentials.TYPE_PUBLIC_KEY_CREDENTIAL">"Киргизүүчү ачкыч"</string>
     <string msgid="8719607706653693137" name="androidx_compose_foundation_autofill">"Автотолтуруу"</string>
     <string msgid="1150566100598813236" name="androidx_compose_ui_autofill">"Автотолтуруу"</string>
     <string msgid="881409763997275156" name="call_notification_answer_action">"Жооп берүү"</string>
@@ -59,14 +57,10 @@
     <string name="common_signin_button_text">Кирүү</string>
     <string name="common_signin_button_text_long">Google менен кирүү</string>
     <string msgid="5912733858573823945" name="confirm_device_credential_password">"Сырсөз колдонуу"</string>
-    <string msgid="3260749812566568062" name="copy_toast_msg">"Шилтеме буферге көчүрүлдү"</string>
     <string msgid="8038256446254964252" name="default_error_message">"Киргизилген маалымат жараксыз"</string>
     <string msgid="4776854077120974966" name="default_error_msg">"Белгисиз ката"</string>
     <string msgid="6312721426453364202" name="default_popup_window_title">"Калкыма терезе"</string>
     <string msgid="1890207353314751437" name="dropdown_menu">"Түрүлмө меню"</string>
-    <string msgid="4566929209979330987" name="fallback_menu_item_copy_link">"Шилтемени көчүрүү"</string>
-    <string msgid="3413186855122069269" name="fallback_menu_item_open_in_browser">"Серепчиден ачуу"</string>
-    <string msgid="7145444925855055364" name="fallback_menu_item_share_link">"Шилтемени бөлүшүү"</string>
     <string msgid="1072308044213194243" name="fingerprint_dialog_touch_sensor">"Манжа изинин сенсорун басыңыз"</string>
     <string msgid="8216738333501875566" name="fingerprint_error_hw_not_available">"Манжа изинин аппараттык камсыздоосу жеткиликтүү эмес."</string>
     <string msgid="6306988885793029438" name="fingerprint_error_hw_not_present">"Бул түзмөктө манжа изинин сенсору жок"</string>

@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "f620a2cb80bbce6d4ec2592e151d3e2c",
+    "identityHash": "d1499ac5738473bb3ca40b7de576ca0d",
     "entities": [
       {
         "tableName": "documents",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `title` TEXT NOT NULL, `folderId` TEXT, `pageCount` INTEGER NOT NULL, `thumbnailPath` TEXT NOT NULL, `ocrText` TEXT, `cloudPdfUrl` TEXT, `syncStatus` TEXT NOT NULL, `isEncrypted` INTEGER NOT NULL, `isTrashed` INTEGER NOT NULL, `trashedAt` INTEGER, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `title` TEXT NOT NULL, `folderId` TEXT, `pageCount` INTEGER NOT NULL, `thumbnailPath` TEXT NOT NULL, `ocrText` TEXT, `isEncrypted` INTEGER NOT NULL, `isTrashed` INTEGER NOT NULL, `trashedAt` INTEGER, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -41,17 +41,6 @@
             "fieldPath": "ocrText",
             "columnName": "ocrText",
             "affinity": "TEXT"
-          },
-          {
-            "fieldPath": "cloudPdfUrl",
-            "columnName": "cloudPdfUrl",
-            "affinity": "TEXT"
-          },
-          {
-            "fieldPath": "syncStatus",
-            "columnName": "syncStatus",
-            "affinity": "TEXT",
-            "notNull": true
           },
           {
             "fieldPath": "isEncrypted",
@@ -125,15 +114,6 @@
             ],
             "orders": [],
             "createSql": "CREATE INDEX IF NOT EXISTS `index_documents_isTrashed` ON `${TABLE_NAME}` (`isTrashed`)"
-          },
-          {
-            "name": "index_documents_syncStatus",
-            "unique": false,
-            "columnNames": [
-              "syncStatus"
-            ],
-            "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_documents_syncStatus` ON `${TABLE_NAME}` (`syncStatus`)"
           }
         ]
       },
@@ -306,7 +286,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f620a2cb80bbce6d4ec2592e151d3e2c')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd1499ac5738473bb3ca40b7de576ca0d')"
     ]
   }
 }

@@ -28,9 +28,6 @@ interface DocumentDao {
     @Query("SELECT * FROM documents WHERE isTrashed = 1 ORDER BY trashedAt DESC")
     fun getTrashedDocuments(): Flow<List<DocumentEntity>>
 
-    @Query("SELECT * FROM documents WHERE syncStatus != 'SYNCED'")
-    suspend fun getUnsyncedDocuments(): List<DocumentEntity>
-
     @Query("SELECT COUNT(*) FROM documents WHERE isTrashed = 0")
     fun getDocumentCount(): Flow<Int>
 
@@ -42,9 +39,6 @@ interface DocumentDao {
 
     @Query("UPDATE documents SET folderId = :folderId WHERE id = :docId")
     suspend fun updateFolder(docId: String, folderId: String?)
-
-    @Query("UPDATE documents SET syncStatus = :status WHERE id = :docId")
-    suspend fun updateSyncStatus(docId: String, status: String)
 
     @Query("UPDATE documents SET isTrashed = 1, trashedAt = :trashedAt WHERE id = :docId")
     suspend fun moveToTrash(docId: String, trashedAt: Long)

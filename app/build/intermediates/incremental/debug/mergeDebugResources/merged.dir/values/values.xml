@@ -109,10 +109,6 @@
     <attr format="string" name="title"/>
     <bool name="abc_action_bar_embed_tabs">true</bool>
     <bool name="abc_config_actionMenuItemAllCaps">true</bool>
-    <bool name="enable_system_alarm_service_default">false</bool>
-    <bool name="enable_system_foreground_service_default">true</bool>
-    <bool name="enable_system_job_service_default">true</bool>
-    <bool name="workmanager_test_configuration">false</bool>
     <color name="abc_decor_view_status_guard">#ff000000</color>
     <color name="abc_decor_view_status_guard_light">#ffffffff</color>
     <color name="abc_search_url_text_normal">#7fa87f</color>
@@ -134,10 +130,6 @@
     <color name="bright_foreground_inverse_material_light">@color/bright_foreground_material_dark</color>
     <color name="bright_foreground_material_dark">@android:color/white</color>
     <color name="bright_foreground_material_light">@android:color/black</color>
-    <color name="browser_actions_bg_grey">#F5F5F5</color>
-    <color name="browser_actions_divider_color">#1E000000</color>
-    <color name="browser_actions_text_color">#DE000000</color>
-    <color name="browser_actions_title_color">#646464</color>
     <color name="button_material_dark">#ff5a595b</color>
     <color name="button_material_light">#ffd6d7d7</color>
     <color name="call_notification_answer_color">#1d873b</color>
@@ -303,8 +295,6 @@
     <dimen name="abc_text_size_subtitle_material_toolbar">16dp</dimen>
     <dimen name="abc_text_size_title_material">20sp</dimen>
     <dimen name="abc_text_size_title_material_toolbar">20dp</dimen>
-    <dimen name="browser_actions_context_menu_max_width">500dp</dimen>
-    <dimen name="browser_actions_context_menu_min_padding">20dp</dimen>
     <dimen name="compat_button_inset_horizontal_material">4dp</dimen>
     <dimen name="compat_button_inset_vertical_material">6dp</dimen>
     <dimen name="compat_button_padding_horizontal_material">8dp</dimen>
@@ -386,7 +376,6 @@
     <item name="action_menu_presenter" type="id"/>
     <item name="androidx_compose_ui_view_compose_view_context" type="id"/>
     <item name="androidx_compose_ui_view_composition_context" type="id"/>
-    <item name="androidx_credential_pendingCredentialRequest" type="id"/>
     <item name="androidx_window_activity_scope" type="id"/>
     <item name="auto_clear_focus_behavior_tag" type="id"/>
     <item name="coil3_request_manager" type="id"/>
@@ -468,34 +457,15 @@
     <string name="abc_shareactionprovider_share_with">Share with</string>
     <string name="abc_shareactionprovider_share_with_application">Share with <ns1:g example="Mail" id="application_name">%s</ns1:g></string>
     <string name="abc_toolbar_collapse_description">Collapse</string>
-    <string name="android.credentials.TYPE_PASSWORD_CREDENTIAL">Password</string>
-    <string name="androidx.credentials.TYPE_PUBLIC_KEY_CREDENTIAL">Passkey</string>
     <string name="androidx_compose_foundation_autofill">Autofill</string>
     <string name="androidx_compose_ui_autofill">Autofill</string>
     <string name="androidx_startup" translatable="false">androidx.startup</string>
     <string name="app_lock_biometric_subtitle">Use fingerprint or face recognition</string>
-    <string name="app_lock_biometric_title">Unlock DocScanner</string>
+    <string name="app_lock_biometric_title">Unlock Scanly</string>
     <string name="app_lock_subtitle">Authenticate to access your documents</string>
-    <string name="app_lock_title">DocScanner is Locked</string>
+    <string name="app_lock_title">Scanly is Locked</string>
     <string name="app_lock_unlock">Unlock</string>
-    <string name="app_name">DocScanner</string>
-    <string name="auth_confirm_password_hint">Confirm password</string>
-    <string name="auth_delete_account">Delete Account</string>
-    <string name="auth_display_name_hint">Display name</string>
-    <string name="auth_email_hint">Email address</string>
-    <string name="auth_email_invalid">Please enter a valid email address</string>
-    <string name="auth_google">Sign in with Google</string>
-    <string name="auth_has_account">Already have an account? Sign In</string>
-    <string name="auth_no_account">Don\'t have an account? Sign Up</string>
-    <string name="auth_password_hint">Password</string>
-    <string name="auth_password_short">Password must be at least 6 characters</string>
-    <string name="auth_passwords_mismatch">Passwords do not match</string>
-    <string name="auth_sign_in">Sign In</string>
-    <string name="auth_sign_out">Sign Out</string>
-    <string name="auth_sign_up">Create Account</string>
-    <string name="auth_skip">Continue without account</string>
-    <string name="auth_welcome">Welcome to DocScanner</string>
-    <string name="auth_welcome_subtitle">Scan, enhance, and store your documents securely</string>
+    <string name="app_name">Scanly</string>
     <string name="call_notification_answer_action">Answer</string>
     <string name="call_notification_answer_video_action">Video</string>
     <string name="call_notification_decline_action">Decline</string>
@@ -509,10 +479,6 @@
     <string name="cd_scan_button">Scan new document</string>
     <string name="cd_search">Search</string>
     <string name="cd_sort">Sort order</string>
-    <string name="cd_sync_status_failed">Sync failed</string>
-    <string name="cd_sync_status_local">Stored locally</string>
-    <string name="cd_sync_status_synced">Synced to cloud</string>
-    <string name="cd_sync_status_syncing">Syncing to cloud</string>
     <string name="cd_view_toggle">Toggle grid/list view</string>
     <string name="close_drawer">"Close navigation menu"</string>
     <string name="close_sheet">"Close sheet"</string>
@@ -536,7 +502,6 @@
     <string name="common_signin_button_text_long">Sign in with Google</string>
     <string name="confirm">Confirm</string>
     <string name="confirm_device_credential_password">Use password</string>
-    <string name="copy_toast_msg">Link copied to clipboard</string>
     <string name="default_error_message">"Invalid input"</string>
     <string name="default_error_msg">Unknown error</string>
     <string name="default_popup_window_title" tools:ignore="ExtraTranslation">"Pop-Up Window"</string>
@@ -557,9 +522,6 @@
     <string name="editor_title">Edit Document</string>
     <string name="error_generic">Something went wrong. Please try again.</string>
     <string name="error_network">No internet connection.</string>
-    <string name="fallback_menu_item_copy_link">Copy link</string>
-    <string name="fallback_menu_item_open_in_browser">Open in browser</string>
-    <string name="fallback_menu_item_share_link">Share link</string>
     <string name="fingerprint_dialog_touch_sensor">Touch the fingerprint sensor</string>
     <string name="fingerprint_error_hw_not_available">Fingerprint hardware not available.</string>
     <string name="fingerprint_error_hw_not_present">This device does not have a fingerprint sensor</string>
@@ -585,7 +547,7 @@
     <string name="home_sort_name_asc">Name (A–Z)</string>
     <string name="home_sort_name_desc">Name (Z–A)</string>
     <string name="home_sort_pages">Page count</string>
-    <string name="home_title">DocScanner</string>
+    <string name="home_title">Scanly</string>
     <string name="in_progress">In progress</string>
     <string name="indeterminate">Partially checked</string>
     <string name="loading">Loading…</string>
@@ -672,17 +634,17 @@
     <string name="ocr_no_text">No text found in this page.</string>
     <string name="ocr_title">Extracted Text</string>
     <string name="ok">OK</string>
-    <string name="onboarding_cloud_subtitle">Sign in to automatically back up your documents and access them from any device</string>
-    <string name="onboarding_cloud_title">Cloud Backup</string>
     <string name="onboarding_enhance_subtitle">Apply professional filters, adjust brightness and contrast, and export as PDF or image</string>
     <string name="onboarding_enhance_title">Enhance &amp; Export</string>
     <string name="onboarding_get_started">Get Started</string>
     <string name="onboarding_next">Next</string>
+    <string name="onboarding_offline_subtitle">Your documents stay securely on your device. Complete privacy with local encryption.</string>
+    <string name="onboarding_offline_title">100% Offline &amp; Private</string>
     <string name="onboarding_scan_subtitle">Use your camera to scan documents with automatic edge detection and perspective correction</string>
     <string name="onboarding_scan_title">Scan Documents</string>
     <string name="onboarding_skip">Skip</string>
     <string name="onboarding_welcome_subtitle">Your free, powerful document scanner</string>
-    <string name="onboarding_welcome_title">Welcome to DocScanner</string>
+    <string name="onboarding_welcome_title">Welcome to Scanly</string>
     <string name="page_count">%1$d pages</string>
     <string name="page_count_singular">1 page</string>
     <string name="pdf_export_button">Export</string>
@@ -711,14 +673,10 @@
     <string name="search_title">Search</string>
     <string name="selected">Selected</string>
     <string name="settings_about">About</string>
-    <string name="settings_account">Account</string>
     <string name="settings_app_lock">App lock</string>
     <string name="settings_app_lock_subtitle">Require biometric or PIN to open the app</string>
     <string name="settings_appearance">Appearance</string>
-    <string name="settings_auto_sync">Auto sync</string>
-    <string name="settings_auto_sync_subtitle">Automatically back up documents to the cloud</string>
     <string name="settings_clear_cache">Clear cache</string>
-    <string name="settings_cloud">Cloud</string>
     <string name="settings_data">Data</string>
     <string name="settings_default_filter">Default filter</string>
     <string name="settings_default_page_size">Default page size</string>
@@ -729,7 +687,6 @@
     <string name="settings_privacy">Privacy policy</string>
     <string name="settings_scanning">Scanning Defaults</string>
     <string name="settings_security">Security</string>
-    <string name="settings_storage">Storage usage</string>
     <string name="settings_theme">Theme</string>
     <string name="settings_theme_dark">Dark</string>
     <string name="settings_theme_light">Light</string>
@@ -743,11 +700,6 @@
     <string name="state_off">Off</string>
     <string name="state_on">On</string>
     <string name="status_bar_notification_info_overflow">999+</string>
-    <string name="storage_free_tip">Free up space by deleting unused documents</string>
-    <string name="storage_not_signed_in">Sign in to use cloud storage</string>
-    <string name="storage_title">Storage</string>
-    <string name="storage_upgrade">Need more space?</string>
-    <string name="storage_used">%1$s of %2$s used</string>
     <string name="switch_role">Switch</string>
     <string name="tab">Tab</string>
     <string name="template_percent"><ns1:g id="percentage">%1$d</ns1:g> percent.</string>
@@ -2202,18 +2154,6 @@
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">true</item>
     </style>
-    <style name="Theme.Hidden" parent="@android:style/Theme.DeviceDefault">
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowTranslucentNavigation">true</item>
-    </style>
-    <style name="Theme.PlayCore.Transparent" parent="android:Theme">
-<item name="android:windowIsTranslucent">true</item>
-<item name="android:windowBackground">@android:color/transparent</item>
-<item name="android:windowContentOverlay">@null</item>
-<item name="android:windowNoTitle">true</item>
-<item name="android:windowIsFloating">true</item>
-<item name="android:backgroundDimEnabled">false</item>
-</style>
     <style name="ThemeOverlay.AppCompat" parent="Base.ThemeOverlay.AppCompat"/>
     <style name="ThemeOverlay.AppCompat.ActionBar" parent="Base.ThemeOverlay.AppCompat.ActionBar"/>
     <style name="ThemeOverlay.AppCompat.Dark" parent="Base.ThemeOverlay.AppCompat.Dark"/>

@@ -1,7 +1,6 @@
 package com.docscanner.app.presentation.home;
 
 import com.docscanner.app.domain.repository.DocumentRepository;
-import com.docscanner.app.domain.repository.SyncRepository;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.Factory;
 import dagger.internal.Provider;
@@ -28,27 +27,21 @@ import javax.annotation.processing.Generated;
 public final class HomeViewModel_Factory implements Factory<HomeViewModel> {
   private final Provider<DocumentRepository> documentRepositoryProvider;
 
-  private final Provider<SyncRepository> syncRepositoryProvider;
-
-  private HomeViewModel_Factory(Provider<DocumentRepository> documentRepositoryProvider,
-      Provider<SyncRepository> syncRepositoryProvider) {
+  private HomeViewModel_Factory(Provider<DocumentRepository> documentRepositoryProvider) {
     this.documentRepositoryProvider = documentRepositoryProvider;
-    this.syncRepositoryProvider = syncRepositoryProvider;
   }
 
   @Override
   public HomeViewModel get() {
-    return newInstance(documentRepositoryProvider.get(), syncRepositoryProvider.get());
+    return newInstance(documentRepositoryProvider.get());
   }
 
   public static HomeViewModel_Factory create(
-      Provider<DocumentRepository> documentRepositoryProvider,
-      Provider<SyncRepository> syncRepositoryProvider) {
-    return new HomeViewModel_Factory(documentRepositoryProvider, syncRepositoryProvider);
+      Provider<DocumentRepository> documentRepositoryProvider) {
+    return new HomeViewModel_Factory(documentRepositoryProvider);
   }
 
-  public static HomeViewModel newInstance(DocumentRepository documentRepository,
-      SyncRepository syncRepository) {
-    return new HomeViewModel(documentRepository, syncRepository);
+  public static HomeViewModel newInstance(DocumentRepository documentRepository) {
+    return new HomeViewModel(documentRepository);
   }
 }

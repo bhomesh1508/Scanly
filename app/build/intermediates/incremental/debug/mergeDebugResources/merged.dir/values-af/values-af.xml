@@ -27,8 +27,6 @@
     <string msgid="8875138169939072951" name="abc_shareactionprovider_share_with">"Deel met"</string>
     <string msgid="9055268688411532828" name="abc_shareactionprovider_share_with_application">"Deel met <ns1:g id="APPLICATION_NAME">%s</ns1:g>"</string>
     <string msgid="1656852541809559762" name="abc_toolbar_collapse_description">"Vou in"</string>
-    <string msgid="8397015543330865059" name="android.credentials.TYPE_PASSWORD_CREDENTIAL">"Wagwoord"</string>
-    <string msgid="3929015085059320822" name="androidx.credentials.TYPE_PUBLIC_KEY_CREDENTIAL">"Wagwoordsleutel"</string>
     <string msgid="8719607706653693137" name="androidx_compose_foundation_autofill">"Outovul"</string>
     <string msgid="1150566100598813236" name="androidx_compose_ui_autofill">"Outovul"</string>
     <string msgid="881409763997275156" name="call_notification_answer_action">"Antwoord"</string>
@@ -59,14 +57,10 @@
     <string name="common_signin_button_text">Meld aan</string>
     <string name="common_signin_button_text_long">Meld aan met Google</string>
     <string msgid="5912733858573823945" name="confirm_device_credential_password">"Gebruik wagwoord"</string>
-    <string msgid="3260749812566568062" name="copy_toast_msg">"Skakel is na knipbord gekopieer"</string>
     <string msgid="8038256446254964252" name="default_error_message">"Ongeldige invoer"</string>
     <string msgid="4776854077120974966" name="default_error_msg">"Onbekende fout"</string>
     <string msgid="6312721426453364202" name="default_popup_window_title">"Opspringvenster"</string>
     <string msgid="1890207353314751437" name="dropdown_menu">"Aftrekkieslys"</string>
-    <string msgid="4566929209979330987" name="fallback_menu_item_copy_link">"Kopieer skakel"</string>
-    <string msgid="3413186855122069269" name="fallback_menu_item_open_in_browser">"Maak in blaaier oop"</string>
-    <string msgid="7145444925855055364" name="fallback_menu_item_share_link">"Deel skakel"</string>
     <string msgid="1072308044213194243" name="fingerprint_dialog_touch_sensor">"Raak die vingerafdruksensor"</string>
     <string msgid="8216738333501875566" name="fingerprint_error_hw_not_available">"Vingerafdrukhardeware is nie beskikbaar nie."</string>
     <string msgid="6306988885793029438" name="fingerprint_error_hw_not_present">"Hierdie toetstel het nie \'n vingerafdruksensor nie"</string>

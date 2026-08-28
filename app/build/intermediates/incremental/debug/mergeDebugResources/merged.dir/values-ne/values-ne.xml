@@ -27,8 +27,6 @@
     <string msgid="8875138169939072951" name="abc_shareactionprovider_share_with">"यसमार्फत सेयर गर्नुहोस्"</string>
     <string msgid="9055268688411532828" name="abc_shareactionprovider_share_with_application">"<ns1:g id="APPLICATION_NAME">%s</ns1:g> मार्फत सेयर गर्नुहोस्"</string>
     <string msgid="1656852541809559762" name="abc_toolbar_collapse_description">"संक्षिप्त गर्नुहोस्"</string>
-    <string msgid="8397015543330865059" name="android.credentials.TYPE_PASSWORD_CREDENTIAL">"पासवर्ड"</string>
-    <string msgid="3929015085059320822" name="androidx.credentials.TYPE_PUBLIC_KEY_CREDENTIAL">"पासकी"</string>
     <string msgid="8719607706653693137" name="androidx_compose_foundation_autofill">"अटोफिल"</string>
     <string msgid="1150566100598813236" name="androidx_compose_ui_autofill">"अटोफिल"</string>
     <string msgid="881409763997275156" name="call_notification_answer_action">"जवाफ दिनुहोस्"</string>
@@ -43,7 +41,7 @@
     <string msgid="2523291102206661146" name="common_google_play_services_enable_button">अन गर्नुहोस्</string>
     <string msgid="227660514972886228" name="common_google_play_services_enable_text">%1$s ले तपाईँले Google Play सेवाहरू सक्षम नगरेसम्म काम गर्दैन।</string>
     <string msgid="5122002158466380389" name="common_google_play_services_enable_title">Google Play सेवाहरू सक्षम पार्नुहोस्</string>
-    <string msgid="7153882981874058840" name="common_google_play_services_install_button">इन्स्टल गर्नुहोस्</string>
+    <string msgid="7153882981874058840" name="common_google_play_services_install_button">स्थापना गर्नुहोस्</string>
     <string name="common_google_play_services_install_text">%1$s Google Play services बिना सञ्चालन हुने छैन र तपाईँको यन्त्रमा Google Play services उपलब्ध छैनन्।</string>
     <string msgid="7215213145546190223" name="common_google_play_services_install_title">Google Play सेवाहरू प्राप्त गर्नुहोस्</string>
     <string name="common_google_play_services_notification_channel_name">Google Play सेवाको उपलब्धता</string>
@@ -59,14 +57,10 @@
     <string name="common_signin_button_text">साइन इन गर्नुहोस्</string>
     <string name="common_signin_button_text_long">Google मार्फत साइन‍ इन गर्नुहोस्</string>
     <string msgid="5912733858573823945" name="confirm_device_credential_password">"पासवर्ड प्रयोग गर्नुहोस्"</string>
-    <string msgid="3260749812566568062" name="copy_toast_msg">"क्लिपबोर्डमा लिंक प्रतिलिपि गरियो"</string>
     <string msgid="8038256446254964252" name="default_error_message">"अवैद्य इन्पुट"</string>
     <string msgid="4776854077120974966" name="default_error_msg">"अज्ञात त्रुटि"</string>
     <string msgid="6312721426453364202" name="default_popup_window_title">"पपअप विन्डो"</string>
     <string msgid="1890207353314751437" name="dropdown_menu">"ड्रपडाउन मेनु"</string>
-    <string msgid="4566929209979330987" name="fallback_menu_item_copy_link">"लिंक प्रतिलिपि गर्नुहोस्"</string>
-    <string msgid="3413186855122069269" name="fallback_menu_item_open_in_browser">"ब्राउजरमा खोल्नुहोस्"</string>
-    <string msgid="7145444925855055364" name="fallback_menu_item_share_link">"लिंक सेयर गर्नुहोस्"</string>
     <string msgid="1072308044213194243" name="fingerprint_dialog_touch_sensor">"फिंगरप्रिन्ट सेन्सरमा छुनुहोस्‌"</string>
     <string msgid="8216738333501875566" name="fingerprint_error_hw_not_available">"फिंगरप्रिन्ट हार्डवेयर उपलब्ध छैन।"</string>
     <string msgid="6306988885793029438" name="fingerprint_error_hw_not_present">"यो यन्त्रमा कुनै फिंगरप्रिन्ट सेन्सर छैन"</string>

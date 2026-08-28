@@ -27,8 +27,6 @@
     <string msgid="8875138169939072951" name="abc_shareactionprovider_share_with">"Condividi con"</string>
     <string msgid="9055268688411532828" name="abc_shareactionprovider_share_with_application">"Condividi tramite <ns1:g id="APPLICATION_NAME">%s</ns1:g>"</string>
     <string msgid="1656852541809559762" name="abc_toolbar_collapse_description">"Comprimi"</string>
-    <string msgid="8397015543330865059" name="android.credentials.TYPE_PASSWORD_CREDENTIAL">"Password"</string>
-    <string msgid="3929015085059320822" name="androidx.credentials.TYPE_PUBLIC_KEY_CREDENTIAL">"Passkey"</string>
     <string msgid="8719607706653693137" name="androidx_compose_foundation_autofill">"Compilazione automatica"</string>
     <string msgid="1150566100598813236" name="androidx_compose_ui_autofill">"Compilazione automatica"</string>
     <string msgid="881409763997275156" name="call_notification_answer_action">"Rispondi"</string>
@@ -55,18 +53,14 @@
     <string msgid="6006316683626838685" name="common_google_play_services_update_title">Aggiorna Google Play Services</string>
     <string name="common_google_play_services_updating_text">%1$s non funzionerà senza Google Play Services, attualmente in fase di aggiornamento.</string>
     <string name="common_google_play_services_wear_update_text">È richiesta una nuova versione di Google Play Services. L\'aggiornamento automatico verrà eseguito a breve.</string>
-    <string name="common_open_on_phone">Apri su smartphone</string>
+    <string name="common_open_on_phone">Apri sul telefono</string>
     <string name="common_signin_button_text">Accedi</string>
     <string name="common_signin_button_text_long">Accedi con Google</string>
     <string msgid="5912733858573823945" name="confirm_device_credential_password">"Utilizza password"</string>
-    <string msgid="3260749812566568062" name="copy_toast_msg">"Link copiato negli appunti"</string>
     <string msgid="8038256446254964252" name="default_error_message">"Valore non valido"</string>
     <string msgid="4776854077120974966" name="default_error_msg">"Errore sconosciuto"</string>
     <string msgid="6312721426453364202" name="default_popup_window_title">"Finestra popup"</string>
     <string msgid="1890207353314751437" name="dropdown_menu">"Menu a discesa"</string>
-    <string msgid="4566929209979330987" name="fallback_menu_item_copy_link">"Copia link"</string>
-    <string msgid="3413186855122069269" name="fallback_menu_item_open_in_browser">"Apri nel browser"</string>
-    <string msgid="7145444925855055364" name="fallback_menu_item_share_link">"Condividi link"</string>
     <string msgid="1072308044213194243" name="fingerprint_dialog_touch_sensor">"Tocca sensore impronte"</string>
     <string msgid="8216738333501875566" name="fingerprint_error_hw_not_available">"Hardware per l\'impronta non disponibile."</string>
     <string msgid="6306988885793029438" name="fingerprint_error_hw_not_present">"Questo dispositivo non è dotato di sensore di impronte"</string>

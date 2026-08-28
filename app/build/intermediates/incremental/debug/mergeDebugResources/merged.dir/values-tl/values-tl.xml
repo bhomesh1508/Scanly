@@ -27,8 +27,6 @@
     <string msgid="8875138169939072951" name="abc_shareactionprovider_share_with">"Ibahagi sa/kay"</string>
     <string msgid="9055268688411532828" name="abc_shareactionprovider_share_with_application">"Ibahagi gamit ang <ns1:g id="APPLICATION_NAME">%s</ns1:g>"</string>
     <string msgid="1656852541809559762" name="abc_toolbar_collapse_description">"I-collapse"</string>
-    <string msgid="8397015543330865059" name="android.credentials.TYPE_PASSWORD_CREDENTIAL">"Password"</string>
-    <string msgid="3929015085059320822" name="androidx.credentials.TYPE_PUBLIC_KEY_CREDENTIAL">"Passkey"</string>
     <string msgid="8719607706653693137" name="androidx_compose_foundation_autofill">"Autofill"</string>
     <string msgid="1150566100598813236" name="androidx_compose_ui_autofill">"Autofill"</string>
     <string msgid="881409763997275156" name="call_notification_answer_action">"Sagutin"</string>
@@ -59,14 +57,10 @@
     <string name="common_signin_button_text">Mag-sign in</string>
     <string name="common_signin_button_text_long">Mag-sign in sa Google</string>
     <string msgid="5912733858573823945" name="confirm_device_credential_password">"Gamitin ang password"</string>
-    <string msgid="3260749812566568062" name="copy_toast_msg">"Nakopya sa clipboard ang link"</string>
     <string msgid="8038256446254964252" name="default_error_message">"Invalid na input"</string>
     <string msgid="4776854077120974966" name="default_error_msg">"Hindi alam na error"</string>
     <string msgid="6312721426453364202" name="default_popup_window_title">"Window ng Pop-Up"</string>
     <string msgid="1890207353314751437" name="dropdown_menu">"Drop-down na menu"</string>
-    <string msgid="4566929209979330987" name="fallback_menu_item_copy_link">"Kopyahin ang link"</string>
-    <string msgid="3413186855122069269" name="fallback_menu_item_open_in_browser">"Buksan sa browser"</string>
-    <string msgid="7145444925855055364" name="fallback_menu_item_share_link">"Ibahagi ang link"</string>
     <string msgid="1072308044213194243" name="fingerprint_dialog_touch_sensor">"Pindutin ang fingerprint sensor"</string>
     <string msgid="8216738333501875566" name="fingerprint_error_hw_not_available">"Hindi available ang hardware na ginagamitan ng fingerprint."</string>
     <string msgid="6306988885793029438" name="fingerprint_error_hw_not_present">"Walang sensor para sa fingerprint ang device na ito"</string>

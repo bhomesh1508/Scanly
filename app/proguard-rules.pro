@@ -1,9 +1,3 @@
-# Firebase
--keepattributes Signature
--keepclassmembers class * {
-  @com.google.firebase.database.IgnoreExtraProperties *;
-}
-
 # Room
 -keep class * extends androidx.room.RoomDatabase
 -dontwarn androidx.room.paging.**

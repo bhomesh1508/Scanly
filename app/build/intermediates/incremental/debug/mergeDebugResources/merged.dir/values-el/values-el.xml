@@ -27,8 +27,6 @@
     <string msgid="8875138169939072951" name="abc_shareactionprovider_share_with">"Κοινοποίηση σε"</string>
     <string msgid="9055268688411532828" name="abc_shareactionprovider_share_with_application">"Κοινοποίηση στην εφαρμογή <ns1:g id="APPLICATION_NAME">%s</ns1:g>"</string>
     <string msgid="1656852541809559762" name="abc_toolbar_collapse_description">"Σύμπτυξη"</string>
-    <string msgid="8397015543330865059" name="android.credentials.TYPE_PASSWORD_CREDENTIAL">"Κωδικός πρόσβασης"</string>
-    <string msgid="3929015085059320822" name="androidx.credentials.TYPE_PUBLIC_KEY_CREDENTIAL">"Κλειδί πρόσβασης"</string>
     <string msgid="8719607706653693137" name="androidx_compose_foundation_autofill">"Αυτόματη συμπλήρωση"</string>
     <string msgid="1150566100598813236" name="androidx_compose_ui_autofill">"Αυτόματη συμπλήρωση"</string>
     <string msgid="881409763997275156" name="call_notification_answer_action">"Απάντηση"</string>
@@ -59,14 +57,10 @@
     <string name="common_signin_button_text">Σύνδεση</string>
     <string name="common_signin_button_text_long">Συνδεθείτε με το Google</string>
     <string msgid="5912733858573823945" name="confirm_device_credential_password">"Χρήση κωδικού πρόσβασης"</string>
-    <string msgid="3260749812566568062" name="copy_toast_msg">"Ο σύνδεσμος αντιγράφηκε στο πρόχειρο"</string>
     <string msgid="8038256446254964252" name="default_error_message">"Μη έγκυρη καταχώριση"</string>
     <string msgid="4776854077120974966" name="default_error_msg">"Άγνωστο σφάλμα"</string>
     <string msgid="6312721426453364202" name="default_popup_window_title">"Αναδυόμενο παράθυρο"</string>
     <string msgid="1890207353314751437" name="dropdown_menu">"Αναπτυσσόμενο μενού"</string>
-    <string msgid="4566929209979330987" name="fallback_menu_item_copy_link">"Αντιγραφή συνδέσμου"</string>
-    <string msgid="3413186855122069269" name="fallback_menu_item_open_in_browser">"Άνοιγμα σε πρόγραμμα περιήγησης"</string>
-    <string msgid="7145444925855055364" name="fallback_menu_item_share_link">"Κοινοποίηση συνδέσμου"</string>
     <string msgid="1072308044213194243" name="fingerprint_dialog_touch_sensor">"Αγγίξτε τον αισθ. δακτ. αποτ."</string>
     <string msgid="8216738333501875566" name="fingerprint_error_hw_not_available">"Ο εξοπλισμός δακτυλικού αποτυπώματος δεν είναι διαθέσιμος."</string>
     <string msgid="6306988885793029438" name="fingerprint_error_hw_not_present">"Αυτή η συσκευή δεν διαθέτει αισθητήρα δακτυλικού αποτυπώματος"</string>

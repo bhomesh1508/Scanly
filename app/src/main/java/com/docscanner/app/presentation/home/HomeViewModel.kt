@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.docscanner.app.domain.model.Document
 import com.docscanner.app.domain.repository.DocumentRepository
-import com.docscanner.app.domain.repository.SyncRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -15,8 +14,7 @@ enum class ViewType { GRID, LIST }
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val documentRepository: DocumentRepository,
-    private val syncRepository: SyncRepository
+    private val documentRepository: DocumentRepository
 ) : ViewModel() {
 
     private val _documents = MutableStateFlow<List<Document>>(emptyList())
@@ -72,12 +70,6 @@ class HomeViewModel @Inject constructor(
     fun renameDocument(docId: String, newTitle: String) {
         viewModelScope.launch {
             documentRepository.renameDocument(docId, newTitle)
-        }
-    }
-
-    fun syncAll() {
-        viewModelScope.launch {
-            syncRepository.triggerImmediateSync()
         }
     }
 }

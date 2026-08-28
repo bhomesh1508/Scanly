@@ -27,8 +27,6 @@
     <string msgid="8875138169939072951" name="abc_shareactionprovider_share_with">"આની સાથે શેર કરો"</string>
     <string msgid="9055268688411532828" name="abc_shareactionprovider_share_with_application">"<ns1:g id="APPLICATION_NAME">%s</ns1:g>ની સાથે શેર કરો"</string>
     <string msgid="1656852541809559762" name="abc_toolbar_collapse_description">"સંકુચિત કરો"</string>
-    <string msgid="8397015543330865059" name="android.credentials.TYPE_PASSWORD_CREDENTIAL">"પાસવર્ડ"</string>
-    <string msgid="3929015085059320822" name="androidx.credentials.TYPE_PUBLIC_KEY_CREDENTIAL">"પાસકી"</string>
     <string msgid="8719607706653693137" name="androidx_compose_foundation_autofill">"ઑટોમૅટિક રીતે ભરવાની સુવિધા"</string>
     <string msgid="1150566100598813236" name="androidx_compose_ui_autofill">"ઑટોમૅટિક રીતે ભરવાની સુવિધા"</string>
     <string msgid="881409763997275156" name="call_notification_answer_action">"જવાબ આપો"</string>
@@ -59,14 +57,10 @@
     <string name="common_signin_button_text">સાઇન ઇન કરો</string>
     <string name="common_signin_button_text_long">Google માં સાઇન ઇન કરો</string>
     <string msgid="5912733858573823945" name="confirm_device_credential_password">"પાસવર્ડનો ઉપયોગ કરો"</string>
-    <string msgid="3260749812566568062" name="copy_toast_msg">"ક્લિપબોર્ડ પર લિંક કૉપિ કરી"</string>
     <string msgid="8038256446254964252" name="default_error_message">"અમાન્ય ઇનપુટ"</string>
     <string msgid="4776854077120974966" name="default_error_msg">"અજાણી ભૂલ"</string>
     <string msgid="6312721426453364202" name="default_popup_window_title">"પૉપ-અપ વિન્ડો"</string>
     <string msgid="1890207353314751437" name="dropdown_menu">"ડ્રૉપડાઉન મેનૂ"</string>
-    <string msgid="4566929209979330987" name="fallback_menu_item_copy_link">"લિંક કૉપિ કરો"</string>
-    <string msgid="3413186855122069269" name="fallback_menu_item_open_in_browser">"બ્રાઉઝરમાં ખોલો"</string>
-    <string msgid="7145444925855055364" name="fallback_menu_item_share_link">"લિંક શેર કરો"</string>
     <string msgid="1072308044213194243" name="fingerprint_dialog_touch_sensor">"ફિંગરપ્રિન્ટના સેન્સરને સ્પર્શ કરો"</string>
     <string msgid="8216738333501875566" name="fingerprint_error_hw_not_available">"ફિંગરપ્રિન્ટ હાર્ડવેર ઉપલબ્ધ નથી."</string>
     <string msgid="6306988885793029438" name="fingerprint_error_hw_not_present">"આ ડિવાઇસમાં કોઈ ફિંગરપ્રિન્ટ સેન્સર નથી"</string>

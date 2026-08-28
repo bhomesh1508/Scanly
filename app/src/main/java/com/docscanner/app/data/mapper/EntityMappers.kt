@@ -7,7 +7,6 @@ import com.docscanner.app.domain.model.Document
 import com.docscanner.app.domain.model.FilterType
 import com.docscanner.app.domain.model.Folder
 import com.docscanner.app.domain.model.Page
-import com.docscanner.app.domain.model.SyncStatus
 
 fun DocumentEntity.toDomain(): Document {
     return Document(
@@ -17,8 +16,6 @@ fun DocumentEntity.toDomain(): Document {
         pageCount = this.pageCount,
         thumbnailPath = this.thumbnailPath,
         ocrText = this.ocrText,
-        cloudPdfUrl = this.cloudPdfUrl,
-        syncStatus = try { SyncStatus.valueOf(this.syncStatus) } catch (e: IllegalArgumentException) { SyncStatus.LOCAL_ONLY },
         isEncrypted = this.isEncrypted,
         isTrashed = this.isTrashed,
         trashedAt = this.trashedAt,
@@ -35,8 +32,6 @@ fun Document.toEntity(): DocumentEntity {
         pageCount = this.pageCount,
         thumbnailPath = this.thumbnailPath,
         ocrText = this.ocrText,
-        cloudPdfUrl = this.cloudPdfUrl,
-        syncStatus = this.syncStatus.name,
         isEncrypted = this.isEncrypted,
         isTrashed = this.isTrashed,
         trashedAt = this.trashedAt,

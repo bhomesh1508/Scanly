@@ -47,19 +47,18 @@ public class AppDatabase_Impl : AppDatabase() {
 
   protected override fun createOpenDelegate(): RoomOpenDelegate {
     val _openDelegate: RoomOpenDelegate = object : RoomOpenDelegate(1,
-        "f620a2cb80bbce6d4ec2592e151d3e2c", "71ffa7e03339a542424d3e7d1755d906") {
+        "d1499ac5738473bb3ca40b7de576ca0d", "99ab059d575f99d23cd593d873516498") {
       public override fun createAllTables(connection: SQLiteConnection) {
-        connection.execSQL("CREATE TABLE IF NOT EXISTS `documents` (`id` TEXT NOT NULL, `title` TEXT NOT NULL, `folderId` TEXT, `pageCount` INTEGER NOT NULL, `thumbnailPath` TEXT NOT NULL, `ocrText` TEXT, `cloudPdfUrl` TEXT, `syncStatus` TEXT NOT NULL, `isEncrypted` INTEGER NOT NULL, `isTrashed` INTEGER NOT NULL, `trashedAt` INTEGER, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, PRIMARY KEY(`id`))")
+        connection.execSQL("CREATE TABLE IF NOT EXISTS `documents` (`id` TEXT NOT NULL, `title` TEXT NOT NULL, `folderId` TEXT, `pageCount` INTEGER NOT NULL, `thumbnailPath` TEXT NOT NULL, `ocrText` TEXT, `isEncrypted` INTEGER NOT NULL, `isTrashed` INTEGER NOT NULL, `trashedAt` INTEGER, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, PRIMARY KEY(`id`))")
         connection.execSQL("CREATE INDEX IF NOT EXISTS `index_documents_folderId` ON `documents` (`folderId`)")
         connection.execSQL("CREATE INDEX IF NOT EXISTS `index_documents_title` ON `documents` (`title`)")
         connection.execSQL("CREATE INDEX IF NOT EXISTS `index_documents_createdAt` ON `documents` (`createdAt`)")
         connection.execSQL("CREATE INDEX IF NOT EXISTS `index_documents_isTrashed` ON `documents` (`isTrashed`)")
-        connection.execSQL("CREATE INDEX IF NOT EXISTS `index_documents_syncStatus` ON `documents` (`syncStatus`)")
         connection.execSQL("CREATE TABLE IF NOT EXISTS `pages` (`id` TEXT NOT NULL, `documentId` TEXT NOT NULL, `pageNumber` INTEGER NOT NULL, `originalImagePath` TEXT NOT NULL, `processedImagePath` TEXT NOT NULL, `thumbnailPath` TEXT NOT NULL, `width` INTEGER NOT NULL, `height` INTEGER NOT NULL, `rotation` INTEGER NOT NULL, `filter` TEXT NOT NULL, `brightness` REAL NOT NULL, `contrast` REAL NOT NULL, `ocrText` TEXT, `ocrConfidence` REAL, `createdAt` INTEGER NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`documentId`) REFERENCES `documents`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )")
         connection.execSQL("CREATE INDEX IF NOT EXISTS `index_pages_documentId` ON `pages` (`documentId`)")
         connection.execSQL("CREATE TABLE IF NOT EXISTS `folders` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `color` INTEGER NOT NULL, `documentCount` INTEGER NOT NULL, `createdAt` INTEGER NOT NULL, PRIMARY KEY(`id`))")
         connection.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)")
-        connection.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f620a2cb80bbce6d4ec2592e151d3e2c')")
+        connection.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd1499ac5738473bb3ca40b7de576ca0d')")
       }
 
       public override fun dropAllTables(connection: SQLiteConnection) {
@@ -98,10 +97,6 @@ public class AppDatabase_Impl : AppDatabase() {
             null, TableInfo.CREATED_FROM_ENTITY))
         _columnsDocuments.put("ocrText", TableInfo.Column("ocrText", "TEXT", false, 0, null,
             TableInfo.CREATED_FROM_ENTITY))
-        _columnsDocuments.put("cloudPdfUrl", TableInfo.Column("cloudPdfUrl", "TEXT", false, 0, null,
-            TableInfo.CREATED_FROM_ENTITY))
-        _columnsDocuments.put("syncStatus", TableInfo.Column("syncStatus", "TEXT", true, 0, null,
-            TableInfo.CREATED_FROM_ENTITY))
         _columnsDocuments.put("isEncrypted", TableInfo.Column("isEncrypted", "INTEGER", true, 0,
             null, TableInfo.CREATED_FROM_ENTITY))
         _columnsDocuments.put("isTrashed", TableInfo.Column("isTrashed", "INTEGER", true, 0, null,
@@ -122,8 +117,6 @@ public class AppDatabase_Impl : AppDatabase() {
             listOf("createdAt"), listOf("ASC")))
         _indicesDocuments.add(TableInfo.Index("index_documents_isTrashed", false,
             listOf("isTrashed"), listOf("ASC")))
-        _indicesDocuments.add(TableInfo.Index("index_documents_syncStatus", false,
-            listOf("syncStatus"), listOf("ASC")))
         val _infoDocuments: TableInfo = TableInfo("documents", _columnsDocuments,
             _foreignKeysDocuments, _indicesDocuments)
         val _existingDocuments: TableInfo = read(connection, "documents")

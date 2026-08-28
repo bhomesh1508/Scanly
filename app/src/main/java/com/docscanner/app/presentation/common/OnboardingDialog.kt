@@ -19,8 +19,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AutoFixHigh
 import androidx.compose.material.icons.filled.CameraAlt
-import androidx.compose.material.icons.filled.CloudUpload
 import androidx.compose.material.icons.filled.DocumentScanner
+import androidx.compose.material.icons.filled.Security
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -48,7 +48,7 @@ fun OnboardingDialog(onComplete: () -> Unit) {
         OnboardingPage(Icons.Default.DocumentScanner, "Welcome to DocScanner", "The best way to scan and manage your documents."),
         OnboardingPage(Icons.Default.CameraAlt, "Scan Documents", "Use your camera to quickly scan physical documents into digital format."),
         OnboardingPage(Icons.Default.AutoFixHigh, "Enhance & Export", "Apply filters, crop, and export your scans to high-quality PDFs."),
-        OnboardingPage(Icons.Default.CloudUpload, "Cloud Backup", "Keep your documents safe and synced across all your devices.")
+        OnboardingPage(Icons.Default.Security, "100% Offline & Private", "Your documents stay securely on your device. Complete privacy with local encryption.")
     )
 
     Dialog(

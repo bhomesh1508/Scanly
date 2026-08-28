@@ -16,14 +16,6 @@ class NotificationService @Inject constructor(private val context: Application) 
 
     fun createNotificationChannels() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val syncChannel = NotificationChannel(
-                "sync_channel",
-                "Cloud Sync",
-                NotificationManager.IMPORTANCE_LOW
-            ).apply {
-                description = "Notifications for cloud sync progress and completion"
-            }
-
             val scanChannel = NotificationChannel(
                 "scan_channel",
                 "Scan Complete",
@@ -32,31 +24,8 @@ class NotificationService @Inject constructor(private val context: Application) 
                 description = "Notifications when document scanning is completed"
             }
 
-            notificationManager.createNotificationChannels(listOf(syncChannel, scanChannel))
+            notificationManager.createNotificationChannel(scanChannel)
         }
-    }
-
-    fun showSyncProgressNotification(progress: Int) {
-        val builder = NotificationCompat.Builder(context, "sync_channel")
-            .setSmallIcon(android.R.drawable.ic_popup_sync)
-            .setContentTitle("Syncing Documents")
-            .setContentText("Sync in progress...")
-            .setPriority(NotificationCompat.PRIORITY_LOW)
-            .setProgress(100, progress, false)
-            .setOngoing(true)
-
-        notificationManager.notify(SYNC_NOTIFICATION_ID, builder.build())
-    }
-
-    fun showSyncCompleteNotification(docCount: Int) {
-        val builder = NotificationCompat.Builder(context, "sync_channel")
-            .setSmallIcon(android.R.drawable.ic_menu_save)
-            .setContentTitle("Sync Complete")
-            .setContentText("Successfully synced $docCount documents")
-            .setPriority(NotificationCompat.PRIORITY_LOW)
-            .setAutoCancel(true)
-
-        notificationManager.notify(SYNC_NOTIFICATION_ID, builder.build())
     }
 
     fun showScanCompleteNotification(documentTitle: String) {
@@ -75,7 +44,6 @@ class NotificationService @Inject constructor(private val context: Application) 
     }
 
     companion object {
-        const val SYNC_NOTIFICATION_ID = 101
         const val SCAN_NOTIFICATION_ID = 102
     }
 }

@@ -7,7 +7,6 @@ import com.docscanner.app.data.mapper.toDomain
 import com.docscanner.app.data.mapper.toEntity
 import com.docscanner.app.domain.model.Document
 import com.docscanner.app.domain.model.Page
-import com.docscanner.app.domain.model.SyncStatus
 import com.docscanner.app.domain.repository.DocumentRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -58,8 +57,6 @@ class DocumentRepositoryImpl @Inject constructor(
             pageCount = pageImagePaths.size,
             thumbnailPath = pageImagePaths.firstOrNull() ?: "",
             ocrText = null,
-            cloudPdfUrl = null,
-            syncStatus = SyncStatus.LOCAL_ONLY,
             isEncrypted = false,
             isTrashed = false,
             trashedAt = null,
@@ -135,8 +132,6 @@ class DocumentRepositoryImpl @Inject constructor(
             pageCount = 0,
             thumbnailPath = "",
             ocrText = null,
-            cloudPdfUrl = null,
-            syncStatus = SyncStatus.LOCAL_ONLY,
             isEncrypted = false,
             isTrashed = false,
             trashedAt = null,

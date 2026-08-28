@@ -10,20 +10,13 @@ import com.docscanner.app.data.local.dao.DocumentDao;
 import com.docscanner.app.data.local.dao.FolderDao;
 import com.docscanner.app.data.local.dao.PageDao;
 import com.docscanner.app.data.local.db.AppDatabase;
-import com.docscanner.app.data.remote.sync.SyncManager;
-import com.docscanner.app.data.repository.AuthRepositoryImpl;
 import com.docscanner.app.data.repository.DocumentRepositoryImpl;
 import com.docscanner.app.data.repository.FolderRepositoryImpl;
 import com.docscanner.app.data.repository.SettingsRepositoryImpl;
-import com.docscanner.app.data.repository.SyncRepositoryImpl;
 import com.docscanner.app.di.AppModule_ProvideAppDatabaseFactory;
 import com.docscanner.app.di.DatabaseModule_ProvideDocumentDaoFactory;
 import com.docscanner.app.di.DatabaseModule_ProvideFolderDaoFactory;
 import com.docscanner.app.di.DatabaseModule_ProvidePageDaoFactory;
-import com.docscanner.app.presentation.auth.AuthViewModel;
-import com.docscanner.app.presentation.auth.AuthViewModel_HiltModules;
-import com.docscanner.app.presentation.auth.AuthViewModel_HiltModules_BindsModule_Binds_LazyMapKey;
-import com.docscanner.app.presentation.auth.AuthViewModel_HiltModules_KeyModule_Provide_LazyMapKey;
 import com.docscanner.app.presentation.editor.EditorViewModel;
 import com.docscanner.app.presentation.editor.EditorViewModel_HiltModules;
 import com.docscanner.app.presentation.editor.EditorViewModel_HiltModules_BindsModule_Binds_LazyMapKey;
@@ -52,10 +45,6 @@ import com.docscanner.app.presentation.settings.SettingsViewModel;
 import com.docscanner.app.presentation.settings.SettingsViewModel_HiltModules;
 import com.docscanner.app.presentation.settings.SettingsViewModel_HiltModules_BindsModule_Binds_LazyMapKey;
 import com.docscanner.app.presentation.settings.SettingsViewModel_HiltModules_KeyModule_Provide_LazyMapKey;
-import com.docscanner.app.presentation.storage.StorageViewModel;
-import com.docscanner.app.presentation.storage.StorageViewModel_HiltModules;
-import com.docscanner.app.presentation.storage.StorageViewModel_HiltModules_BindsModule_Binds_LazyMapKey;
-import com.docscanner.app.presentation.storage.StorageViewModel_HiltModules_KeyModule_Provide_LazyMapKey;
 import com.docscanner.app.presentation.trash.TrashViewModel;
 import com.docscanner.app.presentation.trash.TrashViewModel_HiltModules;
 import com.docscanner.app.presentation.trash.TrashViewModel_HiltModules_BindsModule_Binds_LazyMapKey;
@@ -67,9 +56,6 @@ import com.docscanner.app.presentation.viewer.ViewerViewModel_HiltModules_KeyMod
 import com.docscanner.app.service.filter.ImageFilterService;
 import com.docscanner.app.service.notification.NotificationService;
 import com.docscanner.app.service.pdf.PdfGeneratorService;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import dagger.hilt.android.ActivityRetainedLifecycle;
 import dagger.hilt.android.ViewModelLifecycle;
 import dagger.hilt.android.internal.builders.ActivityComponentBuilder;
@@ -88,8 +74,10 @@ import dagger.hilt.android.internal.modules.ApplicationContextModule_ProvideAppl
 import dagger.internal.DaggerGenerated;
 import dagger.internal.DoubleCheck;
 import dagger.internal.LazyClassKeyMap;
+import dagger.internal.MapBuilder;
 import dagger.internal.Preconditions;
 import dagger.internal.Provider;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 import javax.annotation.processing.Generated;
@@ -416,9 +404,8 @@ public final class DaggerDocScannerApp_HiltComponents_SingletonC {
 
     }
 
-    ImmutableMap keySetMapOfClassOfObjectAndBooleanBuilder() {
-      ImmutableMap.Builder mapBuilder = ImmutableMap.<String, Boolean>builderWithExpectedSize(11);
-      mapBuilder.put(AuthViewModel_HiltModules_KeyModule_Provide_LazyMapKey.lazyClassKeyName, AuthViewModel_HiltModules.KeyModule.provide());
+    Map keySetMapOfClassOfObjectAndBooleanBuilder() {
+      MapBuilder mapBuilder = MapBuilder.<String, Boolean>newMapBuilder(9);
       mapBuilder.put(EditorViewModel_HiltModules_KeyModule_Provide_LazyMapKey.lazyClassKeyName, EditorViewModel_HiltModules.KeyModule.provide());
       mapBuilder.put(FolderDetailViewModel_HiltModules_KeyModule_Provide_LazyMapKey.lazyClassKeyName, FolderDetailViewModel_HiltModules.KeyModule.provide());
       mapBuilder.put(FoldersViewModel_HiltModules_KeyModule_Provide_LazyMapKey.lazyClassKeyName, FoldersViewModel_HiltModules.KeyModule.provide());
@@ -426,7 +413,6 @@ public final class DaggerDocScannerApp_HiltComponents_SingletonC {
       mapBuilder.put(ScannerViewModel_HiltModules_KeyModule_Provide_LazyMapKey.lazyClassKeyName, ScannerViewModel_HiltModules.KeyModule.provide());
       mapBuilder.put(SearchViewModel_HiltModules_KeyModule_Provide_LazyMapKey.lazyClassKeyName, SearchViewModel_HiltModules.KeyModule.provide());
       mapBuilder.put(SettingsViewModel_HiltModules_KeyModule_Provide_LazyMapKey.lazyClassKeyName, SettingsViewModel_HiltModules.KeyModule.provide());
-      mapBuilder.put(StorageViewModel_HiltModules_KeyModule_Provide_LazyMapKey.lazyClassKeyName, StorageViewModel_HiltModules.KeyModule.provide());
       mapBuilder.put(TrashViewModel_HiltModules_KeyModule_Provide_LazyMapKey.lazyClassKeyName, TrashViewModel_HiltModules.KeyModule.provide());
       mapBuilder.put(ViewerViewModel_HiltModules_KeyModule_Provide_LazyMapKey.lazyClassKeyName, ViewerViewModel_HiltModules.KeyModule.provide());
       return mapBuilder.build();
@@ -471,8 +457,6 @@ public final class DaggerDocScannerApp_HiltComponents_SingletonC {
 
     private final ViewModelCImpl viewModelCImpl = this;
 
-    Provider<AuthViewModel> authViewModelProvider;
-
     Provider<EditorViewModel> editorViewModelProvider;
 
     Provider<FolderDetailViewModel> folderDetailViewModelProvider;
@@ -487,8 +471,6 @@ public final class DaggerDocScannerApp_HiltComponents_SingletonC {
 
     Provider<SettingsViewModel> settingsViewModelProvider;
 
-    Provider<StorageViewModel> storageViewModelProvider;
-
     Provider<TrashViewModel> trashViewModelProvider;
 
     Provider<ViewerViewModel> viewerViewModelProvider;
@@ -502,9 +484,8 @@ public final class DaggerDocScannerApp_HiltComponents_SingletonC {
 
     }
 
-    ImmutableMap hiltViewModelMapMapOfClassOfObjectAndProviderOfViewModelBuilder() {
-      ImmutableMap.Builder mapBuilder = ImmutableMap.<String, javax.inject.Provider<ViewModel>>builderWithExpectedSize(11);
-      mapBuilder.put(AuthViewModel_HiltModules_BindsModule_Binds_LazyMapKey.lazyClassKeyName, ((Provider) (authViewModelProvider)));
+    Map hiltViewModelMapMapOfClassOfObjectAndProviderOfViewModelBuilder() {
+      MapBuilder mapBuilder = MapBuilder.<String, javax.inject.Provider<ViewModel>>newMapBuilder(9);
       mapBuilder.put(EditorViewModel_HiltModules_BindsModule_Binds_LazyMapKey.lazyClassKeyName, ((Provider) (editorViewModelProvider)));
       mapBuilder.put(FolderDetailViewModel_HiltModules_BindsModule_Binds_LazyMapKey.lazyClassKeyName, ((Provider) (folderDetailViewModelProvider)));
       mapBuilder.put(FoldersViewModel_HiltModules_BindsModule_Binds_LazyMapKey.lazyClassKeyName, ((Provider) (foldersViewModelProvider)));
@@ -512,7 +493,6 @@ public final class DaggerDocScannerApp_HiltComponents_SingletonC {
       mapBuilder.put(ScannerViewModel_HiltModules_BindsModule_Binds_LazyMapKey.lazyClassKeyName, ((Provider) (scannerViewModelProvider)));
       mapBuilder.put(SearchViewModel_HiltModules_BindsModule_Binds_LazyMapKey.lazyClassKeyName, ((Provider) (searchViewModelProvider)));
       mapBuilder.put(SettingsViewModel_HiltModules_BindsModule_Binds_LazyMapKey.lazyClassKeyName, ((Provider) (settingsViewModelProvider)));
-      mapBuilder.put(StorageViewModel_HiltModules_BindsModule_Binds_LazyMapKey.lazyClassKeyName, ((Provider) (storageViewModelProvider)));
       mapBuilder.put(TrashViewModel_HiltModules_BindsModule_Binds_LazyMapKey.lazyClassKeyName, ((Provider) (trashViewModelProvider)));
       mapBuilder.put(ViewerViewModel_HiltModules_BindsModule_Binds_LazyMapKey.lazyClassKeyName, ((Provider) (viewerViewModelProvider)));
       return mapBuilder.build();
@@ -521,17 +501,15 @@ public final class DaggerDocScannerApp_HiltComponents_SingletonC {
     @SuppressWarnings("unchecked")
     private void initialize(final SavedStateHandle savedStateHandleParam,
         final ViewModelLifecycle viewModelLifecycleParam) {
-      this.authViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 0);
-      this.editorViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 1);
-      this.folderDetailViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 2);
-      this.foldersViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 3);
-      this.homeViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 4);
-      this.scannerViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 5);
-      this.searchViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 6);
-      this.settingsViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 7);
-      this.storageViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 8);
-      this.trashViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 9);
-      this.viewerViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 10);
+      this.editorViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 0);
+      this.folderDetailViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 1);
+      this.foldersViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 2);
+      this.homeViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 3);
+      this.scannerViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 4);
+      this.searchViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 5);
+      this.settingsViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 6);
+      this.trashViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 7);
+      this.viewerViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 8);
     }
 
     @Override
@@ -541,7 +519,7 @@ public final class DaggerDocScannerApp_HiltComponents_SingletonC {
 
     @Override
     public Map<Class<?>, Object> getHiltViewModelAssistedMap() {
-      return ImmutableMap.<Class<?>, Object>of();
+      return Collections.<Class<?>, Object>emptyMap();
     }
 
     private static final class SwitchingProvider<T> implements Provider<T> {
@@ -565,37 +543,31 @@ public final class DaggerDocScannerApp_HiltComponents_SingletonC {
       @SuppressWarnings("unchecked")
       public T get() {
         switch (id) {
-          case 0: // com.docscanner.app.presentation.auth.AuthViewModel
-          return (T) new AuthViewModel(singletonCImpl.authRepositoryImplProvider.get());
-
-          case 1: // com.docscanner.app.presentation.editor.EditorViewModel
+          case 0: // com.docscanner.app.presentation.editor.EditorViewModel
           return (T) new EditorViewModel(viewModelCImpl.savedStateHandle, singletonCImpl.documentRepositoryImplProvider.get(), singletonCImpl.imageFilterServiceProvider.get());
 
-          case 2: // com.docscanner.app.presentation.folders.FolderDetailViewModel
+          case 1: // com.docscanner.app.presentation.folders.FolderDetailViewModel
           return (T) new FolderDetailViewModel(viewModelCImpl.savedStateHandle, singletonCImpl.documentRepositoryImplProvider.get(), singletonCImpl.folderRepositoryImpl());
 
-          case 3: // com.docscanner.app.presentation.folders.FoldersViewModel
+          case 2: // com.docscanner.app.presentation.folders.FoldersViewModel
           return (T) new FoldersViewModel(singletonCImpl.folderRepositoryImpl());
 
-          case 4: // com.docscanner.app.presentation.home.HomeViewModel
-          return (T) new HomeViewModel(singletonCImpl.documentRepositoryImplProvider.get(), singletonCImpl.syncRepositoryImplProvider.get());
+          case 3: // com.docscanner.app.presentation.home.HomeViewModel
+          return (T) new HomeViewModel(singletonCImpl.documentRepositoryImplProvider.get());
 
-          case 5: // com.docscanner.app.presentation.scanner.ScannerViewModel
+          case 4: // com.docscanner.app.presentation.scanner.ScannerViewModel
           return (T) new ScannerViewModel(singletonCImpl.documentRepositoryImplProvider.get());
 
-          case 6: // com.docscanner.app.presentation.search.SearchViewModel
+          case 5: // com.docscanner.app.presentation.search.SearchViewModel
           return (T) new SearchViewModel(singletonCImpl.documentRepositoryImplProvider.get());
 
-          case 7: // com.docscanner.app.presentation.settings.SettingsViewModel
-          return (T) new SettingsViewModel(singletonCImpl.settingsRepositoryImplProvider.get(), singletonCImpl.authRepositoryImplProvider.get());
+          case 6: // com.docscanner.app.presentation.settings.SettingsViewModel
+          return (T) new SettingsViewModel(singletonCImpl.settingsRepositoryImplProvider.get());
 
-          case 8: // com.docscanner.app.presentation.storage.StorageViewModel
-          return (T) new StorageViewModel(singletonCImpl.syncRepositoryImplProvider.get(), singletonCImpl.authRepositoryImplProvider.get());
-
-          case 9: // com.docscanner.app.presentation.trash.TrashViewModel
+          case 7: // com.docscanner.app.presentation.trash.TrashViewModel
           return (T) new TrashViewModel(singletonCImpl.documentRepositoryImplProvider.get());
 
-          case 10: // com.docscanner.app.presentation.viewer.ViewerViewModel
+          case 8: // com.docscanner.app.presentation.viewer.ViewerViewModel
           return (T) new ViewerViewModel(viewModelCImpl.savedStateHandle, singletonCImpl.documentRepositoryImplProvider.get(), singletonCImpl.pdfGeneratorServiceProvider.get());
 
           default: throw new AssertionError(id);
@@ -680,17 +652,11 @@ public final class DaggerDocScannerApp_HiltComponents_SingletonC {
 
     Provider<NotificationService> notificationServiceProvider;
 
-    Provider<AuthRepositoryImpl> authRepositoryImplProvider;
-
     Provider<AppDatabase> provideAppDatabaseProvider;
 
     Provider<DocumentRepositoryImpl> documentRepositoryImplProvider;
 
     Provider<ImageFilterService> imageFilterServiceProvider;
-
-    Provider<SyncManager> syncManagerProvider;
-
-    Provider<SyncRepositoryImpl> syncRepositoryImplProvider;
 
     Provider<SettingsRepositoryImpl> settingsRepositoryImplProvider;
 
@@ -721,14 +687,11 @@ public final class DaggerDocScannerApp_HiltComponents_SingletonC {
     @SuppressWarnings("unchecked")
     private void initialize(final ApplicationContextModule applicationContextModuleParam) {
       this.notificationServiceProvider = DoubleCheck.provider(new SwitchingProvider<NotificationService>(singletonCImpl, 0));
-      this.authRepositoryImplProvider = DoubleCheck.provider(new SwitchingProvider<AuthRepositoryImpl>(singletonCImpl, 1));
-      this.provideAppDatabaseProvider = DoubleCheck.provider(new SwitchingProvider<AppDatabase>(singletonCImpl, 3));
-      this.documentRepositoryImplProvider = DoubleCheck.provider(new SwitchingProvider<DocumentRepositoryImpl>(singletonCImpl, 2));
-      this.imageFilterServiceProvider = DoubleCheck.provider(new SwitchingProvider<ImageFilterService>(singletonCImpl, 4));
-      this.syncManagerProvider = DoubleCheck.provider(new SwitchingProvider<SyncManager>(singletonCImpl, 6));
-      this.syncRepositoryImplProvider = DoubleCheck.provider(new SwitchingProvider<SyncRepositoryImpl>(singletonCImpl, 5));
-      this.settingsRepositoryImplProvider = DoubleCheck.provider(new SwitchingProvider<SettingsRepositoryImpl>(singletonCImpl, 7));
-      this.pdfGeneratorServiceProvider = DoubleCheck.provider(new SwitchingProvider<PdfGeneratorService>(singletonCImpl, 8));
+      this.provideAppDatabaseProvider = DoubleCheck.provider(new SwitchingProvider<AppDatabase>(singletonCImpl, 2));
+      this.documentRepositoryImplProvider = DoubleCheck.provider(new SwitchingProvider<DocumentRepositoryImpl>(singletonCImpl, 1));
+      this.imageFilterServiceProvider = DoubleCheck.provider(new SwitchingProvider<ImageFilterService>(singletonCImpl, 3));
+      this.settingsRepositoryImplProvider = DoubleCheck.provider(new SwitchingProvider<SettingsRepositoryImpl>(singletonCImpl, 4));
+      this.pdfGeneratorServiceProvider = DoubleCheck.provider(new SwitchingProvider<PdfGeneratorService>(singletonCImpl, 5));
     }
 
     @Override
@@ -738,7 +701,7 @@ public final class DaggerDocScannerApp_HiltComponents_SingletonC {
 
     @Override
     public Set<Boolean> getDisableFragmentGetContextFix() {
-      return ImmutableSet.<Boolean>of();
+      return Collections.<Boolean>emptySet();
     }
 
     @Override
@@ -751,7 +714,6 @@ public final class DaggerDocScannerApp_HiltComponents_SingletonC {
       return new ServiceCBuilder(singletonCImpl);
     }
 
-    @CanIgnoreReturnValue
     private DocScannerApp injectDocScannerApp2(DocScannerApp instance) {
       DocScannerApp_MembersInjector.injectNotificationService(instance, notificationServiceProvider.get());
       return instance;
@@ -774,28 +736,19 @@ public final class DaggerDocScannerApp_HiltComponents_SingletonC {
           case 0: // com.docscanner.app.service.notification.NotificationService
           return (T) new NotificationService(ApplicationContextModule_ProvideApplicationFactory.provideApplication(singletonCImpl.applicationContextModule));
 
-          case 1: // com.docscanner.app.data.repository.AuthRepositoryImpl
-          return (T) new AuthRepositoryImpl();
-
-          case 2: // com.docscanner.app.data.repository.DocumentRepositoryImpl
+          case 1: // com.docscanner.app.data.repository.DocumentRepositoryImpl
           return (T) new DocumentRepositoryImpl(singletonCImpl.documentDao(), singletonCImpl.pageDao());
 
-          case 3: // com.docscanner.app.data.local.db.AppDatabase
+          case 2: // com.docscanner.app.data.local.db.AppDatabase
           return (T) AppModule_ProvideAppDatabaseFactory.provideAppDatabase(ApplicationContextModule_ProvideApplicationFactory.provideApplication(singletonCImpl.applicationContextModule));
 
-          case 4: // com.docscanner.app.service.filter.ImageFilterService
+          case 3: // com.docscanner.app.service.filter.ImageFilterService
           return (T) new ImageFilterService();
 
-          case 5: // com.docscanner.app.data.repository.SyncRepositoryImpl
-          return (T) new SyncRepositoryImpl(singletonCImpl.syncManagerProvider.get(), singletonCImpl.authRepositoryImplProvider.get(), ApplicationContextModule_ProvideApplicationFactory.provideApplication(singletonCImpl.applicationContextModule));
-
-          case 6: // com.docscanner.app.data.remote.sync.SyncManager
-          return (T) new SyncManager(singletonCImpl.documentDao(), singletonCImpl.pageDao());
-
-          case 7: // com.docscanner.app.data.repository.SettingsRepositoryImpl
+          case 4: // com.docscanner.app.data.repository.SettingsRepositoryImpl
           return (T) new SettingsRepositoryImpl(ApplicationContextModule_ProvideApplicationFactory.provideApplication(singletonCImpl.applicationContextModule));
 
-          case 8: // com.docscanner.app.service.pdf.PdfGeneratorService
+          case 5: // com.docscanner.app.service.pdf.PdfGeneratorService
           return (T) new PdfGeneratorService();
 
           default: throw new AssertionError(id);

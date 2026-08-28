@@ -27,8 +27,6 @@
     <string msgid="8875138169939072951" name="abc_shareactionprovider_share_with">"Kongsi dengan"</string>
     <string msgid="9055268688411532828" name="abc_shareactionprovider_share_with_application">"Kongsi dengan <ns1:g id="APPLICATION_NAME">%s</ns1:g>"</string>
     <string msgid="1656852541809559762" name="abc_toolbar_collapse_description">"Runtuhkan"</string>
-    <string msgid="8397015543330865059" name="android.credentials.TYPE_PASSWORD_CREDENTIAL">"Kata Laluan"</string>
-    <string msgid="3929015085059320822" name="androidx.credentials.TYPE_PUBLIC_KEY_CREDENTIAL">"Kunci laluan"</string>
     <string msgid="8719607706653693137" name="androidx_compose_foundation_autofill">"Autolengkap"</string>
     <string msgid="1150566100598813236" name="androidx_compose_ui_autofill">"Autolengkap"</string>
     <string msgid="881409763997275156" name="call_notification_answer_action">"Jawab"</string>
@@ -59,14 +57,10 @@
     <string name="common_signin_button_text">Log masuk</string>
     <string name="common_signin_button_text_long">Log masuk dengan Google</string>
     <string msgid="5912733858573823945" name="confirm_device_credential_password">"Guna kata laluan"</string>
-    <string msgid="3260749812566568062" name="copy_toast_msg">"Pautan disalin ke papan keratan"</string>
     <string msgid="8038256446254964252" name="default_error_message">"Input tidak sah"</string>
     <string msgid="4776854077120974966" name="default_error_msg">"Ralat tidak diketahui"</string>
     <string msgid="6312721426453364202" name="default_popup_window_title">"Tetingkap Timbul"</string>
     <string msgid="1890207353314751437" name="dropdown_menu">"Menu lungsur"</string>
-    <string msgid="4566929209979330987" name="fallback_menu_item_copy_link">"Salin pautan"</string>
-    <string msgid="3413186855122069269" name="fallback_menu_item_open_in_browser">"Buka dalam penyemak imbas"</string>
-    <string msgid="7145444925855055364" name="fallback_menu_item_share_link">"Kongsi pautan"</string>
     <string msgid="1072308044213194243" name="fingerprint_dialog_touch_sensor">"Sentuh penderia cap jari"</string>
     <string msgid="8216738333501875566" name="fingerprint_error_hw_not_available">"Perkakasan cap jari tidak tersedia."</string>
     <string msgid="6306988885793029438" name="fingerprint_error_hw_not_present">"Peranti ini tiada penderia cap jari"</string>

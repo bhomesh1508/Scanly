@@ -27,8 +27,6 @@
     <string msgid="8875138169939072951" name="abc_shareactionprovider_share_with">"Сподели со"</string>
     <string msgid="9055268688411532828" name="abc_shareactionprovider_share_with_application">"Сподели со <ns1:g id="APPLICATION_NAME">%s</ns1:g>"</string>
     <string msgid="1656852541809559762" name="abc_toolbar_collapse_description">"Собери"</string>
-    <string msgid="8397015543330865059" name="android.credentials.TYPE_PASSWORD_CREDENTIAL">"Лозинка"</string>
-    <string msgid="3929015085059320822" name="androidx.credentials.TYPE_PUBLIC_KEY_CREDENTIAL">"Криптографски клуч"</string>
     <string msgid="8719607706653693137" name="androidx_compose_foundation_autofill">"Автоматско пополнување"</string>
     <string msgid="1150566100598813236" name="androidx_compose_ui_autofill">"Автоматско пополнување"</string>
     <string msgid="881409763997275156" name="call_notification_answer_action">"Одговори"</string>
@@ -56,17 +54,13 @@
     <string name="common_google_play_services_updating_text">%1$s нема да се извршува без услугите на Google Play што се ажурираат во моментов.</string>
     <string name="common_google_play_services_wear_update_text">Потребна е нова верзија на услугите на Google Play. Таа наскоро самата ќе се ажурира.</string>
     <string name="common_open_on_phone">Отвори на телефонот</string>
-    <string name="common_signin_button_text">Најавете се</string>
+    <string name="common_signin_button_text">Најави се</string>
     <string name="common_signin_button_text_long">Најави се со Google</string>
     <string msgid="5912733858573823945" name="confirm_device_credential_password">"Употребете ја лозинката"</string>
-    <string msgid="3260749812566568062" name="copy_toast_msg">"Линкот е копиран во привремена меморија"</string>
     <string msgid="8038256446254964252" name="default_error_message">"Неважечки запис"</string>
     <string msgid="4776854077120974966" name="default_error_msg">"Непозната грешка"</string>
     <string msgid="6312721426453364202" name="default_popup_window_title">"Скокачки прозорец"</string>
     <string msgid="1890207353314751437" name="dropdown_menu">"Паѓачко мени"</string>
-    <string msgid="4566929209979330987" name="fallback_menu_item_copy_link">"Копирај го линкот"</string>
-    <string msgid="3413186855122069269" name="fallback_menu_item_open_in_browser">"Отвори во прелистувач"</string>
-    <string msgid="7145444925855055364" name="fallback_menu_item_share_link">"Сподели линк"</string>
     <string msgid="1072308044213194243" name="fingerprint_dialog_touch_sensor">"Допрете го сенз. за отпечатоци"</string>
     <string msgid="8216738333501875566" name="fingerprint_error_hw_not_available">"Нема достапен хардвер за отпечатоци."</string>
     <string msgid="6306988885793029438" name="fingerprint_error_hw_not_present">"Уредов нема сензор за отпечатоци"</string>

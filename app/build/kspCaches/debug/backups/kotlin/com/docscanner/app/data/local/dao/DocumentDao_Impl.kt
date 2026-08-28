@@ -32,7 +32,7 @@ public class DocumentDao_Impl(
     this.__db = __db
     this.__insertAdapterOfDocumentEntity = object : EntityInsertAdapter<DocumentEntity>() {
       protected override fun createQuery(): String =
-          "INSERT OR REPLACE INTO `documents` (`id`,`title`,`folderId`,`pageCount`,`thumbnailPath`,`ocrText`,`cloudPdfUrl`,`syncStatus`,`isEncrypted`,`isTrashed`,`trashedAt`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)"
+          "INSERT OR REPLACE INTO `documents` (`id`,`title`,`folderId`,`pageCount`,`thumbnailPath`,`ocrText`,`isEncrypted`,`isTrashed`,`trashedAt`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?,?)"
 
       protected override fun bind(statement: SQLiteStatement, entity: DocumentEntity) {
         statement.bindText(1, entity.id)
@@ -51,25 +51,18 @@ public class DocumentDao_Impl(
         } else {
           statement.bindText(6, _tmpOcrText)
         }
-        val _tmpCloudPdfUrl: String? = entity.cloudPdfUrl
-        if (_tmpCloudPdfUrl == null) {
-          statement.bindNull(7)
-        } else {
-          statement.bindText(7, _tmpCloudPdfUrl)
-        }
-        statement.bindText(8, entity.syncStatus)
         val _tmp: Int = if (entity.isEncrypted) 1 else 0
-        statement.bindLong(9, _tmp.toLong())
+        statement.bindLong(7, _tmp.toLong())
         val _tmp_1: Int = if (entity.isTrashed) 1 else 0
-        statement.bindLong(10, _tmp_1.toLong())
+        statement.bindLong(8, _tmp_1.toLong())
         val _tmpTrashedAt: Long? = entity.trashedAt
         if (_tmpTrashedAt == null) {
-          statement.bindNull(11)
+          statement.bindNull(9)
         } else {
-          statement.bindLong(11, _tmpTrashedAt)
+          statement.bindLong(9, _tmpTrashedAt)
         }
-        statement.bindLong(12, entity.createdAt)
-        statement.bindLong(13, entity.updatedAt)
+        statement.bindLong(10, entity.createdAt)
+        statement.bindLong(11, entity.updatedAt)
       }
     }
   }
@@ -81,7 +74,7 @@ public class DocumentDao_Impl(
 
   public override fun getAllDocuments(): Flow<List<DocumentEntity>> {
     val _sql: String =
-        "SELECT `documents`.`id` AS `id`, `documents`.`title` AS `title`, `documents`.`folderId` AS `folderId`, `documents`.`pageCount` AS `pageCount`, `documents`.`thumbnailPath` AS `thumbnailPath`, `documents`.`ocrText` AS `ocrText`, `documents`.`cloudPdfUrl` AS `cloudPdfUrl`, `documents`.`syncStatus` AS `syncStatus`, `documents`.`isEncrypted` AS `isEncrypted`, `documents`.`isTrashed` AS `isTrashed`, `documents`.`trashedAt` AS `trashedAt`, `documents`.`createdAt` AS `createdAt`, `documents`.`updatedAt` AS `updatedAt` FROM documents WHERE isTrashed = 0 ORDER BY updatedAt DESC"
+        "SELECT `documents`.`id` AS `id`, `documents`.`title` AS `title`, `documents`.`folderId` AS `folderId`, `documents`.`pageCount` AS `pageCount`, `documents`.`thumbnailPath` AS `thumbnailPath`, `documents`.`ocrText` AS `ocrText`, `documents`.`isEncrypted` AS `isEncrypted`, `documents`.`isTrashed` AS `isTrashed`, `documents`.`trashedAt` AS `trashedAt`, `documents`.`createdAt` AS `createdAt`, `documents`.`updatedAt` AS `updatedAt` FROM documents WHERE isTrashed = 0 ORDER BY updatedAt DESC"
     return createFlow(__db, false, arrayOf("documents")) { _connection ->
       val _stmt: SQLiteStatement = _connection.prepare(_sql)
       try {
@@ -91,13 +84,11 @@ public class DocumentDao_Impl(
         val _columnIndexOfPageCount: Int = 3
         val _columnIndexOfThumbnailPath: Int = 4
         val _columnIndexOfOcrText: Int = 5
-        val _columnIndexOfCloudPdfUrl: Int = 6
-        val _columnIndexOfSyncStatus: Int = 7
-        val _columnIndexOfIsEncrypted: Int = 8
-        val _columnIndexOfIsTrashed: Int = 9
-        val _columnIndexOfTrashedAt: Int = 10
-        val _columnIndexOfCreatedAt: Int = 11
-        val _columnIndexOfUpdatedAt: Int = 12
+        val _columnIndexOfIsEncrypted: Int = 6
+        val _columnIndexOfIsTrashed: Int = 7
+        val _columnIndexOfTrashedAt: Int = 8
+        val _columnIndexOfCreatedAt: Int = 9
+        val _columnIndexOfUpdatedAt: Int = 10
         val _result: MutableList<DocumentEntity> = mutableListOf()
         while (_stmt.step()) {
           val _item: DocumentEntity
@@ -121,14 +112,6 @@ public class DocumentDao_Impl(
           } else {
             _tmpOcrText = _stmt.getText(_columnIndexOfOcrText)
           }
-          val _tmpCloudPdfUrl: String?
-          if (_stmt.isNull(_columnIndexOfCloudPdfUrl)) {
-            _tmpCloudPdfUrl = null
-          } else {
-            _tmpCloudPdfUrl = _stmt.getText(_columnIndexOfCloudPdfUrl)
-          }
-          val _tmpSyncStatus: String
-          _tmpSyncStatus = _stmt.getText(_columnIndexOfSyncStatus)
           val _tmpIsEncrypted: Boolean
           val _tmp: Int
           _tmp = _stmt.getLong(_columnIndexOfIsEncrypted).toInt()
@@ -148,7 +131,7 @@ public class DocumentDao_Impl(
           val _tmpUpdatedAt: Long
           _tmpUpdatedAt = _stmt.getLong(_columnIndexOfUpdatedAt)
           _item =
-              DocumentEntity(_tmpId,_tmpTitle,_tmpFolderId,_tmpPageCount,_tmpThumbnailPath,_tmpOcrText,_tmpCloudPdfUrl,_tmpSyncStatus,_tmpIsEncrypted,_tmpIsTrashed,_tmpTrashedAt,_tmpCreatedAt,_tmpUpdatedAt)
+              DocumentEntity(_tmpId,_tmpTitle,_tmpFolderId,_tmpPageCount,_tmpThumbnailPath,_tmpOcrText,_tmpIsEncrypted,_tmpIsTrashed,_tmpTrashedAt,_tmpCreatedAt,_tmpUpdatedAt)
           _result.add(_item)
         }
         _result
@@ -171,8 +154,6 @@ public class DocumentDao_Impl(
         val _columnIndexOfPageCount: Int = getColumnIndexOrThrow(_stmt, "pageCount")
         val _columnIndexOfThumbnailPath: Int = getColumnIndexOrThrow(_stmt, "thumbnailPath")
         val _columnIndexOfOcrText: Int = getColumnIndexOrThrow(_stmt, "ocrText")
-        val _columnIndexOfCloudPdfUrl: Int = getColumnIndexOrThrow(_stmt, "cloudPdfUrl")
-        val _columnIndexOfSyncStatus: Int = getColumnIndexOrThrow(_stmt, "syncStatus")
         val _columnIndexOfIsEncrypted: Int = getColumnIndexOrThrow(_stmt, "isEncrypted")
         val _columnIndexOfIsTrashed: Int = getColumnIndexOrThrow(_stmt, "isTrashed")
         val _columnIndexOfTrashedAt: Int = getColumnIndexOrThrow(_stmt, "trashedAt")
@@ -200,14 +181,6 @@ public class DocumentDao_Impl(
           } else {
             _tmpOcrText = _stmt.getText(_columnIndexOfOcrText)
           }
-          val _tmpCloudPdfUrl: String?
-          if (_stmt.isNull(_columnIndexOfCloudPdfUrl)) {
-            _tmpCloudPdfUrl = null
-          } else {
-            _tmpCloudPdfUrl = _stmt.getText(_columnIndexOfCloudPdfUrl)
-          }
-          val _tmpSyncStatus: String
-          _tmpSyncStatus = _stmt.getText(_columnIndexOfSyncStatus)
           val _tmpIsEncrypted: Boolean
           val _tmp: Int
           _tmp = _stmt.getLong(_columnIndexOfIsEncrypted).toInt()
@@ -227,7 +200,7 @@ public class DocumentDao_Impl(
           val _tmpUpdatedAt: Long
           _tmpUpdatedAt = _stmt.getLong(_columnIndexOfUpdatedAt)
           _result =
-              DocumentEntity(_tmpId,_tmpTitle,_tmpFolderId,_tmpPageCount,_tmpThumbnailPath,_tmpOcrText,_tmpCloudPdfUrl,_tmpSyncStatus,_tmpIsEncrypted,_tmpIsTrashed,_tmpTrashedAt,_tmpCreatedAt,_tmpUpdatedAt)
+              DocumentEntity(_tmpId,_tmpTitle,_tmpFolderId,_tmpPageCount,_tmpThumbnailPath,_tmpOcrText,_tmpIsEncrypted,_tmpIsTrashed,_tmpTrashedAt,_tmpCreatedAt,_tmpUpdatedAt)
         } else {
           _result = null
         }
@@ -251,8 +224,6 @@ public class DocumentDao_Impl(
         val _columnIndexOfPageCount: Int = getColumnIndexOrThrow(_stmt, "pageCount")
         val _columnIndexOfThumbnailPath: Int = getColumnIndexOrThrow(_stmt, "thumbnailPath")
         val _columnIndexOfOcrText: Int = getColumnIndexOrThrow(_stmt, "ocrText")
-        val _columnIndexOfCloudPdfUrl: Int = getColumnIndexOrThrow(_stmt, "cloudPdfUrl")
-        val _columnIndexOfSyncStatus: Int = getColumnIndexOrThrow(_stmt, "syncStatus")
         val _columnIndexOfIsEncrypted: Int = getColumnIndexOrThrow(_stmt, "isEncrypted")
         val _columnIndexOfIsTrashed: Int = getColumnIndexOrThrow(_stmt, "isTrashed")
         val _columnIndexOfTrashedAt: Int = getColumnIndexOrThrow(_stmt, "trashedAt")
@@ -280,14 +251,6 @@ public class DocumentDao_Impl(
           } else {
             _tmpOcrText = _stmt.getText(_columnIndexOfOcrText)
           }
-          val _tmpCloudPdfUrl: String?
-          if (_stmt.isNull(_columnIndexOfCloudPdfUrl)) {
-            _tmpCloudPdfUrl = null
-          } else {
-            _tmpCloudPdfUrl = _stmt.getText(_columnIndexOfCloudPdfUrl)
-          }
-          val _tmpSyncStatus: String
-          _tmpSyncStatus = _stmt.getText(_columnIndexOfSyncStatus)
           val _tmpIsEncrypted: Boolean
           val _tmp: Int
           _tmp = _stmt.getLong(_columnIndexOfIsEncrypted).toInt()
@@ -307,7 +270,7 @@ public class DocumentDao_Impl(
           val _tmpUpdatedAt: Long
           _tmpUpdatedAt = _stmt.getLong(_columnIndexOfUpdatedAt)
           _result =
-              DocumentEntity(_tmpId,_tmpTitle,_tmpFolderId,_tmpPageCount,_tmpThumbnailPath,_tmpOcrText,_tmpCloudPdfUrl,_tmpSyncStatus,_tmpIsEncrypted,_tmpIsTrashed,_tmpTrashedAt,_tmpCreatedAt,_tmpUpdatedAt)
+              DocumentEntity(_tmpId,_tmpTitle,_tmpFolderId,_tmpPageCount,_tmpThumbnailPath,_tmpOcrText,_tmpIsEncrypted,_tmpIsTrashed,_tmpTrashedAt,_tmpCreatedAt,_tmpUpdatedAt)
         } else {
           _result = null
         }
@@ -332,8 +295,6 @@ public class DocumentDao_Impl(
         val _columnIndexOfPageCount: Int = getColumnIndexOrThrow(_stmt, "pageCount")
         val _columnIndexOfThumbnailPath: Int = getColumnIndexOrThrow(_stmt, "thumbnailPath")
         val _columnIndexOfOcrText: Int = getColumnIndexOrThrow(_stmt, "ocrText")
-        val _columnIndexOfCloudPdfUrl: Int = getColumnIndexOrThrow(_stmt, "cloudPdfUrl")
-        val _columnIndexOfSyncStatus: Int = getColumnIndexOrThrow(_stmt, "syncStatus")
         val _columnIndexOfIsEncrypted: Int = getColumnIndexOrThrow(_stmt, "isEncrypted")
         val _columnIndexOfIsTrashed: Int = getColumnIndexOrThrow(_stmt, "isTrashed")
         val _columnIndexOfTrashedAt: Int = getColumnIndexOrThrow(_stmt, "trashedAt")
@@ -362,14 +323,6 @@ public class DocumentDao_Impl(
           } else {
             _tmpOcrText = _stmt.getText(_columnIndexOfOcrText)
           }
-          val _tmpCloudPdfUrl: String?
-          if (_stmt.isNull(_columnIndexOfCloudPdfUrl)) {
-            _tmpCloudPdfUrl = null
-          } else {
-            _tmpCloudPdfUrl = _stmt.getText(_columnIndexOfCloudPdfUrl)
-          }
-          val _tmpSyncStatus: String
-          _tmpSyncStatus = _stmt.getText(_columnIndexOfSyncStatus)
           val _tmpIsEncrypted: Boolean
           val _tmp: Int
           _tmp = _stmt.getLong(_columnIndexOfIsEncrypted).toInt()
@@ -389,7 +342,7 @@ public class DocumentDao_Impl(
           val _tmpUpdatedAt: Long
           _tmpUpdatedAt = _stmt.getLong(_columnIndexOfUpdatedAt)
           _item =
-              DocumentEntity(_tmpId,_tmpTitle,_tmpFolderId,_tmpPageCount,_tmpThumbnailPath,_tmpOcrText,_tmpCloudPdfUrl,_tmpSyncStatus,_tmpIsEncrypted,_tmpIsTrashed,_tmpTrashedAt,_tmpCreatedAt,_tmpUpdatedAt)
+              DocumentEntity(_tmpId,_tmpTitle,_tmpFolderId,_tmpPageCount,_tmpThumbnailPath,_tmpOcrText,_tmpIsEncrypted,_tmpIsTrashed,_tmpTrashedAt,_tmpCreatedAt,_tmpUpdatedAt)
           _result.add(_item)
         }
         _result
@@ -415,8 +368,6 @@ public class DocumentDao_Impl(
         val _columnIndexOfPageCount: Int = getColumnIndexOrThrow(_stmt, "pageCount")
         val _columnIndexOfThumbnailPath: Int = getColumnIndexOrThrow(_stmt, "thumbnailPath")
         val _columnIndexOfOcrText: Int = getColumnIndexOrThrow(_stmt, "ocrText")
-        val _columnIndexOfCloudPdfUrl: Int = getColumnIndexOrThrow(_stmt, "cloudPdfUrl")
-        val _columnIndexOfSyncStatus: Int = getColumnIndexOrThrow(_stmt, "syncStatus")
         val _columnIndexOfIsEncrypted: Int = getColumnIndexOrThrow(_stmt, "isEncrypted")
         val _columnIndexOfIsTrashed: Int = getColumnIndexOrThrow(_stmt, "isTrashed")
         val _columnIndexOfTrashedAt: Int = getColumnIndexOrThrow(_stmt, "trashedAt")
@@ -445,14 +396,6 @@ public class DocumentDao_Impl(
           } else {
             _tmpOcrText = _stmt.getText(_columnIndexOfOcrText)
           }
-          val _tmpCloudPdfUrl: String?
-          if (_stmt.isNull(_columnIndexOfCloudPdfUrl)) {
-            _tmpCloudPdfUrl = null
-          } else {
-            _tmpCloudPdfUrl = _stmt.getText(_columnIndexOfCloudPdfUrl)
-          }
-          val _tmpSyncStatus: String
-          _tmpSyncStatus = _stmt.getText(_columnIndexOfSyncStatus)
           val _tmpIsEncrypted: Boolean
           val _tmp: Int
           _tmp = _stmt.getLong(_columnIndexOfIsEncrypted).toInt()
@@ -472,7 +415,7 @@ public class DocumentDao_Impl(
           val _tmpUpdatedAt: Long
           _tmpUpdatedAt = _stmt.getLong(_columnIndexOfUpdatedAt)
           _item =
-              DocumentEntity(_tmpId,_tmpTitle,_tmpFolderId,_tmpPageCount,_tmpThumbnailPath,_tmpOcrText,_tmpCloudPdfUrl,_tmpSyncStatus,_tmpIsEncrypted,_tmpIsTrashed,_tmpTrashedAt,_tmpCreatedAt,_tmpUpdatedAt)
+              DocumentEntity(_tmpId,_tmpTitle,_tmpFolderId,_tmpPageCount,_tmpThumbnailPath,_tmpOcrText,_tmpIsEncrypted,_tmpIsTrashed,_tmpTrashedAt,_tmpCreatedAt,_tmpUpdatedAt)
           _result.add(_item)
         }
         _result
@@ -484,7 +427,7 @@ public class DocumentDao_Impl(
 
   public override fun getTrashedDocuments(): Flow<List<DocumentEntity>> {
     val _sql: String =
-        "SELECT `documents`.`id` AS `id`, `documents`.`title` AS `title`, `documents`.`folderId` AS `folderId`, `documents`.`pageCount` AS `pageCount`, `documents`.`thumbnailPath` AS `thumbnailPath`, `documents`.`ocrText` AS `ocrText`, `documents`.`cloudPdfUrl` AS `cloudPdfUrl`, `documents`.`syncStatus` AS `syncStatus`, `documents`.`isEncrypted` AS `isEncrypted`, `documents`.`isTrashed` AS `isTrashed`, `documents`.`trashedAt` AS `trashedAt`, `documents`.`createdAt` AS `createdAt`, `documents`.`updatedAt` AS `updatedAt` FROM documents WHERE isTrashed = 1 ORDER BY trashedAt DESC"
+        "SELECT `documents`.`id` AS `id`, `documents`.`title` AS `title`, `documents`.`folderId` AS `folderId`, `documents`.`pageCount` AS `pageCount`, `documents`.`thumbnailPath` AS `thumbnailPath`, `documents`.`ocrText` AS `ocrText`, `documents`.`isEncrypted` AS `isEncrypted`, `documents`.`isTrashed` AS `isTrashed`, `documents`.`trashedAt` AS `trashedAt`, `documents`.`createdAt` AS `createdAt`, `documents`.`updatedAt` AS `updatedAt` FROM documents WHERE isTrashed = 1 ORDER BY trashedAt DESC"
     return createFlow(__db, false, arrayOf("documents")) { _connection ->
       val _stmt: SQLiteStatement = _connection.prepare(_sql)
       try {
@@ -494,13 +437,11 @@ public class DocumentDao_Impl(
         val _columnIndexOfPageCount: Int = 3
         val _columnIndexOfThumbnailPath: Int = 4
         val _columnIndexOfOcrText: Int = 5
-        val _columnIndexOfCloudPdfUrl: Int = 6
-        val _columnIndexOfSyncStatus: Int = 7
-        val _columnIndexOfIsEncrypted: Int = 8
-        val _columnIndexOfIsTrashed: Int = 9
-        val _columnIndexOfTrashedAt: Int = 10
-        val _columnIndexOfCreatedAt: Int = 11
-        val _columnIndexOfUpdatedAt: Int = 12
+        val _columnIndexOfIsEncrypted: Int = 6
+        val _columnIndexOfIsTrashed: Int = 7
+        val _columnIndexOfTrashedAt: Int = 8
+        val _columnIndexOfCreatedAt: Int = 9
+        val _columnIndexOfUpdatedAt: Int = 10
         val _result: MutableList<DocumentEntity> = mutableListOf()
         while (_stmt.step()) {
           val _item: DocumentEntity
@@ -524,14 +465,6 @@ public class DocumentDao_Impl(
           } else {
             _tmpOcrText = _stmt.getText(_columnIndexOfOcrText)
           }
-          val _tmpCloudPdfUrl: String?
-          if (_stmt.isNull(_columnIndexOfCloudPdfUrl)) {
-            _tmpCloudPdfUrl = null
-          } else {
-            _tmpCloudPdfUrl = _stmt.getText(_columnIndexOfCloudPdfUrl)
-          }
-          val _tmpSyncStatus: String
-          _tmpSyncStatus = _stmt.getText(_columnIndexOfSyncStatus)
           val _tmpIsEncrypted: Boolean
           val _tmp: Int
           _tmp = _stmt.getLong(_columnIndexOfIsEncrypted).toInt()
@@ -551,86 +484,7 @@ public class DocumentDao_Impl(
           val _tmpUpdatedAt: Long
           _tmpUpdatedAt = _stmt.getLong(_columnIndexOfUpdatedAt)
           _item =
-              DocumentEntity(_tmpId,_tmpTitle,_tmpFolderId,_tmpPageCount,_tmpThumbnailPath,_tmpOcrText,_tmpCloudPdfUrl,_tmpSyncStatus,_tmpIsEncrypted,_tmpIsTrashed,_tmpTrashedAt,_tmpCreatedAt,_tmpUpdatedAt)
-          _result.add(_item)
-        }
-        _result
-      } finally {
-        _stmt.close()
-      }
-    }
-  }
-
-  public override suspend fun getUnsyncedDocuments(): List<DocumentEntity> {
-    val _sql: String =
-        "SELECT `documents`.`id` AS `id`, `documents`.`title` AS `title`, `documents`.`folderId` AS `folderId`, `documents`.`pageCount` AS `pageCount`, `documents`.`thumbnailPath` AS `thumbnailPath`, `documents`.`ocrText` AS `ocrText`, `documents`.`cloudPdfUrl` AS `cloudPdfUrl`, `documents`.`syncStatus` AS `syncStatus`, `documents`.`isEncrypted` AS `isEncrypted`, `documents`.`isTrashed` AS `isTrashed`, `documents`.`trashedAt` AS `trashedAt`, `documents`.`createdAt` AS `createdAt`, `documents`.`updatedAt` AS `updatedAt` FROM documents WHERE syncStatus != 'SYNCED'"
-    return performSuspending(__db, true, false) { _connection ->
-      val _stmt: SQLiteStatement = _connection.prepare(_sql)
-      try {
-        val _columnIndexOfId: Int = 0
-        val _columnIndexOfTitle: Int = 1
-        val _columnIndexOfFolderId: Int = 2
-        val _columnIndexOfPageCount: Int = 3
-        val _columnIndexOfThumbnailPath: Int = 4
-        val _columnIndexOfOcrText: Int = 5
-        val _columnIndexOfCloudPdfUrl: Int = 6
-        val _columnIndexOfSyncStatus: Int = 7
-        val _columnIndexOfIsEncrypted: Int = 8
-        val _columnIndexOfIsTrashed: Int = 9
-        val _columnIndexOfTrashedAt: Int = 10
-        val _columnIndexOfCreatedAt: Int = 11
-        val _columnIndexOfUpdatedAt: Int = 12
-        val _result: MutableList<DocumentEntity> = mutableListOf()
-        while (_stmt.step()) {
-          val _item: DocumentEntity
-          val _tmpId: String
-          _tmpId = _stmt.getText(_columnIndexOfId)
-          val _tmpTitle: String
-          _tmpTitle = _stmt.getText(_columnIndexOfTitle)
-          val _tmpFolderId: String?
-          if (_stmt.isNull(_columnIndexOfFolderId)) {
-            _tmpFolderId = null
-          } else {
-            _tmpFolderId = _stmt.getText(_columnIndexOfFolderId)
-          }
-          val _tmpPageCount: Int
-          _tmpPageCount = _stmt.getLong(_columnIndexOfPageCount).toInt()
-          val _tmpThumbnailPath: String
-          _tmpThumbnailPath = _stmt.getText(_columnIndexOfThumbnailPath)
-          val _tmpOcrText: String?
-          if (_stmt.isNull(_columnIndexOfOcrText)) {
-            _tmpOcrText = null
-          } else {
-            _tmpOcrText = _stmt.getText(_columnIndexOfOcrText)
-          }
-          val _tmpCloudPdfUrl: String?
-          if (_stmt.isNull(_columnIndexOfCloudPdfUrl)) {
-            _tmpCloudPdfUrl = null
-          } else {
-            _tmpCloudPdfUrl = _stmt.getText(_columnIndexOfCloudPdfUrl)
-          }
-          val _tmpSyncStatus: String
-          _tmpSyncStatus = _stmt.getText(_columnIndexOfSyncStatus)
-          val _tmpIsEncrypted: Boolean
-          val _tmp: Int
-          _tmp = _stmt.getLong(_columnIndexOfIsEncrypted).toInt()
-          _tmpIsEncrypted = _tmp != 0
-          val _tmpIsTrashed: Boolean
-          val _tmp_1: Int
-          _tmp_1 = _stmt.getLong(_columnIndexOfIsTrashed).toInt()
-          _tmpIsTrashed = _tmp_1 != 0
-          val _tmpTrashedAt: Long?
-          if (_stmt.isNull(_columnIndexOfTrashedAt)) {
-            _tmpTrashedAt = null
-          } else {
-            _tmpTrashedAt = _stmt.getLong(_columnIndexOfTrashedAt)
-          }
-          val _tmpCreatedAt: Long
-          _tmpCreatedAt = _stmt.getLong(_columnIndexOfCreatedAt)
-          val _tmpUpdatedAt: Long
-          _tmpUpdatedAt = _stmt.getLong(_columnIndexOfUpdatedAt)
-          _item =
-              DocumentEntity(_tmpId,_tmpTitle,_tmpFolderId,_tmpPageCount,_tmpThumbnailPath,_tmpOcrText,_tmpCloudPdfUrl,_tmpSyncStatus,_tmpIsEncrypted,_tmpIsTrashed,_tmpTrashedAt,_tmpCreatedAt,_tmpUpdatedAt)
+              DocumentEntity(_tmpId,_tmpTitle,_tmpFolderId,_tmpPageCount,_tmpThumbnailPath,_tmpOcrText,_tmpIsEncrypted,_tmpIsTrashed,_tmpTrashedAt,_tmpCreatedAt,_tmpUpdatedAt)
           _result.add(_item)
         }
         _result
@@ -687,22 +541,6 @@ public class DocumentDao_Impl(
         } else {
           _stmt.bindText(_argIndex, folderId)
         }
-        _argIndex = 2
-        _stmt.bindText(_argIndex, docId)
-        _stmt.step()
-      } finally {
-        _stmt.close()
-      }
-    }
-  }
-
-  public override suspend fun updateSyncStatus(docId: String, status: String) {
-    val _sql: String = "UPDATE documents SET syncStatus = ? WHERE id = ?"
-    return performSuspending(__db, false, true) { _connection ->
-      val _stmt: SQLiteStatement = _connection.prepare(_sql)
-      try {
-        var _argIndex: Int = 1
-        _stmt.bindText(_argIndex, status)
         _argIndex = 2
         _stmt.bindText(_argIndex, docId)
         _stmt.step()

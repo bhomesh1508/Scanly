@@ -15,8 +15,5 @@ sealed class Screen(val route: String) {
     }
     object Search : Screen("search")
     object Settings : Screen("settings")
-    object Storage : Screen("storage")
     object Trash : Screen("trash")
-    object Login : Screen("auth/login")
-    object Signup : Screen("auth/signup")
 }

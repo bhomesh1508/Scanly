@@ -9,7 +9,6 @@ package com.docscanner.app.domain.model
  * @property defaultPdfQuality Default image quality when exporting to PDF.
  * @property defaultMargin Default margin when exporting to PDF.
  * @property appLockEnabled Whether the app requires biometric/PIN authentication to open.
- * @property autoSyncEnabled Whether documents are automatically synced to the cloud.
  * @property hasSeenOnboarding Whether the user has completed the onboarding flow.
  * @property encryptNewDocuments Whether new documents should be encrypted by default.
  */
@@ -20,7 +19,6 @@ data class UserSettings(
     val defaultPdfQuality: QualityLevel = QualityLevel.HIGH,
     val defaultMargin: MarginPreset = MarginPreset.NORMAL,
     val appLockEnabled: Boolean = false,
-    val autoSyncEnabled: Boolean = true,
     val hasSeenOnboarding: Boolean = false,
     val encryptNewDocuments: Boolean = false
 ) {

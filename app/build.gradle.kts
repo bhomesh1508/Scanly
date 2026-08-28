@@ -57,7 +57,6 @@ dependencies {
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.lifecycle.viewmodel.compose)
     implementation(libs.coroutines.android)
-    implementation(libs.coroutines.play.services)
 
     // Compose
     implementation(platform(libs.compose.bom))
@@ -75,38 +74,22 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
     implementation(libs.hilt.navigation.compose)
-    implementation(libs.hilt.work)
-    ksp(libs.hilt.work.compiler)
 
     // Room
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
     ksp(libs.room.compiler)
-    
-    // Firebase
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.auth)
-    implementation(libs.firebase.firestore)
-    implementation(libs.firebase.storage)
-    implementation(libs.firebase.analytics)
 
     // ML Kit
     implementation(libs.mlkit.docscanner)
     implementation(libs.mlkit.text.recognition)
 
-    // WorkManager
-    implementation(libs.work.runtime.ktx)
-
     // Security & Biometrics
     implementation(libs.biometric)
     implementation(libs.security.crypto)
-    implementation(libs.credentials)
-    implementation(libs.credentials.play.services.auth)
-    implementation(libs.googleid)
 
     // Coil
     implementation(libs.coil.compose)
-    implementation(libs.coil.network.okhttp)
 
     // DataStore
     implementation(libs.datastore.preferences)

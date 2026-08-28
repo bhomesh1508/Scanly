@@ -27,8 +27,6 @@
     <string msgid="8875138169939072951" name="abc_shareactionprovider_share_with">"Comparteix amb"</string>
     <string msgid="9055268688411532828" name="abc_shareactionprovider_share_with_application">"Comparteix amb <ns1:g id="APPLICATION_NAME">%s</ns1:g>"</string>
     <string msgid="1656852541809559762" name="abc_toolbar_collapse_description">"Replega"</string>
-    <string msgid="8397015543330865059" name="android.credentials.TYPE_PASSWORD_CREDENTIAL">"Contrasenya"</string>
-    <string msgid="3929015085059320822" name="androidx.credentials.TYPE_PUBLIC_KEY_CREDENTIAL">"Clau d\'accés"</string>
     <string msgid="8719607706653693137" name="androidx_compose_foundation_autofill">"Emplenament automàtic"</string>
     <string msgid="1150566100598813236" name="androidx_compose_ui_autofill">"Emplenament automàtic"</string>
     <string msgid="881409763997275156" name="call_notification_answer_action">"Respon"</string>
@@ -59,14 +57,10 @@
     <string name="common_signin_button_text">Inicia sessió</string>
     <string name="common_signin_button_text_long">Inicia la sessió amb Google</string>
     <string msgid="5912733858573823945" name="confirm_device_credential_password">"Utilitza la contrasenya"</string>
-    <string msgid="3260749812566568062" name="copy_toast_msg">"S\'ha copiat l\'enllaç al porta-retalls"</string>
     <string msgid="8038256446254964252" name="default_error_message">"L\'entrada no és vàlida"</string>
     <string msgid="4776854077120974966" name="default_error_msg">"Error desconegut"</string>
     <string msgid="6312721426453364202" name="default_popup_window_title">"Finestra emergent"</string>
     <string msgid="1890207353314751437" name="dropdown_menu">"Menú desplegable"</string>
-    <string msgid="4566929209979330987" name="fallback_menu_item_copy_link">"Copia l\'enllaç"</string>
-    <string msgid="3413186855122069269" name="fallback_menu_item_open_in_browser">"Obre al navegador"</string>
-    <string msgid="7145444925855055364" name="fallback_menu_item_share_link">"Comparteix l\'enllaç"</string>
     <string msgid="1072308044213194243" name="fingerprint_dialog_touch_sensor">"Toca sensor d\'empremtes"</string>
     <string msgid="8216738333501875566" name="fingerprint_error_hw_not_available">"El maquinari per a empremtes dactilars no està disponible."</string>
     <string msgid="6306988885793029438" name="fingerprint_error_hw_not_present">"Aquest dispositiu no té sensor d\'empremtes dactilars"</string>

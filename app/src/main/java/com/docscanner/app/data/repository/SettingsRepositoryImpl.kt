@@ -34,7 +34,6 @@ class SettingsRepositoryImpl @Inject constructor(
         val DEFAULT_PDF_QUALITY = stringPreferencesKey("default_pdf_quality")
         val DEFAULT_MARGIN = stringPreferencesKey("default_margin")
         val APP_LOCK_ENABLED = booleanPreferencesKey("app_lock_enabled")
-        val AUTO_SYNC_ENABLED = booleanPreferencesKey("auto_sync_enabled")
         val HAS_SEEN_ONBOARDING = booleanPreferencesKey("has_seen_onboarding")
         val ENCRYPT_NEW_DOCUMENTS = booleanPreferencesKey("encrypt_new_documents")
     }
@@ -47,7 +46,6 @@ class SettingsRepositoryImpl @Inject constructor(
             defaultPdfQuality = QualityLevel.valueOf(preferences[PreferencesKeys.DEFAULT_PDF_QUALITY] ?: "HIGH"),
             defaultMargin = MarginPreset.valueOf(preferences[PreferencesKeys.DEFAULT_MARGIN] ?: "NORMAL"),
             appLockEnabled = preferences[PreferencesKeys.APP_LOCK_ENABLED] ?: false,
-            autoSyncEnabled = preferences[PreferencesKeys.AUTO_SYNC_ENABLED] ?: true,
             hasSeenOnboarding = preferences[PreferencesKeys.HAS_SEEN_ONBOARDING] ?: false,
             encryptNewDocuments = preferences[PreferencesKeys.ENCRYPT_NEW_DOCUMENTS] ?: false
         )
@@ -61,7 +59,6 @@ class SettingsRepositoryImpl @Inject constructor(
             preferences[PreferencesKeys.DEFAULT_PDF_QUALITY] = settings.defaultPdfQuality.name
             preferences[PreferencesKeys.DEFAULT_MARGIN] = settings.defaultMargin.name
             preferences[PreferencesKeys.APP_LOCK_ENABLED] = settings.appLockEnabled
-            preferences[PreferencesKeys.AUTO_SYNC_ENABLED] = settings.autoSyncEnabled
             preferences[PreferencesKeys.HAS_SEEN_ONBOARDING] = settings.hasSeenOnboarding
             preferences[PreferencesKeys.ENCRYPT_NEW_DOCUMENTS] = settings.encryptNewDocuments
         }

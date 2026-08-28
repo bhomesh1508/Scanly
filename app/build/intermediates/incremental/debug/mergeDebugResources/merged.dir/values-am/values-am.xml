@@ -27,8 +27,6 @@
     <string msgid="8875138169939072951" name="abc_shareactionprovider_share_with">"አጋራ በ"</string>
     <string msgid="9055268688411532828" name="abc_shareactionprovider_share_with_application">"ለ<ns1:g id="APPLICATION_NAME">%s</ns1:g> አጋራ"</string>
     <string msgid="1656852541809559762" name="abc_toolbar_collapse_description">"ሰብስብ"</string>
-    <string msgid="8397015543330865059" name="android.credentials.TYPE_PASSWORD_CREDENTIAL">"የይለፍ ቃል"</string>
-    <string msgid="3929015085059320822" name="androidx.credentials.TYPE_PUBLIC_KEY_CREDENTIAL">"የይለፍ ቁልፍ"</string>
     <string msgid="8719607706653693137" name="androidx_compose_foundation_autofill">"ራስ-ሙላ"</string>
     <string msgid="1150566100598813236" name="androidx_compose_ui_autofill">"ራስ-ሙላ"</string>
     <string msgid="881409763997275156" name="call_notification_answer_action">"መልስ"</string>
@@ -59,14 +57,10 @@
     <string name="common_signin_button_text">ግባ</string>
     <string name="common_signin_button_text_long">በGoogle ይግቡ</string>
     <string msgid="5912733858573823945" name="confirm_device_credential_password">"የይለፍ ቃል ተጠቀም"</string>
-    <string msgid="3260749812566568062" name="copy_toast_msg">"አገናኝ ወደ ቅንጥብ ሰሌዳ ተቀድቷል"</string>
     <string msgid="8038256446254964252" name="default_error_message">"ልክ ያልሆነ ግቤት"</string>
     <string msgid="4776854077120974966" name="default_error_msg">"ያልታወቀ ስህተት"</string>
     <string msgid="6312721426453364202" name="default_popup_window_title">"ብቅ-ባይ መስኮት"</string>
     <string msgid="1890207353314751437" name="dropdown_menu">"ተቆልቋይ ምናሌ"</string>
-    <string msgid="4566929209979330987" name="fallback_menu_item_copy_link">"አገናኝ ቅዳ"</string>
-    <string msgid="3413186855122069269" name="fallback_menu_item_open_in_browser">"በአሳሽ ውስጥ ክፈት"</string>
-    <string msgid="7145444925855055364" name="fallback_menu_item_share_link">"አገናኝ አጋራ"</string>
     <string msgid="1072308044213194243" name="fingerprint_dialog_touch_sensor">"የጣት አሻራ ዳሳሹን ይንኩ"</string>
     <string msgid="8216738333501875566" name="fingerprint_error_hw_not_available">"የጣት አሻራ ሃርድዌር የለም።"</string>
     <string msgid="6306988885793029438" name="fingerprint_error_hw_not_present">"ይህ መሣሪያ የጣት አሻራ ዳሳሽ የለውም"</string>

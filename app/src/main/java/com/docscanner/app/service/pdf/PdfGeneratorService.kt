@@ -62,7 +62,7 @@ class PdfGeneratorService @Inject constructor() {
     }
 
     fun sharePdf(context: Context, file: File) {
-        val uri = FileProvider.getUriForFile(context, "${context.packageName}.provider", file)
+        val uri = FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", file)
         val intent = Intent(Intent.ACTION_SEND).apply {
             type = "application/pdf"
             putExtra(Intent.EXTRA_STREAM, uri)

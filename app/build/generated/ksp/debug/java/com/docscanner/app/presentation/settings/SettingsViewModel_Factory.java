@@ -1,6 +1,5 @@
 package com.docscanner.app.presentation.settings;
 
-import com.docscanner.app.domain.repository.AuthRepository;
 import com.docscanner.app.domain.repository.SettingsRepository;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.Factory;
@@ -28,27 +27,21 @@ import javax.annotation.processing.Generated;
 public final class SettingsViewModel_Factory implements Factory<SettingsViewModel> {
   private final Provider<SettingsRepository> settingsRepositoryProvider;
 
-  private final Provider<AuthRepository> authRepositoryProvider;
-
-  private SettingsViewModel_Factory(Provider<SettingsRepository> settingsRepositoryProvider,
-      Provider<AuthRepository> authRepositoryProvider) {
+  private SettingsViewModel_Factory(Provider<SettingsRepository> settingsRepositoryProvider) {
     this.settingsRepositoryProvider = settingsRepositoryProvider;
-    this.authRepositoryProvider = authRepositoryProvider;
   }
 
   @Override
   public SettingsViewModel get() {
-    return newInstance(settingsRepositoryProvider.get(), authRepositoryProvider.get());
+    return newInstance(settingsRepositoryProvider.get());
   }
 
   public static SettingsViewModel_Factory create(
-      Provider<SettingsRepository> settingsRepositoryProvider,
-      Provider<AuthRepository> authRepositoryProvider) {
-    return new SettingsViewModel_Factory(settingsRepositoryProvider, authRepositoryProvider);
+      Provider<SettingsRepository> settingsRepositoryProvider) {
+    return new SettingsViewModel_Factory(settingsRepositoryProvider);
   }
 
-  public static SettingsViewModel newInstance(SettingsRepository settingsRepository,
-      AuthRepository authRepository) {
-    return new SettingsViewModel(settingsRepository, authRepository);
+  public static SettingsViewModel newInstance(SettingsRepository settingsRepository) {
+    return new SettingsViewModel(settingsRepository);
   }
 }

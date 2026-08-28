@@ -27,8 +27,6 @@
     <string msgid="8875138169939072951" name="abc_shareactionprovider_share_with">"Абагуліць праз"</string>
     <string msgid="9055268688411532828" name="abc_shareactionprovider_share_with_application">"Абагуліць праз праграму \"<ns1:g id="APPLICATION_NAME">%s</ns1:g>\""</string>
     <string msgid="1656852541809559762" name="abc_toolbar_collapse_description">"Згарнуць"</string>
-    <string msgid="8397015543330865059" name="android.credentials.TYPE_PASSWORD_CREDENTIAL">"Пароль"</string>
-    <string msgid="3929015085059320822" name="androidx.credentials.TYPE_PUBLIC_KEY_CREDENTIAL">"Ключ доступу"</string>
     <string msgid="8719607706653693137" name="androidx_compose_foundation_autofill">"Аўтазапаўненне"</string>
     <string msgid="1150566100598813236" name="androidx_compose_ui_autofill">"Аўтазапаўненне"</string>
     <string msgid="881409763997275156" name="call_notification_answer_action">"Адказаць"</string>
@@ -59,14 +57,10 @@
     <string name="common_signin_button_text">Увайсцi</string>
     <string name="common_signin_button_text_long">Увайсці праз Google</string>
     <string msgid="5912733858573823945" name="confirm_device_credential_password">"Выкарыстаць пароль"</string>
-    <string msgid="3260749812566568062" name="copy_toast_msg">"Спасылка скапіравана ў буфер абмену"</string>
     <string msgid="8038256446254964252" name="default_error_message">"Памылка ўводу"</string>
     <string msgid="4776854077120974966" name="default_error_msg">"Невядомая памылка"</string>
     <string msgid="6312721426453364202" name="default_popup_window_title">"Усплывальнае акно"</string>
     <string msgid="1890207353314751437" name="dropdown_menu">"Выпадное меню"</string>
-    <string msgid="4566929209979330987" name="fallback_menu_item_copy_link">"Скапіраваць спасылку"</string>
-    <string msgid="3413186855122069269" name="fallback_menu_item_open_in_browser">"Адкрыць у браўзеры"</string>
-    <string msgid="7145444925855055364" name="fallback_menu_item_share_link">"Абагуліць спасылку"</string>
     <string msgid="1072308044213194243" name="fingerprint_dialog_touch_sensor">"Дакраніцеся да сканера адбіткаў пальцаў"</string>
     <string msgid="8216738333501875566" name="fingerprint_error_hw_not_available">"Апаратныя сродкі для зняцця адбіткаў пальцаў недаступныя."</string>
     <string msgid="6306988885793029438" name="fingerprint_error_hw_not_present">"На гэтай прыладзе няма сканера адбіткаў пальцаў"</string>

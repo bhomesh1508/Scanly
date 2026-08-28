@@ -27,8 +27,6 @@
     <string msgid="8875138169939072951" name="abc_shareactionprovider_share_with">"Chia sẻ với"</string>
     <string msgid="9055268688411532828" name="abc_shareactionprovider_share_with_application">"Chia sẻ với <ns1:g id="APPLICATION_NAME">%s</ns1:g>"</string>
     <string msgid="1656852541809559762" name="abc_toolbar_collapse_description">"Thu gọn"</string>
-    <string msgid="8397015543330865059" name="android.credentials.TYPE_PASSWORD_CREDENTIAL">"Mật khẩu"</string>
-    <string msgid="3929015085059320822" name="androidx.credentials.TYPE_PUBLIC_KEY_CREDENTIAL">"Khoá truy cập"</string>
     <string msgid="8719607706653693137" name="androidx_compose_foundation_autofill">"Tự động điền"</string>
     <string msgid="1150566100598813236" name="androidx_compose_ui_autofill">"Tự động điền"</string>
     <string msgid="881409763997275156" name="call_notification_answer_action">"Trả lời"</string>
@@ -51,7 +49,7 @@
     <string name="common_google_play_services_unknown_issue">%1$s đang gặp sự cố với Dịch vụ Google Play. Hãy thử lại.</string>
     <string name="common_google_play_services_unsupported_text">%1$s sẽ không chạy nếu không có Dịch vụ Google Play. Thiết bị của bạn không hỗ trợ các dịch vụ này.</string>
     <string msgid="6556509956452265614" name="common_google_play_services_update_button">Cập nhật</string>
-    <string msgid="9053896323427875356" name="common_google_play_services_update_text">%1$s sẽ không chạy trừ phi bạn cập nhật Dịch vụ Google Play.</string>
+    <string msgid="9053896323427875356" name="common_google_play_services_update_text">%1$s sẽ không chạy trừ khi bạn cập nhật Dịch vụ Google Play.</string>
     <string msgid="6006316683626838685" name="common_google_play_services_update_title">Cập nhật dịch vụ của Google Play</string>
     <string name="common_google_play_services_updating_text">%1$s sẽ không chạy nếu không có dịch vụ của Google Play. Dịch vụ này hiện đang cập nhật.</string>
     <string name="common_google_play_services_wear_update_text">Cần phiên bản mới của dịch vụ Google Play. Dịch vụ sẽ sớm tự động cập nhật.</string>
@@ -59,14 +57,10 @@
     <string name="common_signin_button_text">Đăng nhập</string>
     <string name="common_signin_button_text_long">Đăng nhập bằng Google</string>
     <string msgid="5912733858573823945" name="confirm_device_credential_password">"Dùng mật khẩu"</string>
-    <string msgid="3260749812566568062" name="copy_toast_msg">"Đã sao chép đường liên kết vào bảng nhớ tạm"</string>
     <string msgid="8038256446254964252" name="default_error_message">"Giá trị nhập không hợp lệ"</string>
     <string msgid="4776854077120974966" name="default_error_msg">"Lỗi không xác định"</string>
     <string msgid="6312721426453364202" name="default_popup_window_title">"Cửa sổ bật lên"</string>
     <string msgid="1890207353314751437" name="dropdown_menu">"Trình đơn thả xuống"</string>
-    <string msgid="4566929209979330987" name="fallback_menu_item_copy_link">"Sao chép đường liên kết"</string>
-    <string msgid="3413186855122069269" name="fallback_menu_item_open_in_browser">"Mở trong trình duyệt"</string>
-    <string msgid="7145444925855055364" name="fallback_menu_item_share_link">"Chia sẻ liên kết"</string>
     <string msgid="1072308044213194243" name="fingerprint_dialog_touch_sensor">"Chạm vào cảm biến vân tay"</string>
     <string msgid="8216738333501875566" name="fingerprint_error_hw_not_available">"Không dùng được phần cứng vân tay."</string>
     <string msgid="6306988885793029438" name="fingerprint_error_hw_not_present">"Thiết bị này không có cảm biến vân tay"</string>

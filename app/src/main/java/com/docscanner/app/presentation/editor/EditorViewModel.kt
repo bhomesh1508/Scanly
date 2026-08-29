@@ -87,20 +87,21 @@ class EditorViewModel @Inject constructor(
 
         viewModelScope.launch {
             combine(
+                _pages,
                 _selectedPageIndex,
                 _currentFilter,
                 _brightness,
                 _contrast
-            ) { index, filter, brightness, contrast ->
-                listOf(index, filter, brightness, contrast)
+            ) { pagesList, index, filter, brightness, contrast ->
+                listOf(pagesList, index, filter, brightness, contrast)
             }.collectLatest { args ->
-                val index = args[0] as Int
-                val filter = args[1] as FilterType
-                val brightness = args[2] as Float
-                val contrast = args[3] as Float
+                val pagesList = args[0] as List<Page>
+                val index = args[1] as Int
+                val filter = args[2] as FilterType
+                val brightness = args[3] as Float
+                val contrast = args[4] as Float
 
-                val pageList = _pages.value
-                val page = pageList.getOrNull(index) ?: return@collectLatest
+                val page = pagesList.getOrNull(index) ?: return@collectLatest
 
                 withContext(Dispatchers.Default) {
                     try {
@@ -121,9 +122,12 @@ class EditorViewModel @Inject constructor(
                                 if (temp != orig) temp.recycle()
                             }
                             _previewBitmap.value = bmp
+                        } ?: run {
+                            _previewBitmap.value = null
                         }
                     } catch (e: Exception) {
                         e.printStackTrace()
+                        _previewBitmap.value = null
                     }
                 }
             }
@@ -171,7 +175,7 @@ class EditorViewModel @Inject constructor(
         _rotation.value = (_rotation.value + 90) % 360
     }
 
-    fun deletePage(pageId: String) {
+    fun deletePage(pageId: String, onDocumentEmpty: () -> Unit) {
         viewModelScope.launch {
             val currentIndex = _selectedPageIndex.value
             documentRepository.deletePage(pageId)
@@ -180,6 +184,10 @@ class EditorViewModel @Inject constructor(
                 _selectedPageIndex.value = currentIndex.coerceIn(0, newSize - 1)
             } else {
                 _selectedPageIndex.value = 0
+                documentRepository.moveToTrash(documentId)
+                withContext(Dispatchers.Main) {
+                    onDocumentEmpty()
+                }
             }
         }
     }

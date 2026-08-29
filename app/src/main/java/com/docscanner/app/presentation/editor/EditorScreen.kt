@@ -275,7 +275,9 @@ fun EditorScreen(
             confirmButton = {
                 Button(
                     onClick = {
-                        viewModel.deletePage(currentPage.id)
+                        viewModel.deletePage(currentPage.id) {
+                            onNavigateBack()
+                        }
                         showDeleteConfirmDialog = false
                     },
                     colors = ButtonDefaults.buttonColors(

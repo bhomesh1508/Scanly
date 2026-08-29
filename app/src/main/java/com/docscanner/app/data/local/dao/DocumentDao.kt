@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Upsert
 import com.docscanner.app.data.local.entity.DocumentEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -31,7 +32,7 @@ interface DocumentDao {
     @Query("SELECT COUNT(*) FROM documents WHERE isTrashed = 0")
     fun getDocumentCount(): Flow<Int>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Upsert
     suspend fun upsert(document: DocumentEntity)
 
     @Query("UPDATE documents SET title = :title WHERE id = :docId")

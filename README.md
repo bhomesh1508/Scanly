@@ -1,127 +1,144 @@
-<h1 align="center">
-  <br>
-  <img src="https://raw.githubusercontent.com/google/material-design-icons/master/png/image/camera_alt/materialicons/48dp/2x/baseline_camera_alt_black_48dp.png" alt="Scanly" width="120">
-  <br>
-  Scanly - Advanced Document Scanner
-  <br>
-</h1>
+# Scanly — Smart Document Scanner
 
-<h4 align="center">A high-performance, offline-first Android Document Scanner with optional Cloud Backup &amp; Sync built with Jetpack Compose &amp; ML Kit.</h4>
+<div align="center">
 
-<p align="center">
-  <a href="#key-features">Key Features</a> •
-  <a href="#cloud-storage--sync">Cloud Storage &amp; Sync</a> •
-  <a href="#architecture">Architecture</a> •
-  <a href="#installation">Installation</a> •
-  <a href="#technologies-used">Technologies Used</a> •
-  <a href="#license">License</a>
-</p>
+<img src="app/src/main/res/drawable/app_logo.jpg" alt="Scanly Logo" width="120" style="border-radius: 28px; box-shadow: 0 12px 36px rgba(0,0,0,0.4);" />
+
+### Paper, digitized properly.
+**A focused, offline-first smart document scanner for Android.**
+
+[![TheKubics Project](https://img.shields.io/badge/Parent%20Studio-TheKubics-ECA8D6?style=for-the-badge&logo=appveyor&logoColor=black)](https://thekubics.space/)
+[![Website](https://img.shields.io/badge/Official%20Site-scanly.thekubics.space-38BDF8?style=for-the-badge&logo=googlechrome&logoColor=white)](https://scanly.thekubics.space/)
+[![Platform](https://img.shields.io/badge/Platform-Android%2014%2B-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://developer.android.com/)
+[![Kotlin](https://img.shields.io/badge/Language-Kotlin%202.0-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white)](https://kotlinlang.org/)
+[![UI](https://img.shields.io/badge/UI-Jetpack%20Compose-4285F4?style=for-the-badge&logo=jetpackcompose&logoColor=white)](https://developer.android.com/jetpack/compose)
 
 ---
 
-## 🚀 Key Features
+[Official Website](https://scanly.thekubics.space/) &bull; [Parent Studio](https://thekubics.space/) &bull; [Capabilities](#capabilities) &bull; [Architecture](#architecture) &bull; [Build Setup](#build--installation)
 
-*   **Intelligent Scanning**: Utilizes Google's ML Kit for high-accuracy document edge detection, perspective correction, and automatic capture.
-*   **100% Offline-First Core**: Scanning, image enhancement, and PDF generation work seamlessly on-device without an internet connection or account.
-*   **Optional Secure Cloud Backup**: Securely back up PDFs, JPGs, PNGs, thumbnails, and metadata with authenticated cloud storage.
-*   **Storage Dashboard**: Monitor cloud quota usage with detailed breakdowns for Documents, Images, and PDFs.
-*   **Flexible Save & Upload Options**: Choose between *Save Locally*, *Upload to Cloud*, or *Save & Upload* for every document.
-*   **Multi-Page Documents**: Effortlessly scan, reorder, duplicate, merge, and split multi-page documents.
-*   **Advanced Image Processing**: Apply professional filters (Grayscale, Black & White, Magic Color) and fine-tune brightness and contrast.
-*   **Biometric Security**: Protect your sensitive documents with integrated App Lock (Fingerprint/Face Unlock).
-*   **Modern UI/UX**: Meticulously crafted with Material Design 3 and Jetpack Compose for fluid animations and edge-to-edge aesthetics.
+</div>
 
 ---
 
-## ☁️ Cloud Storage & Sync
+## Overview
 
-Scanly features an optional, privacy-respecting Cloud Storage subsystem:
+**Scanly** turns physical documents into clean, organized digital files. Engineered under **TheKubics** design philosophy, it focuses on the part that matters: deterministic capture, instant edge detection, perspective correction, and high-fidelity PDF export without marketing noise or forced cloud accounts.
 
-### 1. Cloud Backup & Format Preservation
-*   Back up full-fidelity PDFs, processed images (JPG/PNG), thumbnails, page ordering, and OCR metadata.
-*   Real-time upload progress indicators and transparent sync statuses.
-
-### 2. Synchronization Engine
-*   **Clear Sync States**: Every document clearly indicates its state: `Synced`, `Uploading`, `Downloading`, `Offline`, `Sync Failed`, or `Local Only`.
-*   **WorkManager Integration**: Background worker queues offline documents and automatically triggers synchronization when network connectivity returns.
-*   **Wi-Fi Only Guard**: Option to restrict uploads strictly to Wi-Fi to preserve mobile cellular data.
-
-### 3. Account & Storage Limits
-*   **No Forced Sign-In**: Scanly is completely functional offline without creating an account.
-*   **Authenticated Cloud Profile**: Sign up or log in to associate your cloud documents securely with your profile.
-*   **Storage Quota**: Standard 10 GB free tier with live quota tracking in the Storage Dashboard.
-
-### 4. Privacy & Consent
-*   Documents are **never** uploaded automatically without user consent.
-*   Encrypted local cache with complete user control over cache clearing and remote file deletion.
+* **Category:** Smart Document Scanner
+* **Parent Brand:** [TheKubics Software Studio](https://thekubics.space/)
+* **Official Website:** [https://scanly.thekubics.space/](https://scanly.thekubics.space/)
+* **Primary Tagline:** *"Scan documents. Cut the clutter."*
+* **Architecture:** 100% Offline-first with optional decoupled Cloud Backup.
 
 ---
 
-## 🏗 Architecture
+## Capabilities
 
-Scanly is built according to **Clean Architecture** principles and the **MVVM** pattern:
+| # | Feature | Technical Implementation |
+|---|---|---|
+| **01** | **Smart Scanning** | Live optical camera capture via CameraX with dynamic viewfinder. |
+| **02** | **Auto Edge Detection** | Real-time quad contour sensing powered by Google ML Kit. |
+| **03** | **Perspective Correction** | Planar homography matrix transformation to rectify angled document shots. |
+| **04** | **Image Processing** | ColorMatrix filters: Magic Color, Clean B&W, Grayscale, Contrast stretch. |
+| **05** | **Multi-Page Composer** | Full page hierarchy: add, delete, rotate, duplicate, and reorder scans. |
+| **06** | **Lossless PDF Export** | Standardized ISO A4 and US Letter document generation with custom naming. |
+| **07** | **Local Document Library** | SQLite database via Room with folder organization, search, and tags. |
+| **08** | **Biometric Security** | BiometricPrompt integration (fingerprint / face unlock) for private scans. |
+| **09** | **Cloud Storage (Optional)**| WorkManager background sync engine with network metering and quota telemetry. |
 
-```text
-app/
-├── data/
-│   ├── local/          # Room DB, DAOs (Document, Page, Folder, SyncQueue, CloudDocument)
-│   ├── mapper/         # Domain-to-Entity and Entity-to-Domain mappers
-│   ├── repository/     # Concrete repositories (DocumentRepository, SettingsRepository)
-│   └── service/        # CloudStorageService and AuthService implementations
-├── domain/
-│   ├── model/          # Pure Kotlin models (Document, Page, CloudDocument, StorageQuota, UserSettings)
-│   ├── repository/     # Repository interfaces
-│   └── service/        # Service interfaces (CloudStorageService, AuthService)
-├── presentation/
-│   ├── auth/           # Authentication & Profile screens
-│   ├── cloud/          # Cloud Document catalog & Storage Dashboard screens
-│   ├── common/         # Shared Compose components (Dialogs, Cards, EmptyStates)
-│   ├── editor/         # Image adjustment & filter editor
-│   ├── home/           # Local documents library
-│   ├── navigation/     # Jetpack Navigation and M3 BottomNavBar
-│   ├── scanner/        # Camera & ML Kit document capture
-│   ├── settings/       # App preferences & Cloud configuration
-│   └── viewer/         # PDF & page reader with OCR text extraction
-└── service/
-    ├── filter/         # Bitmap processing & ColorMatrix enhancements
-    ├── pdf/            # Android PdfDocument generator
-    └── sync/           # WorkManager CloudSyncWorker & CloudSyncManager
+---
+
+## Architecture & Design
+
+Scanly follows strict **Clean Architecture** principles structured into three decoupled layers:
+
+```
+com.docscanner.app
+├── data
+│   ├── local
+│   │   ├── dao          # Room DAOs (Document, Page, Folder, Cloud, SyncQueue)
+│   │   ├── db           # AppDatabase (Room v2 migration & schemas)
+│   │   └── entity       # Relational SQLite table entities
+│   ├── mapper           # Entity <-> Domain bidirectional mappers
+│   ├── repository       # Concrete repository implementations
+│   └── service          # CloudStorageServiceImpl & AuthServiceImpl
+├── di                   # Dagger Hilt dependency injection modules
+├── domain
+│   ├── model            # Immutable pure Kotlin domain models
+│   ├── repository       # Repository abstractions / contracts
+│   └── service          # Service interfaces (Storage, Auth, Filters)
+├── presentation
+│   ├── auth             # Sign In, Sign Up, Profile UI
+│   ├── cloud            # Cloud Library & Storage Telemetry Dashboard
+│   ├── common           # Reusable Compose components (Pills, Dialogs)
+│   ├── editor           # Document adjustment, filters, & page composer
+│   ├── folders          # Folder management & batch move
+│   ├── home             # Document grid, recent scans, search
+│   ├── navigation       # Type-safe Jetpack Compose navigation graphs
+│   ├── scanner          # CameraX viewfinder with real-time ML Kit overlays
+│   ├── settings         # Theme selection, save defaults, cache cleaner
+│   └── theme            # TheKubics dark-first design tokens & typography
+├── service
+│   ├── filter           # ImageFilterService (ColorMatrix & Bitmap transforms)
+│   ├── pdf              # PdfExportService (A4 / Letter generator)
+│   └── sync             # CloudSyncWorker & periodic WorkManager scheduler
+└── util                 # NetworkMonitor, FileUtils, BitmapExtensions
 ```
 
 ---
 
-## 🛠 Technologies Used
+## Tech Stack
 
-*   **Kotlin**: 100% modern Kotlin codebase with Coroutines & StateFlow.
-*   **Jetpack Compose & Material 3**: Declarative UI with dynamic theming.
-*   **Google ML Kit (Document Scanner & Text Recognition)**: On-device machine learning models.
-*   **AndroidX WorkManager**: Persistent, constraint-aware background synchronization.
-*   **Dagger Hilt**: Dependency injection.
-*   **Room Database**: Local SQLite persistence with multi-table indexing and cascade handling.
-*   **DataStore Preferences**: Fast, asynchronous key-value persistence.
-*   **Coil 3**: Asynchronous image loading for Compose.
+Scanly is built with tools that ship:
 
----
-
-## 📥 Installation
-
-### Build from Source
-
-1.  Clone the repository:
-    ```bash
-    git clone https://github.com/bhomesh1508/Scanly.git
-    ```
-2.  Open the project in **Android Studio (Ladybug / Koala or newer)**.
-3.  Ensure JDK 17+ or JDK 21 is selected in Gradle Settings.
-4.  Build and run on a physical Android device (API 24+):
-    ```bash
-    ./gradlew assembleDebug
-    ```
+* **Language:** Kotlin 2.0.21
+* **UI Framework:** Jetpack Compose with Material Design 3
+* **Computer Vision:** Google ML Kit Document Detection
+* **Dependency Injection:** Dagger Hilt 2.51.1 (`hilt-android`, `hilt-work`)
+* **Local Persistence:** AndroidX Room 2.6.1 SQLite Database
+* **Background Tasks:** AndroidX WorkManager 2.10.0
+* **Image Pipeline:** Coil 3 for Compose
+* **Camera Pipeline:** AndroidX CameraX (Camera2, Lifecycle, View)
+* **Security:** AndroidX Biometric 1.1.0
 
 ---
 
-## 📄 License
+## Build & Installation
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+### Prerequisites
+* Android Studio Ladybug or newer
+* JDK 17 or JDK 21 (configured as `JAVA_HOME`)
+* Android SDK 35 (compileSdk: 35, minSdk: 26)
 
-<p align="center">Made with ❤️ for Android.</p>
+### Clone & Build
+```bash
+# Clone the repository
+git clone https://github.com/bhomesh1508/Scanly.git
+cd Scanly
+
+# Build the Debug APK
+./gradlew assembleDebug
+
+# Output APK path
+app/build/outputs/apk/debug/app-debug.apk
+```
+
+---
+
+## Studio & Credits
+
+Scanly is an official product built and maintained under **TheKubics**.
+
+* **Studio:** [TheKubics](https://thekubics.space/)
+* **Email:** [thekubics.dev@gmail.com](mailto:thekubics.dev@gmail.com)
+* **Organization:** [github.com/TheKubics-org](https://github.com/TheKubics-org)
+
+---
+
+<div align="center">
+
+&copy; 2026 **TheKubics**. All rights reserved.  
+*Software, cut precisely. Built to ship.*
+
+</div>

@@ -17,3 +17,4 @@ PROJECT.md
 *.aab
 *.keystore
 *.jks
+push_to_github.bat

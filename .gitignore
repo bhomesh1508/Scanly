@@ -1,4 +1,4 @@
-﻿*.iml
+*.iml
 .gradle/
 local.properties
 .idea/
@@ -18,3 +18,8 @@ PROJECT.md
 *.keystore
 *.jks
 push_to_github.bat
+
+# Web & GitHub Pages source
+web/node_modules/
+web/.vite/
+web/dist/

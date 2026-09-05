@@ -14,6 +14,9 @@ sealed class Screen(val route: String) {
         fun createRoute(folderId: String) = "folder/$folderId"
     }
     object Search : Screen("search")
+    object Cloud : Screen("cloud")
+    object StorageDashboard : Screen("storage_dashboard")
+    object Auth : Screen("auth")
     object Settings : Screen("settings")
     object Trash : Screen("trash")
 }

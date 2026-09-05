@@ -9,7 +9,11 @@ import androidx.lifecycle.viewModelScope
 import com.docscanner.app.domain.model.Document
 import com.docscanner.app.domain.model.FilterType
 import com.docscanner.app.domain.model.Page
+import com.docscanner.app.domain.model.SaveAction
+import com.docscanner.app.domain.model.UserSettings
 import com.docscanner.app.domain.repository.DocumentRepository
+import com.docscanner.app.domain.repository.SettingsRepository
+import com.docscanner.app.domain.service.cloud.CloudStorageService
 import com.docscanner.app.service.filter.ImageFilterService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -24,10 +28,19 @@ import javax.inject.Inject
 class EditorViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val documentRepository: DocumentRepository,
+    private val settingsRepository: SettingsRepository,
+    private val cloudStorageService: CloudStorageService,
     private val imageFilterService: ImageFilterService
 ) : ViewModel() {
 
     val documentId: String = checkNotNull(savedStateHandle["documentId"])
+
+    val settings: StateFlow<UserSettings> = settingsRepository.settings
+        .stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5000),
+            UserSettings()
+        )
 
     private val _document = MutableStateFlow<Document?>(null)
     val document: StateFlow<Document?> = _document.asStateFlow()
@@ -101,34 +114,44 @@ class EditorViewModel @Inject constructor(
                 val brightness = args[3] as Float
                 val contrast = args[4] as Float
 
-                val page = pagesList.getOrNull(index) ?: return@collectLatest
-
-                withContext(Dispatchers.Default) {
+                val currentPage = pagesList.getOrNull(index)
+                if (currentPage != null) {
                     try {
                         if (originalPreviewBitmap == null || lastLoadedPageIndex != index) {
                             val options = BitmapFactory.Options().apply {
-                                inSampleSize = 4
+                                inSampleSize = 2
                                 inPreferredConfig = Bitmap.Config.ARGB_8888
                                 inMutable = true
                             }
-                            originalPreviewBitmap = BitmapFactory.decodeFile(page.originalImagePath, options)
+                            originalPreviewBitmap?.recycle()
+                            originalPreviewBitmap = BitmapFactory.decodeFile(currentPage.originalImagePath, options)
                             lastLoadedPageIndex = index
                         }
-                        originalPreviewBitmap?.let { orig ->
-                            var bmp = imageFilterService.applyFilter(orig, filter)
-                            if (brightness != 0f || contrast != 0f) {
-                                val temp = bmp
-                                bmp = imageFilterService.applyAdjustments(bmp, brightness, contrast)
-                                if (temp != orig) temp.recycle()
+
+                        val base = originalPreviewBitmap
+                        if (base != null) {
+                            val rotated = if (_rotation.value != 0) {
+                                imageFilterService.rotateImage(base, _rotation.value.toFloat())
+                            } else {
+                                base
                             }
-                            _previewBitmap.value = bmp
-                        } ?: run {
+
+                            val filtered = imageFilterService.applyFilter(rotated, filter)
+                            val adjusted = if (brightness != 0f || contrast != 0f) {
+                                imageFilterService.applyAdjustments(filtered, brightness, contrast)
+                            } else {
+                                filtered
+                            }
+
+                            _previewBitmap.value = adjusted
+                        } else {
                             _previewBitmap.value = null
                         }
                     } catch (e: Exception) {
-                        e.printStackTrace()
                         _previewBitmap.value = null
                     }
+                } else {
+                    _previewBitmap.value = null
                 }
             }
         }
@@ -143,51 +166,40 @@ class EditorViewModel @Inject constructor(
             _brightness.value = page.brightness
             _contrast.value = page.contrast
             _rotation.value = page.rotation
+            lastLoadedPageIndex = -1 // Force reload preview bitmap
         }
     }
 
-    fun applyFilter(filterType: FilterType) {
-        _currentFilter.value = filterType
+    fun setFilter(filter: FilterType) {
+        _currentFilter.value = filter
     }
 
-    fun adjustBrightness(value: Float) {
-        _brightness.value = value.coerceIn(-1f, 1f)
+    fun setBrightness(value: Float) {
+        _brightness.value = value
     }
 
-    fun adjustContrast(value: Float) {
-        _contrast.value = value.coerceIn(-1f, 1f)
-    }
-
-    fun resetBrightness() {
-        _brightness.value = 0f
-    }
-
-    fun resetContrast() {
-        _contrast.value = 0f
-    }
-
-    fun resetAdjustments() {
-        _brightness.value = 0f
-        _contrast.value = 0f
+    fun setContrast(value: Float) {
+        _contrast.value = value
     }
 
     fun rotatePage() {
         _rotation.value = (_rotation.value + 90) % 360
     }
 
-    fun deletePage(pageId: String, onDocumentEmpty: () -> Unit) {
+    fun deletePage(pageId: String, onDocumentEmpty: () -> Unit = {}) {
         viewModelScope.launch {
-            val currentIndex = _selectedPageIndex.value
-            documentRepository.deletePage(pageId)
-            val newSize = (_pages.value.size - 1).coerceAtLeast(0)
-            if (newSize > 0) {
-                _selectedPageIndex.value = currentIndex.coerceIn(0, newSize - 1)
-            } else {
-                _selectedPageIndex.value = 0
+            val pageList = _pages.value
+            if (pageList.size <= 1) {
+                // Last page deleted -> delete document and navigate back
                 documentRepository.moveToTrash(documentId)
                 withContext(Dispatchers.Main) {
                     onDocumentEmpty()
                 }
+            } else {
+                documentRepository.deletePage(pageId)
+                val newIndex = _selectedPageIndex.value.coerceAtMost(_pages.value.size - 2)
+                _selectedPageIndex.value = newIndex.coerceAtLeast(0)
+                lastLoadedPageIndex = -1
             }
         }
     }
@@ -210,15 +222,23 @@ class EditorViewModel @Inject constructor(
         }
     }
 
-    fun saveChanges(onSaved: () -> Unit = {}) {
+    fun saveChanges(
+        action: SaveAction = SaveAction.SAVE_LOCAL,
+        rememberAction: Boolean = false,
+        onSaved: () -> Unit = {}
+    ) {
         viewModelScope.launch(Dispatchers.IO) {
             _isSaving.value = true
+
+            if (rememberAction) {
+                settingsRepository.updateSettings(settings.value.copy(defaultSaveAction = action))
+            }
+
             val pageList = _pages.value
             val currentPage = pageList.getOrNull(_selectedPageIndex.value)
             if (currentPage != null) {
                 var processedPath = currentPage.processedImagePath
 
-                // Apply to full-resolution image if filters or adjustments exist
                 val hasChanges = _currentFilter.value != FilterType.ORIGINAL || _brightness.value != 0f || _contrast.value != 0f
                 if (hasChanges) {
                     val options = BitmapFactory.Options().apply {
@@ -253,13 +273,21 @@ class EditorViewModel @Inject constructor(
                     contrast = _contrast.value,
                     rotation = _rotation.value,
                     processedImagePath = processedPath,
-                    thumbnailPath = processedPath // Also update thumbnail path for UI consistency
+                    thumbnailPath = processedPath
                 )
                 documentRepository.updatePage(updatedPage)
             }
-            _document.value?.let { doc ->
-                documentRepository.updateDocument(doc.copy(updatedAt = System.currentTimeMillis()))
+
+            val updatedDoc = _document.value?.copy(updatedAt = System.currentTimeMillis())
+            if (updatedDoc != null) {
+                documentRepository.updateDocument(updatedDoc)
+
+                // Trigger cloud upload if requested
+                if (action == SaveAction.UPLOAD_TO_CLOUD || action == SaveAction.SAVE_AND_UPLOAD) {
+                    cloudStorageService.uploadDocument(updatedDoc, _pages.value)
+                }
             }
+
             _isSaving.value = false
             withContext(Dispatchers.Main) {
                 onSaved()

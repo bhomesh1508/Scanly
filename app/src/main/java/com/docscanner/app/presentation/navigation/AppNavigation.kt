@@ -17,6 +17,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.docscanner.app.presentation.auth.AuthScreen
+import com.docscanner.app.presentation.auth.AuthViewModel
+import com.docscanner.app.presentation.cloud.CloudScreen
+import com.docscanner.app.presentation.cloud.CloudViewModel
+import com.docscanner.app.presentation.cloud.StorageDashboardScreen
+import com.docscanner.app.presentation.cloud.StorageDashboardViewModel
 import com.docscanner.app.presentation.common.AppLockGate
 import com.docscanner.app.presentation.editor.EditorScreen
 import com.docscanner.app.presentation.editor.EditorViewModel
@@ -52,7 +58,9 @@ fun AppNavigation(
     val hideBottomBarRoutes = listOf(
         Screen.Scanner.route,
         Screen.Editor.route,
-        Screen.Viewer.route
+        Screen.Viewer.route,
+        Screen.StorageDashboard.route,
+        Screen.Auth.route
     )
     val shouldShowBottomBar = currentRoute !in hideBottomBarRoutes
 
@@ -188,6 +196,37 @@ fun AppNavigation(
                     )
                 }
 
+                // Cloud Storage Main Screen
+                composable(Screen.Cloud.route) {
+                    val viewModel: CloudViewModel = hiltViewModel()
+                    CloudScreen(
+                        viewModel = viewModel,
+                        onNavigateToDashboard = { navController.navigate(Screen.StorageDashboard.route) },
+                        onNavigateToAuth = { navController.navigate(Screen.Auth.route) },
+                        onDocumentClick = { docId ->
+                            navController.navigate(Screen.Viewer.createRoute(docId))
+                        }
+                    )
+                }
+
+                // Storage Dashboard
+                composable(Screen.StorageDashboard.route) {
+                    val viewModel: StorageDashboardViewModel = hiltViewModel()
+                    StorageDashboardScreen(
+                        viewModel = viewModel,
+                        onNavigateBack = { navController.popBackStack() }
+                    )
+                }
+
+                // Auth Screen
+                composable(Screen.Auth.route) {
+                    val viewModel: AuthViewModel = hiltViewModel()
+                    AuthScreen(
+                        viewModel = viewModel,
+                        onNavigateBack = { navController.popBackStack() }
+                    )
+                }
+
                 // Search
                 composable(Screen.Search.route) {
                     val viewModel: SearchViewModel = hiltViewModel()
@@ -204,7 +243,10 @@ fun AppNavigation(
                     val viewModel: SettingsViewModel = hiltViewModel()
                     SettingsScreen(
                         viewModel = viewModel,
-                        onNavigateToTrash = { navController.navigate(Screen.Trash.route) }
+                        onNavigateToTrash = { navController.navigate(Screen.Trash.route) },
+                        onNavigateToDashboard = { navController.navigate(Screen.StorageDashboard.route) },
+                        onNavigateToAuth = { navController.navigate(Screen.Auth.route) },
+                        onNavigateToCloud = { navController.navigate(Screen.Cloud.route) }
                     )
                 }
 

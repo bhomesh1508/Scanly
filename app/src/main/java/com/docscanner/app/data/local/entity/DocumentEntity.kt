@@ -10,7 +10,8 @@ import androidx.room.PrimaryKey
         Index("folderId"),
         Index("title"),
         Index("createdAt"),
-        Index("isTrashed")
+        Index("isTrashed"),
+        Index("syncStatus")
     ]
 )
 data class DocumentEntity(
@@ -23,6 +24,10 @@ data class DocumentEntity(
     val isEncrypted: Boolean,
     val isTrashed: Boolean,
     val trashedAt: Long?,
+    val syncStatus: String = "LOCAL",
+    val cloudId: String? = null,
+    val fileSize: Long = 0L,
+    val lastSyncedAt: Long? = null,
     val createdAt: Long,
     val updatedAt: Long
 )

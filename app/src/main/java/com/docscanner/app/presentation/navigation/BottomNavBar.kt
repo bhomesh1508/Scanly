@@ -1,10 +1,12 @@
 package com.docscanner.app.presentation.navigation
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Cloud
 import androidx.compose.material.icons.filled.Folder
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.outlined.Cloud
 import androidx.compose.material.icons.outlined.Folder
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Search
@@ -42,6 +44,12 @@ fun BottomNavBar(
             selectedIcon = Icons.Filled.Folder,
             unselectedIcon = Icons.Outlined.Folder,
             labelRes = R.string.nav_folders
+        ),
+        NavItem(
+            route = Screen.Cloud.route,
+            selectedIcon = Icons.Filled.Cloud,
+            unselectedIcon = Icons.Outlined.Cloud,
+            labelRes = R.string.nav_cloud
         ),
         NavItem(
             route = Screen.Search.route,

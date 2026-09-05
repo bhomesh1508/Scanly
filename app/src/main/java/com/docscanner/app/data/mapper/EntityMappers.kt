@@ -1,12 +1,15 @@
 package com.docscanner.app.data.mapper
 
+import com.docscanner.app.data.local.entity.CloudDocumentEntity
 import com.docscanner.app.data.local.entity.DocumentEntity
 import com.docscanner.app.data.local.entity.FolderEntity
 import com.docscanner.app.data.local.entity.PageEntity
+import com.docscanner.app.domain.model.CloudDocument
 import com.docscanner.app.domain.model.Document
 import com.docscanner.app.domain.model.FilterType
 import com.docscanner.app.domain.model.Folder
 import com.docscanner.app.domain.model.Page
+import com.docscanner.app.domain.model.SyncStatus
 
 fun DocumentEntity.toDomain(): Document {
     return Document(
@@ -19,6 +22,10 @@ fun DocumentEntity.toDomain(): Document {
         isEncrypted = this.isEncrypted,
         isTrashed = this.isTrashed,
         trashedAt = this.trashedAt,
+        syncStatus = runCatching { SyncStatus.valueOf(this.syncStatus) }.getOrDefault(SyncStatus.LOCAL),
+        cloudId = this.cloudId,
+        fileSize = this.fileSize,
+        lastSyncedAt = this.lastSyncedAt,
         createdAt = this.createdAt,
         updatedAt = this.updatedAt
     )
@@ -35,6 +42,10 @@ fun Document.toEntity(): DocumentEntity {
         isEncrypted = this.isEncrypted,
         isTrashed = this.isTrashed,
         trashedAt = this.trashedAt,
+        syncStatus = this.syncStatus.name,
+        cloudId = this.cloudId,
+        fileSize = this.fileSize,
+        lastSyncedAt = this.lastSyncedAt,
         createdAt = this.createdAt,
         updatedAt = this.updatedAt
     )
@@ -97,5 +108,36 @@ fun Folder.toEntity(): FolderEntity {
         color = this.color,
         documentCount = this.documentCount,
         createdAt = this.createdAt
+    )
+}
+
+fun CloudDocumentEntity.toDomain(): CloudDocument {
+    return CloudDocument(
+        id = this.id,
+        localDocumentId = this.localDocumentId,
+        title = this.title,
+        fileType = this.fileType,
+        pageCount = this.pageCount,
+        fileSize = this.fileSize,
+        thumbnailUrl = this.thumbnailUrl,
+        cloudFileUrl = this.cloudFileUrl,
+        uploadDate = this.uploadDate,
+        syncStatus = runCatching { SyncStatus.valueOf(this.syncStatus) }.getOrDefault(SyncStatus.SYNCED)
+    )
+}
+
+fun CloudDocument.toEntity(userId: String): CloudDocumentEntity {
+    return CloudDocumentEntity(
+        id = this.id,
+        userId = userId,
+        localDocumentId = this.localDocumentId,
+        title = this.title,
+        fileType = this.fileType,
+        pageCount = this.pageCount,
+        fileSize = this.fileSize,
+        thumbnailUrl = this.thumbnailUrl,
+        cloudFileUrl = this.cloudFileUrl,
+        uploadDate = this.uploadDate,
+        syncStatus = this.syncStatus.name
     )
 }

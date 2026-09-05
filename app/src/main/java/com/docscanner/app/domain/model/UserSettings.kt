@@ -11,6 +11,11 @@ package com.docscanner.app.domain.model
  * @property appLockEnabled Whether the app requires biometric/PIN authentication to open.
  * @property hasSeenOnboarding Whether the user has completed the onboarding flow.
  * @property encryptNewDocuments Whether new documents should be encrypted by default.
+ * @property cloudBackupEnabled Whether cloud backup is enabled.
+ * @property autoSyncEnabled Whether documents sync automatically in background.
+ * @property wifiOnlyUpload Whether uploads are restricted to Wi-Fi connections.
+ * @property defaultSaveAction Default action after document capture/save.
+ * @property uploadQuality Image quality preset used for cloud uploads.
  */
 data class UserSettings(
     val theme: ThemeMode = ThemeMode.SYSTEM,
@@ -20,7 +25,12 @@ data class UserSettings(
     val defaultMargin: MarginPreset = MarginPreset.NORMAL,
     val appLockEnabled: Boolean = false,
     val hasSeenOnboarding: Boolean = false,
-    val encryptNewDocuments: Boolean = false
+    val encryptNewDocuments: Boolean = false,
+    val cloudBackupEnabled: Boolean = false,
+    val autoSyncEnabled: Boolean = true,
+    val wifiOnlyUpload: Boolean = true,
+    val defaultSaveAction: SaveAction = SaveAction.SAVE_LOCAL,
+    val uploadQuality: QualityLevel = QualityLevel.HIGH
 ) {
     /**
      * Theme options for the application.

@@ -1,9 +1,11 @@
 package com.docscanner.app.di
 
 import com.docscanner.app.data.local.db.AppDatabase
+import com.docscanner.app.data.local.dao.CloudDocumentDao
 import com.docscanner.app.data.local.dao.DocumentDao
 import com.docscanner.app.data.local.dao.FolderDao
 import com.docscanner.app.data.local.dao.PageDao
+import com.docscanner.app.data.local.dao.SyncQueueDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,4 +23,10 @@ object DatabaseModule {
 
     @Provides
     fun provideFolderDao(db: AppDatabase): FolderDao = db.folderDao()
+
+    @Provides
+    fun provideSyncQueueDao(db: AppDatabase): SyncQueueDao = db.syncQueueDao()
+
+    @Provides
+    fun provideCloudDocumentDao(db: AppDatabase): CloudDocumentDao = db.cloudDocumentDao()
 }

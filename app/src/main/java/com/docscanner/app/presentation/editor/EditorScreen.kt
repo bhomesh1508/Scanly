@@ -29,8 +29,10 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.docscanner.app.domain.model.FilterType
 import com.docscanner.app.domain.model.Page
+import com.docscanner.app.domain.model.SaveAction
 import com.docscanner.app.presentation.editor.components.AdjustmentsPanel
 import com.docscanner.app.presentation.editor.components.FilterSelector
+import com.docscanner.app.presentation.editor.components.SaveActionDialog
 
 enum class EditorTab(val title: String, val icon: androidx.compose.ui.graphics.vector.ImageVector) {
     FILTERS("Filters", Icons.Outlined.PhotoFilter),
@@ -54,9 +56,11 @@ fun EditorScreen(
     val rotation by viewModel.rotation.collectAsState()
     val previewBitmap by viewModel.previewBitmap.collectAsState()
     val isSaving by viewModel.isSaving.collectAsState()
+    val settings by viewModel.settings.collectAsState()
 
     var selectedTab by remember { mutableStateOf(EditorTab.FILTERS) }
     var showDeleteConfirmDialog by remember { mutableStateOf(false) }
+    var showSaveActionDialog by remember { mutableStateOf(false) }
 
     // Add more pages picker launcher
     val pickImagesLauncher = rememberLauncherForActivityResult(
@@ -103,8 +107,12 @@ fun EditorScreen(
                         )
                     } else {
                         IconButton(onClick = {
-                            viewModel.saveChanges {
-                                document?.id?.let { onNavigateToViewer(it) }
+                            if (settings.defaultSaveAction == SaveAction.ASK_EVERY_TIME) {
+                                showSaveActionDialog = true
+                            } else {
+                                viewModel.saveChanges(action = settings.defaultSaveAction) {
+                                    document?.id?.let { onNavigateToViewer(it) }
+                                }
                             }
                         }) {
                             Icon(Icons.Default.Check, contentDescription = "Save Changes", tint = MaterialTheme.colorScheme.primary)
@@ -213,7 +221,7 @@ fun EditorScreen(
                             FilterSelector(
                                 filters = FilterType.values().toList(),
                                 selectedFilter = currentFilter,
-                                onFilterSelected = viewModel::applyFilter,
+                                onFilterSelected = viewModel::setFilter,
                                 modifier = Modifier.padding(vertical = 4.dp)
                             )
                         }
@@ -221,11 +229,11 @@ fun EditorScreen(
                             AdjustmentsPanel(
                                 brightness = brightness,
                                 contrast = contrast,
-                                onBrightnessChange = viewModel::adjustBrightness,
-                                onContrastChange = viewModel::adjustContrast,
-                                onResetBrightness = viewModel::resetBrightness,
-                                onResetContrast = viewModel::resetContrast,
-                                onResetAll = viewModel::resetAdjustments,
+                                onBrightnessChange = viewModel::setBrightness,
+                                onContrastChange = viewModel::setContrast,
+                                onResetBrightness = { viewModel.setBrightness(0f) },
+                                onResetContrast = { viewModel.setContrast(0f) },
+                                onResetAll = { viewModel.setBrightness(0f); viewModel.setContrast(0f) },
                                 modifier = Modifier.padding(vertical = 4.dp)
                             )
                         }
@@ -291,6 +299,18 @@ fun EditorScreen(
             dismissButton = {
                 TextButton(onClick = { showDeleteConfirmDialog = false }) {
                     Text("Cancel")
+                }
+            }
+        )
+    }
+
+    if (showSaveActionDialog) {
+        SaveActionDialog(
+            onDismiss = { showSaveActionDialog = false },
+            onActionSelected = { action, rememberChoice ->
+                showSaveActionDialog = false
+                viewModel.saveChanges(action = action, rememberAction = rememberChoice) {
+                    document?.id?.let { onNavigateToViewer(it) }
                 }
             }
         )

@@ -7,6 +7,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronRight
+import androidx.compose.material.icons.outlined.AccountCircle
+import androidx.compose.material.icons.outlined.Cloud
 import androidx.compose.material.icons.outlined.DeleteOutline
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Lock
@@ -23,6 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.docscanner.app.R
+import com.docscanner.app.domain.model.SaveAction
 import com.docscanner.app.domain.model.UserSettings.ThemeMode
 import com.docscanner.app.presentation.common.ConfirmationDialog
 import kotlinx.coroutines.launch
@@ -31,14 +34,19 @@ import kotlinx.coroutines.launch
 @Composable
 fun SettingsScreen(
     viewModel: SettingsViewModel = hiltViewModel(),
-    onNavigateToTrash: () -> Unit
+    onNavigateToTrash: () -> Unit,
+    onNavigateToDashboard: () -> Unit,
+    onNavigateToAuth: () -> Unit,
+    onNavigateToCloud: () -> Unit
 ) {
     val settings by viewModel.settings.collectAsState()
+    val currentUser by viewModel.currentUser.collectAsState()
     val context = LocalContext.current
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
 
     var showThemeDialog by remember { mutableStateOf(false) }
+    var showSaveActionDialog by remember { mutableStateOf(false) }
     var showClearCacheDialog by remember { mutableStateOf(false) }
 
     Scaffold(
@@ -61,6 +69,74 @@ fun SettingsScreen(
                 .padding(horizontal = 16.dp, vertical = 8.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+            // Category: Cloud Storage & Sync
+            SettingsCard(
+                categoryTitle = stringResource(R.string.settings_cloud_category),
+                categoryIcon = Icons.Outlined.Cloud
+            ) {
+                val accountSubtitle = if (currentUser != null) {
+                    stringResource(R.string.settings_signed_in_as, currentUser!!.email)
+                } else {
+                    stringResource(R.string.settings_not_signed_in)
+                }
+
+                SettingsClickableItem(
+                    title = stringResource(R.string.settings_account),
+                    subtitle = accountSubtitle,
+                    onClick = onNavigateToAuth
+                )
+
+                HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
+
+                SettingsSwitchItem(
+                    title = stringResource(R.string.settings_cloud_backup),
+                    subtitle = stringResource(R.string.settings_cloud_backup_desc),
+                    checked = settings.cloudBackupEnabled,
+                    onCheckedChange = { viewModel.toggleCloudBackup(it) }
+                )
+
+                HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
+
+                SettingsSwitchItem(
+                    title = stringResource(R.string.settings_auto_sync),
+                    subtitle = stringResource(R.string.settings_auto_sync_desc),
+                    checked = settings.autoSyncEnabled,
+                    onCheckedChange = { viewModel.toggleAutoSync(it) }
+                )
+
+                HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
+
+                SettingsSwitchItem(
+                    title = stringResource(R.string.settings_wifi_only),
+                    subtitle = stringResource(R.string.settings_wifi_only_desc),
+                    checked = settings.wifiOnlyUpload,
+                    onCheckedChange = { viewModel.toggleWifiOnly(it) }
+                )
+
+                HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
+
+                val saveActionSubtitle = when (settings.defaultSaveAction) {
+                    SaveAction.SAVE_LOCAL -> stringResource(R.string.save_dialog_save_local)
+                    SaveAction.UPLOAD_TO_CLOUD -> stringResource(R.string.save_dialog_upload_cloud)
+                    SaveAction.SAVE_AND_UPLOAD -> stringResource(R.string.save_dialog_save_and_upload)
+                    SaveAction.ASK_EVERY_TIME -> "Ask every time"
+                }
+
+                SettingsClickableItem(
+                    title = stringResource(R.string.settings_default_save_action),
+                    subtitle = saveActionSubtitle,
+                    onClick = { showSaveActionDialog = true }
+                )
+
+                HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
+
+                SettingsClickableItem(
+                    title = stringResource(R.string.settings_cloud_dashboard),
+                    subtitle = "View storage quota breakdown and manage cloud cache",
+                    onClick = onNavigateToDashboard
+                )
+            }
+
             // Category: Appearance
             SettingsCard(
                 categoryTitle = stringResource(R.string.settings_appearance),
@@ -128,14 +204,14 @@ fun SettingsScreen(
             ) {
                 SettingsInfoItem(
                     title = stringResource(R.string.settings_version),
-                    value = "1.0.0 (Material 3 Build)"
+                    value = "1.1.0 (Cloud & Offline Storage)"
                 )
 
                 HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
 
                 SettingsInfoItem(
                     title = "Offline Privacy",
-                    value = "100% On-Device Storage • Zero Network Telemetry"
+                    value = "100% On-Device Scanning • Optional End-to-End Cloud Backup"
                 )
             }
 
@@ -154,6 +230,18 @@ fun SettingsScreen(
             )
         }
 
+        // Save Action Selection Dialog
+        if (showSaveActionDialog) {
+            SaveActionSelectionDialog(
+                currentAction = settings.defaultSaveAction,
+                onActionSelected = { newAction ->
+                    viewModel.updateDefaultSaveAction(newAction)
+                    showSaveActionDialog = false
+                },
+                onDismiss = { showSaveActionDialog = false }
+            )
+        }
+
         // Clear Cache Confirmation Dialog
         if (showClearCacheDialog) {
             ConfirmationDialog(
@@ -161,7 +249,6 @@ fun SettingsScreen(
                 message = "Clear all temporary PDF exports and cached thumbnails? Your saved documents and folders will not be affected.",
                 confirmLabel = "Clear Cache",
                 dismissLabel = stringResource(R.string.cancel),
-                isDestructive = true,
                 onConfirm = {
                     viewModel.clearCache(context)
                     showClearCacheDialog = false
@@ -335,6 +422,65 @@ fun ThemeSelectionDialog(
             TextButton(
                 onClick = { onThemeSelected(selectedTheme) }
             ) {
+                Text(stringResource(R.string.confirm))
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text(stringResource(R.string.cancel))
+            }
+        }
+    )
+}
+
+@Composable
+fun SaveActionSelectionDialog(
+    currentAction: SaveAction,
+    onActionSelected: (SaveAction) -> Unit,
+    onDismiss: () -> Unit
+) {
+    var selectedAction by remember { mutableStateOf(currentAction) }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(stringResource(R.string.settings_default_save_action)) },
+        text = {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 4.dp),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                val actions = listOf(
+                    SaveAction.SAVE_LOCAL to R.string.save_dialog_save_local,
+                    SaveAction.SAVE_AND_UPLOAD to R.string.save_dialog_save_and_upload,
+                    SaveAction.UPLOAD_TO_CLOUD to R.string.save_dialog_upload_cloud
+                )
+
+                actions.forEach { (action, labelRes) ->
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(8.dp))
+                            .clickable { selectedAction = action }
+                            .padding(horizontal = 8.dp, vertical = 6.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        RadioButton(
+                            selected = selectedAction == action,
+                            onClick = { selectedAction = action }
+                        )
+                        Spacer(modifier = Modifier.width(12.dp))
+                        Text(
+                            text = stringResource(labelRes),
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+                    }
+                }
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = { onActionSelected(selectedAction) }) {
                 Text(stringResource(R.string.confirm))
             }
         },

@@ -12,6 +12,10 @@ package com.docscanner.app.domain.model
  * @property isEncrypted Whether the document is encrypted locally.
  * @property isTrashed Whether the document is moved to trash.
  * @property trashedAt Timestamp when the document was moved to trash.
+ * @property syncStatus Current cloud sync status.
+ * @property cloudId Remote cloud identifier if backed up.
+ * @property fileSize Estimated file size in bytes.
+ * @property lastSyncedAt Timestamp of last successful sync.
  * @property createdAt Timestamp when the document was created.
  * @property updatedAt Timestamp when the document was last updated.
  */
@@ -25,6 +29,10 @@ data class Document(
     val isEncrypted: Boolean = false,
     val isTrashed: Boolean = false,
     val trashedAt: Long? = null,
+    val syncStatus: SyncStatus = SyncStatus.LOCAL,
+    val cloudId: String? = null,
+    val fileSize: Long = 0L,
+    val lastSyncedAt: Long? = null,
     val createdAt: Long,
     val updatedAt: Long
 )

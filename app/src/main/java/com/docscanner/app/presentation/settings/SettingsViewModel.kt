@@ -6,9 +6,13 @@ import androidx.lifecycle.viewModelScope
 import com.docscanner.app.domain.model.FilterType
 import com.docscanner.app.domain.model.PageSize
 import com.docscanner.app.domain.model.QualityLevel
+import com.docscanner.app.domain.model.SaveAction
+import com.docscanner.app.domain.model.UserAccount
 import com.docscanner.app.domain.model.UserSettings.ThemeMode
 import com.docscanner.app.domain.model.UserSettings
 import com.docscanner.app.domain.repository.SettingsRepository
+import com.docscanner.app.domain.service.auth.AuthService
+import com.docscanner.app.service.sync.CloudSyncManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -18,8 +22,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val settingsRepository: SettingsRepository
+    private val settingsRepository: SettingsRepository,
+    private val authService: AuthService,
+    private val cloudSyncManager: CloudSyncManager
 ) : ViewModel() {
+
+    val currentUser: StateFlow<UserAccount?> = authService.currentUser
 
     val settings: StateFlow<UserSettings> = settingsRepository.settings
         .stateIn(
@@ -50,6 +58,42 @@ class SettingsViewModel @Inject constructor(
 
     fun toggleEncryption(enabled: Boolean) {
         viewModelScope.launch { settingsRepository.updateSettings(settings.value.copy(encryptNewDocuments = enabled)) }
+    }
+
+    fun toggleCloudBackup(enabled: Boolean) {
+        viewModelScope.launch {
+            settingsRepository.updateSettings(settings.value.copy(cloudBackupEnabled = enabled))
+            if (enabled) {
+                cloudSyncManager.schedulePeriodicSync()
+            }
+        }
+    }
+
+    fun toggleAutoSync(enabled: Boolean) {
+        viewModelScope.launch {
+            settingsRepository.updateSettings(settings.value.copy(autoSyncEnabled = enabled))
+            cloudSyncManager.schedulePeriodicSync()
+        }
+    }
+
+    fun toggleWifiOnly(enabled: Boolean) {
+        viewModelScope.launch {
+            settingsRepository.updateSettings(settings.value.copy(wifiOnlyUpload = enabled))
+            cloudSyncManager.schedulePeriodicSync()
+        }
+    }
+
+    fun updateDefaultSaveAction(action: SaveAction) {
+        viewModelScope.launch {
+            settingsRepository.updateSettings(settings.value.copy(defaultSaveAction = action))
+        }
+    }
+
+    fun signOut(onSuccess: () -> Unit = {}) {
+        viewModelScope.launch {
+            authService.signOut()
+            onSuccess()
+        }
     }
 
     fun clearCache(context: Context) {

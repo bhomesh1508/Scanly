@@ -9,6 +9,7 @@ import com.docscanner.app.domain.model.FilterType
 import com.docscanner.app.domain.model.MarginPreset
 import com.docscanner.app.domain.model.PageSize
 import com.docscanner.app.domain.model.QualityLevel
+import com.docscanner.app.domain.model.SaveAction
 import com.docscanner.app.domain.model.UserSettings
 import com.docscanner.app.domain.model.UserSettings.ThemeMode
 import com.docscanner.app.domain.repository.SettingsRepository
@@ -31,6 +32,11 @@ class SettingsRepositoryImpl @Inject constructor(
         val APP_LOCK_ENABLED = booleanPreferencesKey("app_lock_enabled")
         val HAS_SEEN_ONBOARDING = booleanPreferencesKey("has_seen_onboarding")
         val ENCRYPT_NEW_DOCUMENTS = booleanPreferencesKey("encrypt_new_documents")
+        val CLOUD_BACKUP_ENABLED = booleanPreferencesKey("cloud_backup_enabled")
+        val AUTO_SYNC_ENABLED = booleanPreferencesKey("auto_sync_enabled")
+        val WIFI_ONLY_UPLOAD = booleanPreferencesKey("wifi_only_upload")
+        val DEFAULT_SAVE_ACTION = stringPreferencesKey("default_save_action")
+        val UPLOAD_QUALITY = stringPreferencesKey("upload_quality")
     }
 
     override val settings: Flow<UserSettings> = dataStore.data.map { preferences ->
@@ -39,8 +45,8 @@ class SettingsRepositoryImpl @Inject constructor(
         } ?: ThemeMode.SYSTEM
 
         val defaultFilter = preferences[PreferencesKeys.DEFAULT_FILTER]?.let { raw ->
-            runCatching { FilterType.valueOf(raw) }.getOrDefault(FilterType.ORIGINAL)
-        } ?: FilterType.ORIGINAL
+            runCatching { FilterType.valueOf(raw) }.getOrDefault(FilterType.AUTO_ENHANCE)
+        } ?: FilterType.AUTO_ENHANCE
 
         val defaultPageSize = preferences[PreferencesKeys.DEFAULT_PAGE_SIZE]?.let { raw ->
             runCatching { PageSize.valueOf(raw) }.getOrDefault(PageSize.A4)
@@ -54,6 +60,14 @@ class SettingsRepositoryImpl @Inject constructor(
             runCatching { MarginPreset.valueOf(raw) }.getOrDefault(MarginPreset.NORMAL)
         } ?: MarginPreset.NORMAL
 
+        val defaultSaveAction = preferences[PreferencesKeys.DEFAULT_SAVE_ACTION]?.let { raw ->
+            runCatching { SaveAction.valueOf(raw) }.getOrDefault(SaveAction.SAVE_LOCAL)
+        } ?: SaveAction.SAVE_LOCAL
+
+        val uploadQuality = preferences[PreferencesKeys.UPLOAD_QUALITY]?.let { raw ->
+            runCatching { QualityLevel.valueOf(raw) }.getOrDefault(QualityLevel.HIGH)
+        } ?: QualityLevel.HIGH
+
         UserSettings(
             theme = themeMode,
             defaultFilter = defaultFilter,
@@ -62,7 +76,12 @@ class SettingsRepositoryImpl @Inject constructor(
             defaultMargin = defaultMargin,
             appLockEnabled = preferences[PreferencesKeys.APP_LOCK_ENABLED] ?: false,
             hasSeenOnboarding = preferences[PreferencesKeys.HAS_SEEN_ONBOARDING] ?: false,
-            encryptNewDocuments = preferences[PreferencesKeys.ENCRYPT_NEW_DOCUMENTS] ?: false
+            encryptNewDocuments = preferences[PreferencesKeys.ENCRYPT_NEW_DOCUMENTS] ?: false,
+            cloudBackupEnabled = preferences[PreferencesKeys.CLOUD_BACKUP_ENABLED] ?: false,
+            autoSyncEnabled = preferences[PreferencesKeys.AUTO_SYNC_ENABLED] ?: true,
+            wifiOnlyUpload = preferences[PreferencesKeys.WIFI_ONLY_UPLOAD] ?: true,
+            defaultSaveAction = defaultSaveAction,
+            uploadQuality = uploadQuality
         )
     }
 
@@ -76,6 +95,11 @@ class SettingsRepositoryImpl @Inject constructor(
             preferences[PreferencesKeys.APP_LOCK_ENABLED] = settings.appLockEnabled
             preferences[PreferencesKeys.HAS_SEEN_ONBOARDING] = settings.hasSeenOnboarding
             preferences[PreferencesKeys.ENCRYPT_NEW_DOCUMENTS] = settings.encryptNewDocuments
+            preferences[PreferencesKeys.CLOUD_BACKUP_ENABLED] = settings.cloudBackupEnabled
+            preferences[PreferencesKeys.AUTO_SYNC_ENABLED] = settings.autoSyncEnabled
+            preferences[PreferencesKeys.WIFI_ONLY_UPLOAD] = settings.wifiOnlyUpload
+            preferences[PreferencesKeys.DEFAULT_SAVE_ACTION] = settings.defaultSaveAction.name
+            preferences[PreferencesKeys.UPLOAD_QUALITY] = settings.uploadQuality.name
         }
     }
 
@@ -93,4 +117,3 @@ class SettingsRepositoryImpl @Inject constructor(
         }
     }
 }
-

@@ -1,8 +1,6 @@
 package com.docscanner.app.data.local.dao
 
 import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Upsert
 import com.docscanner.app.data.local.entity.DocumentEntity
@@ -41,6 +39,18 @@ interface DocumentDao {
     @Query("UPDATE documents SET folderId = :folderId WHERE id = :docId")
     suspend fun updateFolder(docId: String, folderId: String?)
 
+    @Query("UPDATE documents SET syncStatus = :status, cloudId = :cloudId, fileSize = :fileSize, lastSyncedAt = :lastSyncedAt WHERE id = :docId")
+    suspend fun updateSyncStatus(docId: String, status: String, cloudId: String?, fileSize: Long, lastSyncedAt: Long)
+
+    @Query("UPDATE documents SET syncStatus = :status WHERE id = :docId")
+    suspend fun updateSyncStateOnly(docId: String, status: String)
+
+    @Query("SELECT * FROM documents WHERE isTrashed = 0 AND syncStatus IN ('LOCAL', 'OFFLINE', 'SYNC_FAILED')")
+    suspend fun getUnsyncedDocuments(): List<DocumentEntity>
+
+    @Query("SELECT * FROM documents WHERE isTrashed = 0 AND syncStatus = :status")
+    fun getDocumentsBySyncStatus(status: String): Flow<List<DocumentEntity>>
+
     @Query("UPDATE documents SET isTrashed = 1, trashedAt = :trashedAt WHERE id = :docId")
     suspend fun moveToTrash(docId: String, trashedAt: Long)
 
@@ -62,4 +72,3 @@ interface DocumentDao {
     @Query("DELETE FROM documents WHERE isTrashed = 1")
     suspend fun deleteAllTrashed()
 }
-

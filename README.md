@@ -114,7 +114,7 @@ Scanly is built with tools that ship:
 ### Clone & Build
 ```bash
 # Clone the repository
-git clone https://github.com/bhomesh1508/Scanly.git
+git clone https://github.com/TheKubics-org/Scanly.git
 cd Scanly
 
 # Build the Debug APK
